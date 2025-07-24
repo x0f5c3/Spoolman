@@ -71,7 +71,9 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-docs/
+docs/**
+!docs/
+!docs/openapi*.json
 
 # PyBuilder
 .pybuilder/
@@ -204,3 +206,5 @@ $RECYCLE.BIN/
 data/
 .pdm-python
 .history
+uv.lock
+spoolman-go/bin/
