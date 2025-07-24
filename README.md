@@ -38,3 +38,9 @@ Spoolman is a self-hosted web service designed to help you efficiently manage yo
 
 ## Installation
 Please see the [Installation page on the Wiki](https://github.com/Donkie/Spoolman/wiki/Installation) for details how to install Spoolman.
+
+## Go prototype
+
+A minimal Go server resides in `spoolman-go/`. Use `oapi-codegen` with the OpenAPI schema to generate server stubs, and implement database models using [Ent](https://entgo.io/). See [MIGRATION_TO_GO.md](MIGRATION_TO_GO.md) for details.
+
+The OpenAPI document generated from the existing Python service can be found in `docs/openapi.json` (a sanitized version used for code generation is in `docs/openapi_sanitized.json`).
