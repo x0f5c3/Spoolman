@@ -11,7 +11,7 @@ import (
 	"spoolman-go/ent/filamentfield"
 	"spoolman-go/ent/predicate"
 	"spoolman-go/ent/spool"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 
 	"entgo.io/ent"
 	"entgo.io/ent/dialect/sql"
@@ -26,7 +26,7 @@ type FilamentQuery struct {
 	order      []filament.OrderOption
 	inters     []Interceptor
 	predicates []predicate.Filament
-	withVendor *VendorQuery
+	withVendor *SpoolVendorQuery
 	withSpools *SpoolQuery
 	withExtra  *FilamentFieldQuery
 	// intermediate query (i.e. traversal path).
@@ -66,8 +66,8 @@ func (fq *FilamentQuery) Order(o ...filament.OrderOption) *FilamentQuery {
 }
 
 // QueryVendor chains the current query on the "vendor" edge.
-func (fq *FilamentQuery) QueryVendor() *VendorQuery {
-	query := (&VendorClient{config: fq.config}).Query()
+func (fq *FilamentQuery) QueryVendor() *SpoolVendorQuery {
+	query := (&SpoolVendorClient{config: fq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := fq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -78,7 +78,7 @@ func (fq *FilamentQuery) QueryVendor() *VendorQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(filament.Table, filament.FieldID, selector),
-			sqlgraph.To(vendor.Table, vendor.FieldID),
+			sqlgraph.To(spoolvendor.Table, spoolvendor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, filament.VendorTable, filament.VendorColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(fq.driver.Dialect(), step)
@@ -334,8 +334,8 @@ func (fq *FilamentQuery) Clone() *FilamentQuery {
 
 // WithVendor tells the query-builder to eager-load the nodes that are connected to
 // the "vendor" edge. The optional arguments are used to configure the query builder of the edge.
-func (fq *FilamentQuery) WithVendor(opts ...func(*VendorQuery)) *FilamentQuery {
-	query := (&VendorClient{config: fq.config}).Query()
+func (fq *FilamentQuery) WithVendor(opts ...func(*SpoolVendorQuery)) *FilamentQuery {
+	query := (&SpoolVendorClient{config: fq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -469,7 +469,7 @@ func (fq *FilamentQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Fil
 	}
 	if query := fq.withVendor; query != nil {
 		if err := fq.loadVendor(ctx, query, nodes, nil,
-			func(n *Filament, e *Vendor) { n.Edges.Vendor = e }); err != nil {
+			func(n *Filament, e *SpoolVendor) { n.Edges.Vendor = e }); err != nil {
 			return nil, err
 		}
 	}
@@ -490,7 +490,7 @@ func (fq *FilamentQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]*Fil
 	return nodes, nil
 }
 
-func (fq *FilamentQuery) loadVendor(ctx context.Context, query *VendorQuery, nodes []*Filament, init func(*Filament), assign func(*Filament, *Vendor)) error {
+func (fq *FilamentQuery) loadVendor(ctx context.Context, query *SpoolVendorQuery, nodes []*Filament, init func(*Filament), assign func(*Filament, *SpoolVendor)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*Filament)
 	for i := range nodes {
@@ -503,7 +503,7 @@ func (fq *FilamentQuery) loadVendor(ctx context.Context, query *VendorQuery, nod
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(vendor.IDIn(ids...))
+	query.Where(spoolvendor.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err

@@ -25,15 +25,17 @@ type Spool struct {
 	// LastUsed holds the value of the "last_used" field.
 	LastUsed time.Time `json:"last_used,omitempty"`
 	// Price holds the value of the "price" field.
-	Price float64 `json:"price,omitempty"`
+	Price float32 `json:"price,omitempty"`
 	// FilamentID holds the value of the "filament_id" field.
 	FilamentID int `json:"filament_id,omitempty"`
 	// InitialWeight holds the value of the "initial_weight" field.
-	InitialWeight float64 `json:"initial_weight,omitempty"`
+	InitialWeight float32 `json:"initial_weight,omitempty"`
 	// SpoolWeight holds the value of the "spool_weight" field.
-	SpoolWeight float64 `json:"spool_weight,omitempty"`
+	SpoolWeight float32 `json:"spool_weight,omitempty"`
 	// UsedWeight holds the value of the "used_weight" field.
-	UsedWeight float64 `json:"used_weight,omitempty"`
+	UsedWeight float32 `json:"used_weight,omitempty"`
+	// RemainingWeight holds the value of the "remaining_weight" field.
+	RemainingWeight float32 `json:"remaining_weight,omitempty"`
 	// Location holds the value of the "location" field.
 	Location string `json:"location,omitempty"`
 	// LotNr holds the value of the "lot_nr" field.
@@ -86,7 +88,7 @@ func (*Spool) scanValues(columns []string) ([]any, error) {
 		switch columns[i] {
 		case spool.FieldArchived:
 			values[i] = new(sql.NullBool)
-		case spool.FieldPrice, spool.FieldInitialWeight, spool.FieldSpoolWeight, spool.FieldUsedWeight:
+		case spool.FieldPrice, spool.FieldInitialWeight, spool.FieldSpoolWeight, spool.FieldUsedWeight, spool.FieldRemainingWeight:
 			values[i] = new(sql.NullFloat64)
 		case spool.FieldID, spool.FieldFilamentID:
 			values[i] = new(sql.NullInt64)
@@ -137,7 +139,7 @@ func (s *Spool) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field price", values[i])
 			} else if value.Valid {
-				s.Price = value.Float64
+				s.Price = float32(value.Float64)
 			}
 		case spool.FieldFilamentID:
 			if value, ok := values[i].(*sql.NullInt64); !ok {
@@ -149,19 +151,25 @@ func (s *Spool) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field initial_weight", values[i])
 			} else if value.Valid {
-				s.InitialWeight = value.Float64
+				s.InitialWeight = float32(value.Float64)
 			}
 		case spool.FieldSpoolWeight:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field spool_weight", values[i])
 			} else if value.Valid {
-				s.SpoolWeight = value.Float64
+				s.SpoolWeight = float32(value.Float64)
 			}
 		case spool.FieldUsedWeight:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field used_weight", values[i])
 			} else if value.Valid {
-				s.UsedWeight = value.Float64
+				s.UsedWeight = float32(value.Float64)
+			}
+		case spool.FieldRemainingWeight:
+			if value, ok := values[i].(*sql.NullFloat64); !ok {
+				return fmt.Errorf("unexpected type %T for field remaining_weight", values[i])
+			} else if value.Valid {
+				s.RemainingWeight = float32(value.Float64)
 			}
 		case spool.FieldLocation:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -256,6 +264,9 @@ func (s *Spool) String() string {
 	builder.WriteString(", ")
 	builder.WriteString("used_weight=")
 	builder.WriteString(fmt.Sprintf("%v", s.UsedWeight))
+	builder.WriteString(", ")
+	builder.WriteString("remaining_weight=")
+	builder.WriteString(fmt.Sprintf("%v", s.RemainingWeight))
 	builder.WriteString(", ")
 	builder.WriteString("location=")
 	builder.WriteString(s.Location)

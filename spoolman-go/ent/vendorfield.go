@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 	"strings"
 
@@ -32,7 +32,7 @@ type VendorField struct {
 // VendorFieldEdges holds the relations/edges for other nodes in the graph.
 type VendorFieldEdges struct {
 	// Vendor holds the value of the vendor edge.
-	Vendor *Vendor `json:"vendor,omitempty"`
+	Vendor *SpoolVendor `json:"vendor,omitempty"`
 	// loadedTypes holds the information for reporting if a
 	// type was loaded (or requested) in eager-loading or not.
 	loadedTypes [1]bool
@@ -40,11 +40,11 @@ type VendorFieldEdges struct {
 
 // VendorOrErr returns the Vendor value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e VendorFieldEdges) VendorOrErr() (*Vendor, error) {
+func (e VendorFieldEdges) VendorOrErr() (*SpoolVendor, error) {
 	if e.Vendor != nil {
 		return e.Vendor, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: vendor.Label}
+		return nil, &NotFoundError{label: spoolvendor.Label}
 	}
 	return nil, &NotLoadedError{edge: "vendor"}
 }
@@ -111,7 +111,7 @@ func (vf *VendorField) GetValue(name string) (ent.Value, error) {
 }
 
 // QueryVendor queries the "vendor" edge of the VendorField entity.
-func (vf *VendorField) QueryVendor() *VendorQuery {
+func (vf *VendorField) QueryVendor() *SpoolVendorQuery {
 	return NewVendorFieldClient(vf.config).QueryVendor(vf)
 }
 

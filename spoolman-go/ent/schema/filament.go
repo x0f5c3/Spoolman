@@ -19,11 +19,11 @@ func (Filament) Fields() []ent.Field {
 		field.String("name").MaxLen(64).Optional(),
 		field.Int("vendor_id").Optional(),
 		field.String("material").MaxLen(64).Optional(),
-		field.Float("price").Optional(),
-		field.Float("density"),
-		field.Float("diameter"),
-		field.Float("weight").Optional(),
-		field.Float("spool_weight").Optional(),
+		field.Float32("price").Optional(),
+		field.Float32("density"),
+		field.Float32("diameter"),
+		field.Float32("weight").Optional(),
+		field.Float32("spool_weight").Optional(),
 		field.String("article_number").MaxLen(64).Optional(),
 		field.String("comment").MaxLen(1024).Optional(),
 		field.Int("settings_extruder_temp").Optional(),
@@ -38,7 +38,7 @@ func (Filament) Fields() []ent.Field {
 // Edges of the Filament.
 func (Filament) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("vendor", Vendor.Type).Ref("filaments").Unique().Field("vendor_id"),
+		edge.From("vendor", SpoolVendor.Type).Ref("filaments").Unique().Field("vendor_id"),
 		edge.To("spools", Spool.Type),
 		edge.To("extra", FilamentField.Type),
 	}

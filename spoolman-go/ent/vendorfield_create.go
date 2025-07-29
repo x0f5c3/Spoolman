@@ -6,7 +6,7 @@ import (
 	"context"
 	"errors"
 	"fmt"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -38,9 +38,9 @@ func (vfc *VendorFieldCreate) SetValue(s string) *VendorFieldCreate {
 	return vfc
 }
 
-// SetVendor sets the "vendor" edge to the Vendor entity.
-func (vfc *VendorFieldCreate) SetVendor(v *Vendor) *VendorFieldCreate {
-	return vfc.SetVendorID(v.ID)
+// SetVendor sets the "vendor" edge to the SpoolVendor entity.
+func (vfc *VendorFieldCreate) SetVendor(s *SpoolVendor) *VendorFieldCreate {
+	return vfc.SetVendorID(s.ID)
 }
 
 // Mutation returns the VendorFieldMutation object of the builder.
@@ -136,7 +136,7 @@ func (vfc *VendorFieldCreate) createSpec() (*VendorField, *sqlgraph.CreateSpec) 
 			Columns: []string{vendorfield.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

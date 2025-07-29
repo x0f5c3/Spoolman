@@ -23,6 +23,6 @@ func (VendorField) Fields() []ent.Field {
 // Edges of the VendorField.
 func (VendorField) Edges() []ent.Edge {
 	return []ent.Edge{
-		edge.From("vendor", Vendor.Type).Ref("extra").Unique().Required().Field("vendor_id"),
+		edge.From("vendor", SpoolVendor.Type).Ref("extra").Unique().Required().Field("vendor_id"),
 	}
 }

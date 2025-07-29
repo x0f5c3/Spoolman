@@ -76,27 +76,27 @@ func Material(v string) predicate.Filament {
 }
 
 // Price applies equality check predicate on the "price" field. It's identical to PriceEQ.
-func Price(v float64) predicate.Filament {
+func Price(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldPrice, v))
 }
 
 // Density applies equality check predicate on the "density" field. It's identical to DensityEQ.
-func Density(v float64) predicate.Filament {
+func Density(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldDensity, v))
 }
 
 // Diameter applies equality check predicate on the "diameter" field. It's identical to DiameterEQ.
-func Diameter(v float64) predicate.Filament {
+func Diameter(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldDiameter, v))
 }
 
 // Weight applies equality check predicate on the "weight" field. It's identical to WeightEQ.
-func Weight(v float64) predicate.Filament {
+func Weight(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldWeight, v))
 }
 
 // SpoolWeight applies equality check predicate on the "spool_weight" field. It's identical to SpoolWeightEQ.
-func SpoolWeight(v float64) predicate.Filament {
+func SpoolWeight(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldSpoolWeight, v))
 }
 
@@ -361,42 +361,42 @@ func MaterialContainsFold(v string) predicate.Filament {
 }
 
 // PriceEQ applies the EQ predicate on the "price" field.
-func PriceEQ(v float64) predicate.Filament {
+func PriceEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldPrice, v))
 }
 
 // PriceNEQ applies the NEQ predicate on the "price" field.
-func PriceNEQ(v float64) predicate.Filament {
+func PriceNEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNEQ(FieldPrice, v))
 }
 
 // PriceIn applies the In predicate on the "price" field.
-func PriceIn(vs ...float64) predicate.Filament {
+func PriceIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldIn(FieldPrice, vs...))
 }
 
 // PriceNotIn applies the NotIn predicate on the "price" field.
-func PriceNotIn(vs ...float64) predicate.Filament {
+func PriceNotIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNotIn(FieldPrice, vs...))
 }
 
 // PriceGT applies the GT predicate on the "price" field.
-func PriceGT(v float64) predicate.Filament {
+func PriceGT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGT(FieldPrice, v))
 }
 
 // PriceGTE applies the GTE predicate on the "price" field.
-func PriceGTE(v float64) predicate.Filament {
+func PriceGTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGTE(FieldPrice, v))
 }
 
 // PriceLT applies the LT predicate on the "price" field.
-func PriceLT(v float64) predicate.Filament {
+func PriceLT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLT(FieldPrice, v))
 }
 
 // PriceLTE applies the LTE predicate on the "price" field.
-func PriceLTE(v float64) predicate.Filament {
+func PriceLTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLTE(FieldPrice, v))
 }
 
@@ -411,122 +411,122 @@ func PriceNotNil() predicate.Filament {
 }
 
 // DensityEQ applies the EQ predicate on the "density" field.
-func DensityEQ(v float64) predicate.Filament {
+func DensityEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldDensity, v))
 }
 
 // DensityNEQ applies the NEQ predicate on the "density" field.
-func DensityNEQ(v float64) predicate.Filament {
+func DensityNEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNEQ(FieldDensity, v))
 }
 
 // DensityIn applies the In predicate on the "density" field.
-func DensityIn(vs ...float64) predicate.Filament {
+func DensityIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldIn(FieldDensity, vs...))
 }
 
 // DensityNotIn applies the NotIn predicate on the "density" field.
-func DensityNotIn(vs ...float64) predicate.Filament {
+func DensityNotIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNotIn(FieldDensity, vs...))
 }
 
 // DensityGT applies the GT predicate on the "density" field.
-func DensityGT(v float64) predicate.Filament {
+func DensityGT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGT(FieldDensity, v))
 }
 
 // DensityGTE applies the GTE predicate on the "density" field.
-func DensityGTE(v float64) predicate.Filament {
+func DensityGTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGTE(FieldDensity, v))
 }
 
 // DensityLT applies the LT predicate on the "density" field.
-func DensityLT(v float64) predicate.Filament {
+func DensityLT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLT(FieldDensity, v))
 }
 
 // DensityLTE applies the LTE predicate on the "density" field.
-func DensityLTE(v float64) predicate.Filament {
+func DensityLTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLTE(FieldDensity, v))
 }
 
 // DiameterEQ applies the EQ predicate on the "diameter" field.
-func DiameterEQ(v float64) predicate.Filament {
+func DiameterEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldDiameter, v))
 }
 
 // DiameterNEQ applies the NEQ predicate on the "diameter" field.
-func DiameterNEQ(v float64) predicate.Filament {
+func DiameterNEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNEQ(FieldDiameter, v))
 }
 
 // DiameterIn applies the In predicate on the "diameter" field.
-func DiameterIn(vs ...float64) predicate.Filament {
+func DiameterIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldIn(FieldDiameter, vs...))
 }
 
 // DiameterNotIn applies the NotIn predicate on the "diameter" field.
-func DiameterNotIn(vs ...float64) predicate.Filament {
+func DiameterNotIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNotIn(FieldDiameter, vs...))
 }
 
 // DiameterGT applies the GT predicate on the "diameter" field.
-func DiameterGT(v float64) predicate.Filament {
+func DiameterGT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGT(FieldDiameter, v))
 }
 
 // DiameterGTE applies the GTE predicate on the "diameter" field.
-func DiameterGTE(v float64) predicate.Filament {
+func DiameterGTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGTE(FieldDiameter, v))
 }
 
 // DiameterLT applies the LT predicate on the "diameter" field.
-func DiameterLT(v float64) predicate.Filament {
+func DiameterLT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLT(FieldDiameter, v))
 }
 
 // DiameterLTE applies the LTE predicate on the "diameter" field.
-func DiameterLTE(v float64) predicate.Filament {
+func DiameterLTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLTE(FieldDiameter, v))
 }
 
 // WeightEQ applies the EQ predicate on the "weight" field.
-func WeightEQ(v float64) predicate.Filament {
+func WeightEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldWeight, v))
 }
 
 // WeightNEQ applies the NEQ predicate on the "weight" field.
-func WeightNEQ(v float64) predicate.Filament {
+func WeightNEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNEQ(FieldWeight, v))
 }
 
 // WeightIn applies the In predicate on the "weight" field.
-func WeightIn(vs ...float64) predicate.Filament {
+func WeightIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldIn(FieldWeight, vs...))
 }
 
 // WeightNotIn applies the NotIn predicate on the "weight" field.
-func WeightNotIn(vs ...float64) predicate.Filament {
+func WeightNotIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNotIn(FieldWeight, vs...))
 }
 
 // WeightGT applies the GT predicate on the "weight" field.
-func WeightGT(v float64) predicate.Filament {
+func WeightGT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGT(FieldWeight, v))
 }
 
 // WeightGTE applies the GTE predicate on the "weight" field.
-func WeightGTE(v float64) predicate.Filament {
+func WeightGTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGTE(FieldWeight, v))
 }
 
 // WeightLT applies the LT predicate on the "weight" field.
-func WeightLT(v float64) predicate.Filament {
+func WeightLT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLT(FieldWeight, v))
 }
 
 // WeightLTE applies the LTE predicate on the "weight" field.
-func WeightLTE(v float64) predicate.Filament {
+func WeightLTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLTE(FieldWeight, v))
 }
 
@@ -541,42 +541,42 @@ func WeightNotNil() predicate.Filament {
 }
 
 // SpoolWeightEQ applies the EQ predicate on the "spool_weight" field.
-func SpoolWeightEQ(v float64) predicate.Filament {
+func SpoolWeightEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldEQ(FieldSpoolWeight, v))
 }
 
 // SpoolWeightNEQ applies the NEQ predicate on the "spool_weight" field.
-func SpoolWeightNEQ(v float64) predicate.Filament {
+func SpoolWeightNEQ(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNEQ(FieldSpoolWeight, v))
 }
 
 // SpoolWeightIn applies the In predicate on the "spool_weight" field.
-func SpoolWeightIn(vs ...float64) predicate.Filament {
+func SpoolWeightIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldIn(FieldSpoolWeight, vs...))
 }
 
 // SpoolWeightNotIn applies the NotIn predicate on the "spool_weight" field.
-func SpoolWeightNotIn(vs ...float64) predicate.Filament {
+func SpoolWeightNotIn(vs ...float32) predicate.Filament {
 	return predicate.Filament(sql.FieldNotIn(FieldSpoolWeight, vs...))
 }
 
 // SpoolWeightGT applies the GT predicate on the "spool_weight" field.
-func SpoolWeightGT(v float64) predicate.Filament {
+func SpoolWeightGT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGT(FieldSpoolWeight, v))
 }
 
 // SpoolWeightGTE applies the GTE predicate on the "spool_weight" field.
-func SpoolWeightGTE(v float64) predicate.Filament {
+func SpoolWeightGTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldGTE(FieldSpoolWeight, v))
 }
 
 // SpoolWeightLT applies the LT predicate on the "spool_weight" field.
-func SpoolWeightLT(v float64) predicate.Filament {
+func SpoolWeightLT(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLT(FieldSpoolWeight, v))
 }
 
 // SpoolWeightLTE applies the LTE predicate on the "spool_weight" field.
-func SpoolWeightLTE(v float64) predicate.Filament {
+func SpoolWeightLTE(v float32) predicate.Filament {
 	return predicate.Filament(sql.FieldLTE(FieldSpoolWeight, v))
 }
 
@@ -1152,7 +1152,7 @@ func HasVendor() predicate.Filament {
 }
 
 // HasVendorWith applies the HasEdge predicate on the "vendor" edge with a given conditions (other predicates).
-func HasVendorWith(preds ...predicate.Vendor) predicate.Filament {
+func HasVendorWith(preds ...predicate.SpoolVendor) predicate.Filament {
 	return predicate.Filament(func(s *sql.Selector) {
 		step := newVendorStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

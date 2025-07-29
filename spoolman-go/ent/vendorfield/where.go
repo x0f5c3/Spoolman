@@ -231,7 +231,7 @@ func HasVendor() predicate.VendorField {
 }
 
 // HasVendorWith applies the HasEdge predicate on the "vendor" edge with a given conditions (other predicates).
-func HasVendorWith(preds ...predicate.Vendor) predicate.VendorField {
+func HasVendorWith(preds ...predicate.SpoolVendor) predicate.VendorField {
 	return predicate.VendorField(func(s *sql.Selector) {
 		step := newVendorStep()
 		sqlgraph.HasNeighborsWith(s, step, func(s *sql.Selector) {

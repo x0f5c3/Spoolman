@@ -10,7 +10,7 @@ import (
 	"spoolman-go/ent/filamentfield"
 	"spoolman-go/ent/predicate"
 	"spoolman-go/ent/spool"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"time"
 
 	"entgo.io/ent/dialect/sql"
@@ -106,14 +106,14 @@ func (fu *FilamentUpdate) ClearMaterial() *FilamentUpdate {
 }
 
 // SetPrice sets the "price" field.
-func (fu *FilamentUpdate) SetPrice(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetPrice(f float32) *FilamentUpdate {
 	fu.mutation.ResetPrice()
 	fu.mutation.SetPrice(f)
 	return fu
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (fu *FilamentUpdate) SetNillablePrice(f *float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetNillablePrice(f *float32) *FilamentUpdate {
 	if f != nil {
 		fu.SetPrice(*f)
 	}
@@ -121,7 +121,7 @@ func (fu *FilamentUpdate) SetNillablePrice(f *float64) *FilamentUpdate {
 }
 
 // AddPrice adds f to the "price" field.
-func (fu *FilamentUpdate) AddPrice(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) AddPrice(f float32) *FilamentUpdate {
 	fu.mutation.AddPrice(f)
 	return fu
 }
@@ -133,14 +133,14 @@ func (fu *FilamentUpdate) ClearPrice() *FilamentUpdate {
 }
 
 // SetDensity sets the "density" field.
-func (fu *FilamentUpdate) SetDensity(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetDensity(f float32) *FilamentUpdate {
 	fu.mutation.ResetDensity()
 	fu.mutation.SetDensity(f)
 	return fu
 }
 
 // SetNillableDensity sets the "density" field if the given value is not nil.
-func (fu *FilamentUpdate) SetNillableDensity(f *float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetNillableDensity(f *float32) *FilamentUpdate {
 	if f != nil {
 		fu.SetDensity(*f)
 	}
@@ -148,20 +148,20 @@ func (fu *FilamentUpdate) SetNillableDensity(f *float64) *FilamentUpdate {
 }
 
 // AddDensity adds f to the "density" field.
-func (fu *FilamentUpdate) AddDensity(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) AddDensity(f float32) *FilamentUpdate {
 	fu.mutation.AddDensity(f)
 	return fu
 }
 
 // SetDiameter sets the "diameter" field.
-func (fu *FilamentUpdate) SetDiameter(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetDiameter(f float32) *FilamentUpdate {
 	fu.mutation.ResetDiameter()
 	fu.mutation.SetDiameter(f)
 	return fu
 }
 
 // SetNillableDiameter sets the "diameter" field if the given value is not nil.
-func (fu *FilamentUpdate) SetNillableDiameter(f *float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetNillableDiameter(f *float32) *FilamentUpdate {
 	if f != nil {
 		fu.SetDiameter(*f)
 	}
@@ -169,20 +169,20 @@ func (fu *FilamentUpdate) SetNillableDiameter(f *float64) *FilamentUpdate {
 }
 
 // AddDiameter adds f to the "diameter" field.
-func (fu *FilamentUpdate) AddDiameter(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) AddDiameter(f float32) *FilamentUpdate {
 	fu.mutation.AddDiameter(f)
 	return fu
 }
 
 // SetWeight sets the "weight" field.
-func (fu *FilamentUpdate) SetWeight(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetWeight(f float32) *FilamentUpdate {
 	fu.mutation.ResetWeight()
 	fu.mutation.SetWeight(f)
 	return fu
 }
 
 // SetNillableWeight sets the "weight" field if the given value is not nil.
-func (fu *FilamentUpdate) SetNillableWeight(f *float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetNillableWeight(f *float32) *FilamentUpdate {
 	if f != nil {
 		fu.SetWeight(*f)
 	}
@@ -190,7 +190,7 @@ func (fu *FilamentUpdate) SetNillableWeight(f *float64) *FilamentUpdate {
 }
 
 // AddWeight adds f to the "weight" field.
-func (fu *FilamentUpdate) AddWeight(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) AddWeight(f float32) *FilamentUpdate {
 	fu.mutation.AddWeight(f)
 	return fu
 }
@@ -202,14 +202,14 @@ func (fu *FilamentUpdate) ClearWeight() *FilamentUpdate {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (fu *FilamentUpdate) SetSpoolWeight(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetSpoolWeight(f float32) *FilamentUpdate {
 	fu.mutation.ResetSpoolWeight()
 	fu.mutation.SetSpoolWeight(f)
 	return fu
 }
 
 // SetNillableSpoolWeight sets the "spool_weight" field if the given value is not nil.
-func (fu *FilamentUpdate) SetNillableSpoolWeight(f *float64) *FilamentUpdate {
+func (fu *FilamentUpdate) SetNillableSpoolWeight(f *float32) *FilamentUpdate {
 	if f != nil {
 		fu.SetSpoolWeight(*f)
 	}
@@ -217,7 +217,7 @@ func (fu *FilamentUpdate) SetNillableSpoolWeight(f *float64) *FilamentUpdate {
 }
 
 // AddSpoolWeight adds f to the "spool_weight" field.
-func (fu *FilamentUpdate) AddSpoolWeight(f float64) *FilamentUpdate {
+func (fu *FilamentUpdate) AddSpoolWeight(f float32) *FilamentUpdate {
 	fu.mutation.AddSpoolWeight(f)
 	return fu
 }
@@ -402,9 +402,9 @@ func (fu *FilamentUpdate) ClearExternalID() *FilamentUpdate {
 	return fu
 }
 
-// SetVendor sets the "vendor" edge to the Vendor entity.
-func (fu *FilamentUpdate) SetVendor(v *Vendor) *FilamentUpdate {
-	return fu.SetVendorID(v.ID)
+// SetVendor sets the "vendor" edge to the SpoolVendor entity.
+func (fu *FilamentUpdate) SetVendor(s *SpoolVendor) *FilamentUpdate {
+	return fu.SetVendorID(s.ID)
 }
 
 // AddSpoolIDs adds the "spools" edge to the Spool entity by IDs.
@@ -442,7 +442,7 @@ func (fu *FilamentUpdate) Mutation() *FilamentMutation {
 	return fu.mutation
 }
 
-// ClearVendor clears the "vendor" edge to the Vendor entity.
+// ClearVendor clears the "vendor" edge to the SpoolVendor entity.
 func (fu *FilamentUpdate) ClearVendor() *FilamentUpdate {
 	fu.mutation.ClearVendor()
 	return fu
@@ -590,43 +590,43 @@ func (fu *FilamentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(filament.FieldMaterial, field.TypeString)
 	}
 	if value, ok := fu.mutation.Price(); ok {
-		_spec.SetField(filament.FieldPrice, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldPrice, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.AddedPrice(); ok {
-		_spec.AddField(filament.FieldPrice, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldPrice, field.TypeFloat32, value)
 	}
 	if fu.mutation.PriceCleared() {
-		_spec.ClearField(filament.FieldPrice, field.TypeFloat64)
+		_spec.ClearField(filament.FieldPrice, field.TypeFloat32)
 	}
 	if value, ok := fu.mutation.Density(); ok {
-		_spec.SetField(filament.FieldDensity, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldDensity, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.AddedDensity(); ok {
-		_spec.AddField(filament.FieldDensity, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldDensity, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.Diameter(); ok {
-		_spec.SetField(filament.FieldDiameter, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldDiameter, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.AddedDiameter(); ok {
-		_spec.AddField(filament.FieldDiameter, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldDiameter, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.Weight(); ok {
-		_spec.SetField(filament.FieldWeight, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldWeight, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.AddedWeight(); ok {
-		_spec.AddField(filament.FieldWeight, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldWeight, field.TypeFloat32, value)
 	}
 	if fu.mutation.WeightCleared() {
-		_spec.ClearField(filament.FieldWeight, field.TypeFloat64)
+		_spec.ClearField(filament.FieldWeight, field.TypeFloat32)
 	}
 	if value, ok := fu.mutation.SpoolWeight(); ok {
-		_spec.SetField(filament.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if value, ok := fu.mutation.AddedSpoolWeight(); ok {
-		_spec.AddField(filament.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if fu.mutation.SpoolWeightCleared() {
-		_spec.ClearField(filament.FieldSpoolWeight, field.TypeFloat64)
+		_spec.ClearField(filament.FieldSpoolWeight, field.TypeFloat32)
 	}
 	if value, ok := fu.mutation.ArticleNumber(); ok {
 		_spec.SetField(filament.FieldArticleNumber, field.TypeString, value)
@@ -690,7 +690,7 @@ func (fu *FilamentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{filament.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -703,7 +703,7 @@ func (fu *FilamentUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{filament.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -896,14 +896,14 @@ func (fuo *FilamentUpdateOne) ClearMaterial() *FilamentUpdateOne {
 }
 
 // SetPrice sets the "price" field.
-func (fuo *FilamentUpdateOne) SetPrice(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetPrice(f float32) *FilamentUpdateOne {
 	fuo.mutation.ResetPrice()
 	fuo.mutation.SetPrice(f)
 	return fuo
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (fuo *FilamentUpdateOne) SetNillablePrice(f *float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetNillablePrice(f *float32) *FilamentUpdateOne {
 	if f != nil {
 		fuo.SetPrice(*f)
 	}
@@ -911,7 +911,7 @@ func (fuo *FilamentUpdateOne) SetNillablePrice(f *float64) *FilamentUpdateOne {
 }
 
 // AddPrice adds f to the "price" field.
-func (fuo *FilamentUpdateOne) AddPrice(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) AddPrice(f float32) *FilamentUpdateOne {
 	fuo.mutation.AddPrice(f)
 	return fuo
 }
@@ -923,14 +923,14 @@ func (fuo *FilamentUpdateOne) ClearPrice() *FilamentUpdateOne {
 }
 
 // SetDensity sets the "density" field.
-func (fuo *FilamentUpdateOne) SetDensity(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetDensity(f float32) *FilamentUpdateOne {
 	fuo.mutation.ResetDensity()
 	fuo.mutation.SetDensity(f)
 	return fuo
 }
 
 // SetNillableDensity sets the "density" field if the given value is not nil.
-func (fuo *FilamentUpdateOne) SetNillableDensity(f *float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetNillableDensity(f *float32) *FilamentUpdateOne {
 	if f != nil {
 		fuo.SetDensity(*f)
 	}
@@ -938,20 +938,20 @@ func (fuo *FilamentUpdateOne) SetNillableDensity(f *float64) *FilamentUpdateOne 
 }
 
 // AddDensity adds f to the "density" field.
-func (fuo *FilamentUpdateOne) AddDensity(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) AddDensity(f float32) *FilamentUpdateOne {
 	fuo.mutation.AddDensity(f)
 	return fuo
 }
 
 // SetDiameter sets the "diameter" field.
-func (fuo *FilamentUpdateOne) SetDiameter(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetDiameter(f float32) *FilamentUpdateOne {
 	fuo.mutation.ResetDiameter()
 	fuo.mutation.SetDiameter(f)
 	return fuo
 }
 
 // SetNillableDiameter sets the "diameter" field if the given value is not nil.
-func (fuo *FilamentUpdateOne) SetNillableDiameter(f *float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetNillableDiameter(f *float32) *FilamentUpdateOne {
 	if f != nil {
 		fuo.SetDiameter(*f)
 	}
@@ -959,20 +959,20 @@ func (fuo *FilamentUpdateOne) SetNillableDiameter(f *float64) *FilamentUpdateOne
 }
 
 // AddDiameter adds f to the "diameter" field.
-func (fuo *FilamentUpdateOne) AddDiameter(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) AddDiameter(f float32) *FilamentUpdateOne {
 	fuo.mutation.AddDiameter(f)
 	return fuo
 }
 
 // SetWeight sets the "weight" field.
-func (fuo *FilamentUpdateOne) SetWeight(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetWeight(f float32) *FilamentUpdateOne {
 	fuo.mutation.ResetWeight()
 	fuo.mutation.SetWeight(f)
 	return fuo
 }
 
 // SetNillableWeight sets the "weight" field if the given value is not nil.
-func (fuo *FilamentUpdateOne) SetNillableWeight(f *float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetNillableWeight(f *float32) *FilamentUpdateOne {
 	if f != nil {
 		fuo.SetWeight(*f)
 	}
@@ -980,7 +980,7 @@ func (fuo *FilamentUpdateOne) SetNillableWeight(f *float64) *FilamentUpdateOne {
 }
 
 // AddWeight adds f to the "weight" field.
-func (fuo *FilamentUpdateOne) AddWeight(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) AddWeight(f float32) *FilamentUpdateOne {
 	fuo.mutation.AddWeight(f)
 	return fuo
 }
@@ -992,14 +992,14 @@ func (fuo *FilamentUpdateOne) ClearWeight() *FilamentUpdateOne {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (fuo *FilamentUpdateOne) SetSpoolWeight(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetSpoolWeight(f float32) *FilamentUpdateOne {
 	fuo.mutation.ResetSpoolWeight()
 	fuo.mutation.SetSpoolWeight(f)
 	return fuo
 }
 
 // SetNillableSpoolWeight sets the "spool_weight" field if the given value is not nil.
-func (fuo *FilamentUpdateOne) SetNillableSpoolWeight(f *float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) SetNillableSpoolWeight(f *float32) *FilamentUpdateOne {
 	if f != nil {
 		fuo.SetSpoolWeight(*f)
 	}
@@ -1007,7 +1007,7 @@ func (fuo *FilamentUpdateOne) SetNillableSpoolWeight(f *float64) *FilamentUpdate
 }
 
 // AddSpoolWeight adds f to the "spool_weight" field.
-func (fuo *FilamentUpdateOne) AddSpoolWeight(f float64) *FilamentUpdateOne {
+func (fuo *FilamentUpdateOne) AddSpoolWeight(f float32) *FilamentUpdateOne {
 	fuo.mutation.AddSpoolWeight(f)
 	return fuo
 }
@@ -1192,9 +1192,9 @@ func (fuo *FilamentUpdateOne) ClearExternalID() *FilamentUpdateOne {
 	return fuo
 }
 
-// SetVendor sets the "vendor" edge to the Vendor entity.
-func (fuo *FilamentUpdateOne) SetVendor(v *Vendor) *FilamentUpdateOne {
-	return fuo.SetVendorID(v.ID)
+// SetVendor sets the "vendor" edge to the SpoolVendor entity.
+func (fuo *FilamentUpdateOne) SetVendor(s *SpoolVendor) *FilamentUpdateOne {
+	return fuo.SetVendorID(s.ID)
 }
 
 // AddSpoolIDs adds the "spools" edge to the Spool entity by IDs.
@@ -1232,7 +1232,7 @@ func (fuo *FilamentUpdateOne) Mutation() *FilamentMutation {
 	return fuo.mutation
 }
 
-// ClearVendor clears the "vendor" edge to the Vendor entity.
+// ClearVendor clears the "vendor" edge to the SpoolVendor entity.
 func (fuo *FilamentUpdateOne) ClearVendor() *FilamentUpdateOne {
 	fuo.mutation.ClearVendor()
 	return fuo
@@ -1410,43 +1410,43 @@ func (fuo *FilamentUpdateOne) sqlSave(ctx context.Context) (_node *Filament, err
 		_spec.ClearField(filament.FieldMaterial, field.TypeString)
 	}
 	if value, ok := fuo.mutation.Price(); ok {
-		_spec.SetField(filament.FieldPrice, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldPrice, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.AddedPrice(); ok {
-		_spec.AddField(filament.FieldPrice, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldPrice, field.TypeFloat32, value)
 	}
 	if fuo.mutation.PriceCleared() {
-		_spec.ClearField(filament.FieldPrice, field.TypeFloat64)
+		_spec.ClearField(filament.FieldPrice, field.TypeFloat32)
 	}
 	if value, ok := fuo.mutation.Density(); ok {
-		_spec.SetField(filament.FieldDensity, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldDensity, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.AddedDensity(); ok {
-		_spec.AddField(filament.FieldDensity, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldDensity, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.Diameter(); ok {
-		_spec.SetField(filament.FieldDiameter, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldDiameter, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.AddedDiameter(); ok {
-		_spec.AddField(filament.FieldDiameter, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldDiameter, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.Weight(); ok {
-		_spec.SetField(filament.FieldWeight, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldWeight, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.AddedWeight(); ok {
-		_spec.AddField(filament.FieldWeight, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldWeight, field.TypeFloat32, value)
 	}
 	if fuo.mutation.WeightCleared() {
-		_spec.ClearField(filament.FieldWeight, field.TypeFloat64)
+		_spec.ClearField(filament.FieldWeight, field.TypeFloat32)
 	}
 	if value, ok := fuo.mutation.SpoolWeight(); ok {
-		_spec.SetField(filament.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if value, ok := fuo.mutation.AddedSpoolWeight(); ok {
-		_spec.AddField(filament.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.AddField(filament.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if fuo.mutation.SpoolWeightCleared() {
-		_spec.ClearField(filament.FieldSpoolWeight, field.TypeFloat64)
+		_spec.ClearField(filament.FieldSpoolWeight, field.TypeFloat32)
 	}
 	if value, ok := fuo.mutation.ArticleNumber(); ok {
 		_spec.SetField(filament.FieldArticleNumber, field.TypeString, value)
@@ -1510,7 +1510,7 @@ func (fuo *FilamentUpdateOne) sqlSave(ctx context.Context) (_node *Filament, err
 			Columns: []string{filament.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -1523,7 +1523,7 @@ func (fuo *FilamentUpdateOne) sqlSave(ctx context.Context) (_node *Filament, err
 			Columns: []string{filament.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

@@ -24,9 +24,9 @@ const (
 	Table = "vendor_fields"
 	// VendorTable is the table that holds the vendor relation/edge.
 	VendorTable = "vendor_fields"
-	// VendorInverseTable is the table name for the Vendor entity.
-	// It exists in this package in order to avoid circular dependency with the "vendor" package.
-	VendorInverseTable = "vendors"
+	// VendorInverseTable is the table name for the SpoolVendor entity.
+	// It exists in this package in order to avoid circular dependency with the "spoolvendor" package.
+	VendorInverseTable = "spool_vendors"
 	// VendorColumn is the table column denoting the vendor relation/edge.
 	VendorColumn = "vendor_id"
 )

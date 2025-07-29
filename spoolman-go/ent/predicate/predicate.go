@@ -21,8 +21,8 @@ type Spool func(*sql.Selector)
 // SpoolField is the predicate function for spoolfield builders.
 type SpoolField func(*sql.Selector)
 
-// Vendor is the predicate function for vendor builders.
-type Vendor func(*sql.Selector)
+// SpoolVendor is the predicate function for spoolvendor builders.
+type SpoolVendor func(*sql.Selector)
 
 // VendorField is the predicate function for vendorfield builders.
 type VendorField func(*sql.Selector)

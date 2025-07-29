@@ -4,7 +4,7 @@ package ent
 
 import (
 	"fmt"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"strings"
 	"time"
 
@@ -12,8 +12,8 @@ import (
 	"entgo.io/ent/dialect/sql"
 )
 
-// Vendor is the model entity for the Vendor schema.
-type Vendor struct {
+// SpoolVendor is the model entity for the SpoolVendor schema.
+type SpoolVendor struct {
 	config `json:"-"`
 	// ID of the ent.
 	ID int `json:"id,omitempty"`
@@ -22,19 +22,19 @@ type Vendor struct {
 	// Name holds the value of the "name" field.
 	Name string `json:"name,omitempty"`
 	// EmptySpoolWeight holds the value of the "empty_spool_weight" field.
-	EmptySpoolWeight float64 `json:"empty_spool_weight,omitempty"`
+	EmptySpoolWeight float32 `json:"empty_spool_weight,omitempty"`
 	// Comment holds the value of the "comment" field.
 	Comment string `json:"comment,omitempty"`
 	// ExternalID holds the value of the "external_id" field.
 	ExternalID string `json:"external_id,omitempty"`
 	// Edges holds the relations/edges for other nodes in the graph.
-	// The values are being populated by the VendorQuery when eager-loading is set.
-	Edges        VendorEdges `json:"edges"`
+	// The values are being populated by the SpoolVendorQuery when eager-loading is set.
+	Edges        SpoolVendorEdges `json:"edges"`
 	selectValues sql.SelectValues
 }
 
-// VendorEdges holds the relations/edges for other nodes in the graph.
-type VendorEdges struct {
+// SpoolVendorEdges holds the relations/edges for other nodes in the graph.
+type SpoolVendorEdges struct {
 	// Filaments holds the value of the filaments edge.
 	Filaments []*Filament `json:"filaments,omitempty"`
 	// Extra holds the value of the extra edge.
@@ -46,7 +46,7 @@ type VendorEdges struct {
 
 // FilamentsOrErr returns the Filaments value or an error if the edge
 // was not loaded in eager-loading.
-func (e VendorEdges) FilamentsOrErr() ([]*Filament, error) {
+func (e SpoolVendorEdges) FilamentsOrErr() ([]*Filament, error) {
 	if e.loadedTypes[0] {
 		return e.Filaments, nil
 	}
@@ -55,7 +55,7 @@ func (e VendorEdges) FilamentsOrErr() ([]*Filament, error) {
 
 // ExtraOrErr returns the Extra value or an error if the edge
 // was not loaded in eager-loading.
-func (e VendorEdges) ExtraOrErr() ([]*VendorField, error) {
+func (e SpoolVendorEdges) ExtraOrErr() ([]*VendorField, error) {
 	if e.loadedTypes[1] {
 		return e.Extra, nil
 	}
@@ -63,17 +63,17 @@ func (e VendorEdges) ExtraOrErr() ([]*VendorField, error) {
 }
 
 // scanValues returns the types for scanning values from sql.Rows.
-func (*Vendor) scanValues(columns []string) ([]any, error) {
+func (*SpoolVendor) scanValues(columns []string) ([]any, error) {
 	values := make([]any, len(columns))
 	for i := range columns {
 		switch columns[i] {
-		case vendor.FieldEmptySpoolWeight:
+		case spoolvendor.FieldEmptySpoolWeight:
 			values[i] = new(sql.NullFloat64)
-		case vendor.FieldID:
+		case spoolvendor.FieldID:
 			values[i] = new(sql.NullInt64)
-		case vendor.FieldName, vendor.FieldComment, vendor.FieldExternalID:
+		case spoolvendor.FieldName, spoolvendor.FieldComment, spoolvendor.FieldExternalID:
 			values[i] = new(sql.NullString)
-		case vendor.FieldRegistered:
+		case spoolvendor.FieldRegistered:
 			values[i] = new(sql.NullTime)
 		default:
 			values[i] = new(sql.UnknownType)
@@ -83,112 +83,112 @@ func (*Vendor) scanValues(columns []string) ([]any, error) {
 }
 
 // assignValues assigns the values that were returned from sql.Rows (after scanning)
-// to the Vendor fields.
-func (v *Vendor) assignValues(columns []string, values []any) error {
+// to the SpoolVendor fields.
+func (sv *SpoolVendor) assignValues(columns []string, values []any) error {
 	if m, n := len(values), len(columns); m < n {
 		return fmt.Errorf("mismatch number of scan values: %d != %d", m, n)
 	}
 	for i := range columns {
 		switch columns[i] {
-		case vendor.FieldID:
+		case spoolvendor.FieldID:
 			value, ok := values[i].(*sql.NullInt64)
 			if !ok {
 				return fmt.Errorf("unexpected type %T for field id", value)
 			}
-			v.ID = int(value.Int64)
-		case vendor.FieldRegistered:
+			sv.ID = int(value.Int64)
+		case spoolvendor.FieldRegistered:
 			if value, ok := values[i].(*sql.NullTime); !ok {
 				return fmt.Errorf("unexpected type %T for field registered", values[i])
 			} else if value.Valid {
-				v.Registered = value.Time
+				sv.Registered = value.Time
 			}
-		case vendor.FieldName:
+		case spoolvendor.FieldName:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field name", values[i])
 			} else if value.Valid {
-				v.Name = value.String
+				sv.Name = value.String
 			}
-		case vendor.FieldEmptySpoolWeight:
+		case spoolvendor.FieldEmptySpoolWeight:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field empty_spool_weight", values[i])
 			} else if value.Valid {
-				v.EmptySpoolWeight = value.Float64
+				sv.EmptySpoolWeight = float32(value.Float64)
 			}
-		case vendor.FieldComment:
+		case spoolvendor.FieldComment:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field comment", values[i])
 			} else if value.Valid {
-				v.Comment = value.String
+				sv.Comment = value.String
 			}
-		case vendor.FieldExternalID:
+		case spoolvendor.FieldExternalID:
 			if value, ok := values[i].(*sql.NullString); !ok {
 				return fmt.Errorf("unexpected type %T for field external_id", values[i])
 			} else if value.Valid {
-				v.ExternalID = value.String
+				sv.ExternalID = value.String
 			}
 		default:
-			v.selectValues.Set(columns[i], values[i])
+			sv.selectValues.Set(columns[i], values[i])
 		}
 	}
 	return nil
 }
 
-// Value returns the ent.Value that was dynamically selected and assigned to the Vendor.
+// Value returns the ent.Value that was dynamically selected and assigned to the SpoolVendor.
 // This includes values selected through modifiers, order, etc.
-func (v *Vendor) Value(name string) (ent.Value, error) {
-	return v.selectValues.Get(name)
+func (sv *SpoolVendor) Value(name string) (ent.Value, error) {
+	return sv.selectValues.Get(name)
 }
 
-// QueryFilaments queries the "filaments" edge of the Vendor entity.
-func (v *Vendor) QueryFilaments() *FilamentQuery {
-	return NewVendorClient(v.config).QueryFilaments(v)
+// QueryFilaments queries the "filaments" edge of the SpoolVendor entity.
+func (sv *SpoolVendor) QueryFilaments() *FilamentQuery {
+	return NewSpoolVendorClient(sv.config).QueryFilaments(sv)
 }
 
-// QueryExtra queries the "extra" edge of the Vendor entity.
-func (v *Vendor) QueryExtra() *VendorFieldQuery {
-	return NewVendorClient(v.config).QueryExtra(v)
+// QueryExtra queries the "extra" edge of the SpoolVendor entity.
+func (sv *SpoolVendor) QueryExtra() *VendorFieldQuery {
+	return NewSpoolVendorClient(sv.config).QueryExtra(sv)
 }
 
-// Update returns a builder for updating this Vendor.
-// Note that you need to call Vendor.Unwrap() before calling this method if this Vendor
+// Update returns a builder for updating this SpoolVendor.
+// Note that you need to call SpoolVendor.Unwrap() before calling this method if this SpoolVendor
 // was returned from a transaction, and the transaction was committed or rolled back.
-func (v *Vendor) Update() *VendorUpdateOne {
-	return NewVendorClient(v.config).UpdateOne(v)
+func (sv *SpoolVendor) Update() *SpoolVendorUpdateOne {
+	return NewSpoolVendorClient(sv.config).UpdateOne(sv)
 }
 
-// Unwrap unwraps the Vendor entity that was returned from a transaction after it was closed,
+// Unwrap unwraps the SpoolVendor entity that was returned from a transaction after it was closed,
 // so that all future queries will be executed through the driver which created the transaction.
-func (v *Vendor) Unwrap() *Vendor {
-	_tx, ok := v.config.driver.(*txDriver)
+func (sv *SpoolVendor) Unwrap() *SpoolVendor {
+	_tx, ok := sv.config.driver.(*txDriver)
 	if !ok {
-		panic("ent: Vendor is not a transactional entity")
+		panic("ent: SpoolVendor is not a transactional entity")
 	}
-	v.config.driver = _tx.drv
-	return v
+	sv.config.driver = _tx.drv
+	return sv
 }
 
 // String implements the fmt.Stringer.
-func (v *Vendor) String() string {
+func (sv *SpoolVendor) String() string {
 	var builder strings.Builder
-	builder.WriteString("Vendor(")
-	builder.WriteString(fmt.Sprintf("id=%v, ", v.ID))
+	builder.WriteString("SpoolVendor(")
+	builder.WriteString(fmt.Sprintf("id=%v, ", sv.ID))
 	builder.WriteString("registered=")
-	builder.WriteString(v.Registered.Format(time.ANSIC))
+	builder.WriteString(sv.Registered.Format(time.ANSIC))
 	builder.WriteString(", ")
 	builder.WriteString("name=")
-	builder.WriteString(v.Name)
+	builder.WriteString(sv.Name)
 	builder.WriteString(", ")
 	builder.WriteString("empty_spool_weight=")
-	builder.WriteString(fmt.Sprintf("%v", v.EmptySpoolWeight))
+	builder.WriteString(fmt.Sprintf("%v", sv.EmptySpoolWeight))
 	builder.WriteString(", ")
 	builder.WriteString("comment=")
-	builder.WriteString(v.Comment)
+	builder.WriteString(sv.Comment)
 	builder.WriteString(", ")
 	builder.WriteString("external_id=")
-	builder.WriteString(v.ExternalID)
+	builder.WriteString(sv.ExternalID)
 	builder.WriteByte(')')
 	return builder.String()
 }
 
-// Vendors is a parsable slice of Vendor.
-type Vendors []*Vendor
+// SpoolVendors is a parsable slice of SpoolVendor.
+type SpoolVendors []*SpoolVendor

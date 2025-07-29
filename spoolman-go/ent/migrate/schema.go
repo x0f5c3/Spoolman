@@ -14,11 +14,11 @@ var (
 		{Name: "registered", Type: field.TypeTime},
 		{Name: "name", Type: field.TypeString, Nullable: true, Size: 64},
 		{Name: "material", Type: field.TypeString, Nullable: true, Size: 64},
-		{Name: "price", Type: field.TypeFloat64, Nullable: true},
-		{Name: "density", Type: field.TypeFloat64},
-		{Name: "diameter", Type: field.TypeFloat64},
-		{Name: "weight", Type: field.TypeFloat64, Nullable: true},
-		{Name: "spool_weight", Type: field.TypeFloat64, Nullable: true},
+		{Name: "price", Type: field.TypeFloat32, Nullable: true},
+		{Name: "density", Type: field.TypeFloat32},
+		{Name: "diameter", Type: field.TypeFloat32},
+		{Name: "weight", Type: field.TypeFloat32, Nullable: true},
+		{Name: "spool_weight", Type: field.TypeFloat32, Nullable: true},
 		{Name: "article_number", Type: field.TypeString, Nullable: true, Size: 64},
 		{Name: "comment", Type: field.TypeString, Nullable: true, Size: 1024},
 		{Name: "settings_extruder_temp", Type: field.TypeInt, Nullable: true},
@@ -36,9 +36,9 @@ var (
 		PrimaryKey: []*schema.Column{FilamentsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "filaments_vendors_filaments",
+				Symbol:     "filaments_spool_vendors_filaments",
 				Columns:    []*schema.Column{FilamentsColumns[17]},
-				RefColumns: []*schema.Column{VendorsColumns[0]},
+				RefColumns: []*schema.Column{SpoolVendorsColumns[0]},
 				OnDelete:   schema.SetNull,
 			},
 		},
@@ -83,10 +83,11 @@ var (
 		{Name: "registered", Type: field.TypeTime},
 		{Name: "first_used", Type: field.TypeTime, Nullable: true},
 		{Name: "last_used", Type: field.TypeTime, Nullable: true},
-		{Name: "price", Type: field.TypeFloat64, Nullable: true},
-		{Name: "initial_weight", Type: field.TypeFloat64, Nullable: true},
-		{Name: "spool_weight", Type: field.TypeFloat64, Nullable: true},
-		{Name: "used_weight", Type: field.TypeFloat64},
+		{Name: "price", Type: field.TypeFloat32, Nullable: true},
+		{Name: "initial_weight", Type: field.TypeFloat32, Nullable: true},
+		{Name: "spool_weight", Type: field.TypeFloat32, Nullable: true},
+		{Name: "used_weight", Type: field.TypeFloat32},
+		{Name: "remaining_weight", Type: field.TypeFloat32},
 		{Name: "location", Type: field.TypeString, Nullable: true, Size: 64},
 		{Name: "lot_nr", Type: field.TypeString, Nullable: true, Size: 64},
 		{Name: "comment", Type: field.TypeString, Nullable: true, Size: 1024},
@@ -101,7 +102,7 @@ var (
 		ForeignKeys: []*schema.ForeignKey{
 			{
 				Symbol:     "spools_filaments_spools",
-				Columns:    []*schema.Column{SpoolsColumns[12]},
+				Columns:    []*schema.Column{SpoolsColumns[13]},
 				RefColumns: []*schema.Column{FilamentsColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
@@ -128,20 +129,20 @@ var (
 			},
 		},
 	}
-	// VendorsColumns holds the columns for the "vendors" table.
-	VendorsColumns = []*schema.Column{
+	// SpoolVendorsColumns holds the columns for the "spool_vendors" table.
+	SpoolVendorsColumns = []*schema.Column{
 		{Name: "id", Type: field.TypeInt, Increment: true},
 		{Name: "registered", Type: field.TypeTime},
 		{Name: "name", Type: field.TypeString, Size: 64},
-		{Name: "empty_spool_weight", Type: field.TypeFloat64, Nullable: true},
+		{Name: "empty_spool_weight", Type: field.TypeFloat32, Nullable: true},
 		{Name: "comment", Type: field.TypeString, Nullable: true, Size: 1024},
 		{Name: "external_id", Type: field.TypeString, Nullable: true, Size: 256},
 	}
-	// VendorsTable holds the schema information for the "vendors" table.
-	VendorsTable = &schema.Table{
-		Name:       "vendors",
-		Columns:    VendorsColumns,
-		PrimaryKey: []*schema.Column{VendorsColumns[0]},
+	// SpoolVendorsTable holds the schema information for the "spool_vendors" table.
+	SpoolVendorsTable = &schema.Table{
+		Name:       "spool_vendors",
+		Columns:    SpoolVendorsColumns,
+		PrimaryKey: []*schema.Column{SpoolVendorsColumns[0]},
 	}
 	// VendorFieldsColumns holds the columns for the "vendor_fields" table.
 	VendorFieldsColumns = []*schema.Column{
@@ -157,9 +158,9 @@ var (
 		PrimaryKey: []*schema.Column{VendorFieldsColumns[0]},
 		ForeignKeys: []*schema.ForeignKey{
 			{
-				Symbol:     "vendor_fields_vendors_extra",
+				Symbol:     "vendor_fields_spool_vendors_extra",
 				Columns:    []*schema.Column{VendorFieldsColumns[3]},
-				RefColumns: []*schema.Column{VendorsColumns[0]},
+				RefColumns: []*schema.Column{SpoolVendorsColumns[0]},
 				OnDelete:   schema.NoAction,
 			},
 		},
@@ -171,15 +172,15 @@ var (
 		SettingsTable,
 		SpoolsTable,
 		SpoolFieldsTable,
-		VendorsTable,
+		SpoolVendorsTable,
 		VendorFieldsTable,
 	}
 )
 
 func init() {
-	FilamentsTable.ForeignKeys[0].RefTable = VendorsTable
+	FilamentsTable.ForeignKeys[0].RefTable = SpoolVendorsTable
 	FilamentFieldsTable.ForeignKeys[0].RefTable = FilamentsTable
 	SpoolsTable.ForeignKeys[0].RefTable = FilamentsTable
 	SpoolFieldsTable.ForeignKeys[0].RefTable = SpoolsTable
-	VendorFieldsTable.ForeignKeys[0].RefTable = VendorsTable
+	VendorFieldsTable.ForeignKeys[0].RefTable = SpoolVendorsTable
 }

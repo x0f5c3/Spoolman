@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"math"
 	"spoolman-go/ent/predicate"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 
 	"entgo.io/ent"
@@ -23,7 +23,7 @@ type VendorFieldQuery struct {
 	order      []vendorfield.OrderOption
 	inters     []Interceptor
 	predicates []predicate.VendorField
-	withVendor *VendorQuery
+	withVendor *SpoolVendorQuery
 	// intermediate query (i.e. traversal path).
 	sql  *sql.Selector
 	path func(context.Context) (*sql.Selector, error)
@@ -61,8 +61,8 @@ func (vfq *VendorFieldQuery) Order(o ...vendorfield.OrderOption) *VendorFieldQue
 }
 
 // QueryVendor chains the current query on the "vendor" edge.
-func (vfq *VendorFieldQuery) QueryVendor() *VendorQuery {
-	query := (&VendorClient{config: vfq.config}).Query()
+func (vfq *VendorFieldQuery) QueryVendor() *SpoolVendorQuery {
+	query := (&SpoolVendorClient{config: vfq.config}).Query()
 	query.path = func(ctx context.Context) (fromU *sql.Selector, err error) {
 		if err := vfq.prepareQuery(ctx); err != nil {
 			return nil, err
@@ -73,7 +73,7 @@ func (vfq *VendorFieldQuery) QueryVendor() *VendorQuery {
 		}
 		step := sqlgraph.NewStep(
 			sqlgraph.From(vendorfield.Table, vendorfield.FieldID, selector),
-			sqlgraph.To(vendor.Table, vendor.FieldID),
+			sqlgraph.To(spoolvendor.Table, spoolvendor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, vendorfield.VendorTable, vendorfield.VendorColumn),
 		)
 		fromU = sqlgraph.SetNeighbors(vfq.driver.Dialect(), step)
@@ -283,8 +283,8 @@ func (vfq *VendorFieldQuery) Clone() *VendorFieldQuery {
 
 // WithVendor tells the query-builder to eager-load the nodes that are connected to
 // the "vendor" edge. The optional arguments are used to configure the query builder of the edge.
-func (vfq *VendorFieldQuery) WithVendor(opts ...func(*VendorQuery)) *VendorFieldQuery {
-	query := (&VendorClient{config: vfq.config}).Query()
+func (vfq *VendorFieldQuery) WithVendor(opts ...func(*SpoolVendorQuery)) *VendorFieldQuery {
+	query := (&SpoolVendorClient{config: vfq.config}).Query()
 	for _, opt := range opts {
 		opt(query)
 	}
@@ -394,14 +394,14 @@ func (vfq *VendorFieldQuery) sqlAll(ctx context.Context, hooks ...queryHook) ([]
 	}
 	if query := vfq.withVendor; query != nil {
 		if err := vfq.loadVendor(ctx, query, nodes, nil,
-			func(n *VendorField, e *Vendor) { n.Edges.Vendor = e }); err != nil {
+			func(n *VendorField, e *SpoolVendor) { n.Edges.Vendor = e }); err != nil {
 			return nil, err
 		}
 	}
 	return nodes, nil
 }
 
-func (vfq *VendorFieldQuery) loadVendor(ctx context.Context, query *VendorQuery, nodes []*VendorField, init func(*VendorField), assign func(*VendorField, *Vendor)) error {
+func (vfq *VendorFieldQuery) loadVendor(ctx context.Context, query *SpoolVendorQuery, nodes []*VendorField, init func(*VendorField), assign func(*VendorField, *SpoolVendor)) error {
 	ids := make([]int, 0, len(nodes))
 	nodeids := make(map[int][]*VendorField)
 	for i := range nodes {
@@ -414,7 +414,7 @@ func (vfq *VendorFieldQuery) loadVendor(ctx context.Context, query *VendorQuery,
 	if len(ids) == 0 {
 		return nil
 	}
-	query.Where(vendor.IDIn(ids...))
+	query.Where(spoolvendor.IDIn(ids...))
 	neighbors, err := query.All(ctx)
 	if err != nil {
 		return err

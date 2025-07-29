@@ -5,7 +5,7 @@ package ent
 import (
 	"fmt"
 	"spoolman-go/ent/filament"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"strings"
 	"time"
 
@@ -27,15 +27,15 @@ type Filament struct {
 	// Material holds the value of the "material" field.
 	Material string `json:"material,omitempty"`
 	// Price holds the value of the "price" field.
-	Price float64 `json:"price,omitempty"`
+	Price float32 `json:"price,omitempty"`
 	// Density holds the value of the "density" field.
-	Density float64 `json:"density,omitempty"`
+	Density float32 `json:"density,omitempty"`
 	// Diameter holds the value of the "diameter" field.
-	Diameter float64 `json:"diameter,omitempty"`
+	Diameter float32 `json:"diameter,omitempty"`
 	// Weight holds the value of the "weight" field.
-	Weight float64 `json:"weight,omitempty"`
+	Weight float32 `json:"weight,omitempty"`
 	// SpoolWeight holds the value of the "spool_weight" field.
-	SpoolWeight float64 `json:"spool_weight,omitempty"`
+	SpoolWeight float32 `json:"spool_weight,omitempty"`
 	// ArticleNumber holds the value of the "article_number" field.
 	ArticleNumber string `json:"article_number,omitempty"`
 	// Comment holds the value of the "comment" field.
@@ -61,7 +61,7 @@ type Filament struct {
 // FilamentEdges holds the relations/edges for other nodes in the graph.
 type FilamentEdges struct {
 	// Vendor holds the value of the vendor edge.
-	Vendor *Vendor `json:"vendor,omitempty"`
+	Vendor *SpoolVendor `json:"vendor,omitempty"`
 	// Spools holds the value of the spools edge.
 	Spools []*Spool `json:"spools,omitempty"`
 	// Extra holds the value of the extra edge.
@@ -73,11 +73,11 @@ type FilamentEdges struct {
 
 // VendorOrErr returns the Vendor value or an error if the edge
 // was not loaded in eager-loading, or loaded but was not found.
-func (e FilamentEdges) VendorOrErr() (*Vendor, error) {
+func (e FilamentEdges) VendorOrErr() (*SpoolVendor, error) {
 	if e.Vendor != nil {
 		return e.Vendor, nil
 	} else if e.loadedTypes[0] {
-		return nil, &NotFoundError{label: vendor.Label}
+		return nil, &NotFoundError{label: spoolvendor.Label}
 	}
 	return nil, &NotLoadedError{edge: "vendor"}
 }
@@ -162,31 +162,31 @@ func (f *Filament) assignValues(columns []string, values []any) error {
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field price", values[i])
 			} else if value.Valid {
-				f.Price = value.Float64
+				f.Price = float32(value.Float64)
 			}
 		case filament.FieldDensity:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field density", values[i])
 			} else if value.Valid {
-				f.Density = value.Float64
+				f.Density = float32(value.Float64)
 			}
 		case filament.FieldDiameter:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field diameter", values[i])
 			} else if value.Valid {
-				f.Diameter = value.Float64
+				f.Diameter = float32(value.Float64)
 			}
 		case filament.FieldWeight:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field weight", values[i])
 			} else if value.Valid {
-				f.Weight = value.Float64
+				f.Weight = float32(value.Float64)
 			}
 		case filament.FieldSpoolWeight:
 			if value, ok := values[i].(*sql.NullFloat64); !ok {
 				return fmt.Errorf("unexpected type %T for field spool_weight", values[i])
 			} else if value.Valid {
-				f.SpoolWeight = value.Float64
+				f.SpoolWeight = float32(value.Float64)
 			}
 		case filament.FieldArticleNumber:
 			if value, ok := values[i].(*sql.NullString); !ok {
@@ -250,7 +250,7 @@ func (f *Filament) Value(name string) (ent.Value, error) {
 }
 
 // QueryVendor queries the "vendor" edge of the Filament entity.
-func (f *Filament) QueryVendor() *VendorQuery {
+func (f *Filament) QueryVendor() *SpoolVendorQuery {
 	return NewFilamentClient(f.config).QueryVendor(f)
 }
 

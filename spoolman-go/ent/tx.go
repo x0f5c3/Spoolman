@@ -22,8 +22,8 @@ type Tx struct {
 	Spool *SpoolClient
 	// SpoolField is the client for interacting with the SpoolField builders.
 	SpoolField *SpoolFieldClient
-	// Vendor is the client for interacting with the Vendor builders.
-	Vendor *VendorClient
+	// SpoolVendor is the client for interacting with the SpoolVendor builders.
+	SpoolVendor *SpoolVendorClient
 	// VendorField is the client for interacting with the VendorField builders.
 	VendorField *VendorFieldClient
 
@@ -162,7 +162,7 @@ func (tx *Tx) init() {
 	tx.Setting = NewSettingClient(tx.config)
 	tx.Spool = NewSpoolClient(tx.config)
 	tx.SpoolField = NewSpoolFieldClient(tx.config)
-	tx.Vendor = NewVendorClient(tx.config)
+	tx.SpoolVendor = NewSpoolVendorClient(tx.config)
 	tx.VendorField = NewVendorFieldClient(tx.config)
 }
 

@@ -85,14 +85,14 @@ func (su *SpoolUpdate) ClearLastUsed() *SpoolUpdate {
 }
 
 // SetPrice sets the "price" field.
-func (su *SpoolUpdate) SetPrice(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetPrice(f float32) *SpoolUpdate {
 	su.mutation.ResetPrice()
 	su.mutation.SetPrice(f)
 	return su
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (su *SpoolUpdate) SetNillablePrice(f *float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetNillablePrice(f *float32) *SpoolUpdate {
 	if f != nil {
 		su.SetPrice(*f)
 	}
@@ -100,7 +100,7 @@ func (su *SpoolUpdate) SetNillablePrice(f *float64) *SpoolUpdate {
 }
 
 // AddPrice adds f to the "price" field.
-func (su *SpoolUpdate) AddPrice(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) AddPrice(f float32) *SpoolUpdate {
 	su.mutation.AddPrice(f)
 	return su
 }
@@ -126,14 +126,14 @@ func (su *SpoolUpdate) SetNillableFilamentID(i *int) *SpoolUpdate {
 }
 
 // SetInitialWeight sets the "initial_weight" field.
-func (su *SpoolUpdate) SetInitialWeight(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetInitialWeight(f float32) *SpoolUpdate {
 	su.mutation.ResetInitialWeight()
 	su.mutation.SetInitialWeight(f)
 	return su
 }
 
 // SetNillableInitialWeight sets the "initial_weight" field if the given value is not nil.
-func (su *SpoolUpdate) SetNillableInitialWeight(f *float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetNillableInitialWeight(f *float32) *SpoolUpdate {
 	if f != nil {
 		su.SetInitialWeight(*f)
 	}
@@ -141,7 +141,7 @@ func (su *SpoolUpdate) SetNillableInitialWeight(f *float64) *SpoolUpdate {
 }
 
 // AddInitialWeight adds f to the "initial_weight" field.
-func (su *SpoolUpdate) AddInitialWeight(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) AddInitialWeight(f float32) *SpoolUpdate {
 	su.mutation.AddInitialWeight(f)
 	return su
 }
@@ -153,14 +153,14 @@ func (su *SpoolUpdate) ClearInitialWeight() *SpoolUpdate {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (su *SpoolUpdate) SetSpoolWeight(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetSpoolWeight(f float32) *SpoolUpdate {
 	su.mutation.ResetSpoolWeight()
 	su.mutation.SetSpoolWeight(f)
 	return su
 }
 
 // SetNillableSpoolWeight sets the "spool_weight" field if the given value is not nil.
-func (su *SpoolUpdate) SetNillableSpoolWeight(f *float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetNillableSpoolWeight(f *float32) *SpoolUpdate {
 	if f != nil {
 		su.SetSpoolWeight(*f)
 	}
@@ -168,7 +168,7 @@ func (su *SpoolUpdate) SetNillableSpoolWeight(f *float64) *SpoolUpdate {
 }
 
 // AddSpoolWeight adds f to the "spool_weight" field.
-func (su *SpoolUpdate) AddSpoolWeight(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) AddSpoolWeight(f float32) *SpoolUpdate {
 	su.mutation.AddSpoolWeight(f)
 	return su
 }
@@ -180,14 +180,14 @@ func (su *SpoolUpdate) ClearSpoolWeight() *SpoolUpdate {
 }
 
 // SetUsedWeight sets the "used_weight" field.
-func (su *SpoolUpdate) SetUsedWeight(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetUsedWeight(f float32) *SpoolUpdate {
 	su.mutation.ResetUsedWeight()
 	su.mutation.SetUsedWeight(f)
 	return su
 }
 
 // SetNillableUsedWeight sets the "used_weight" field if the given value is not nil.
-func (su *SpoolUpdate) SetNillableUsedWeight(f *float64) *SpoolUpdate {
+func (su *SpoolUpdate) SetNillableUsedWeight(f *float32) *SpoolUpdate {
 	if f != nil {
 		su.SetUsedWeight(*f)
 	}
@@ -195,8 +195,29 @@ func (su *SpoolUpdate) SetNillableUsedWeight(f *float64) *SpoolUpdate {
 }
 
 // AddUsedWeight adds f to the "used_weight" field.
-func (su *SpoolUpdate) AddUsedWeight(f float64) *SpoolUpdate {
+func (su *SpoolUpdate) AddUsedWeight(f float32) *SpoolUpdate {
 	su.mutation.AddUsedWeight(f)
+	return su
+}
+
+// SetRemainingWeight sets the "remaining_weight" field.
+func (su *SpoolUpdate) SetRemainingWeight(f float32) *SpoolUpdate {
+	su.mutation.ResetRemainingWeight()
+	su.mutation.SetRemainingWeight(f)
+	return su
+}
+
+// SetNillableRemainingWeight sets the "remaining_weight" field if the given value is not nil.
+func (su *SpoolUpdate) SetNillableRemainingWeight(f *float32) *SpoolUpdate {
+	if f != nil {
+		su.SetRemainingWeight(*f)
+	}
+	return su
+}
+
+// AddRemainingWeight adds f to the "remaining_weight" field.
+func (su *SpoolUpdate) AddRemainingWeight(f float32) *SpoolUpdate {
+	su.mutation.AddRemainingWeight(f)
 	return su
 }
 
@@ -361,6 +382,11 @@ func (su *SpoolUpdate) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (su *SpoolUpdate) check() error {
+	if v, ok := su.mutation.RemainingWeight(); ok {
+		if err := spool.RemainingWeightValidator(v); err != nil {
+			return &ValidationError{Name: "remaining_weight", err: fmt.Errorf(`ent: validator failed for field "Spool.remaining_weight": %w`, err)}
+		}
+	}
 	if v, ok := su.mutation.Location(); ok {
 		if err := spool.LocationValidator(v); err != nil {
 			return &ValidationError{Name: "location", err: fmt.Errorf(`ent: validator failed for field "Spool.location": %w`, err)}
@@ -410,37 +436,43 @@ func (su *SpoolUpdate) sqlSave(ctx context.Context) (n int, err error) {
 		_spec.ClearField(spool.FieldLastUsed, field.TypeTime)
 	}
 	if value, ok := su.mutation.Price(); ok {
-		_spec.SetField(spool.FieldPrice, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldPrice, field.TypeFloat32, value)
 	}
 	if value, ok := su.mutation.AddedPrice(); ok {
-		_spec.AddField(spool.FieldPrice, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldPrice, field.TypeFloat32, value)
 	}
 	if su.mutation.PriceCleared() {
-		_spec.ClearField(spool.FieldPrice, field.TypeFloat64)
+		_spec.ClearField(spool.FieldPrice, field.TypeFloat32)
 	}
 	if value, ok := su.mutation.InitialWeight(); ok {
-		_spec.SetField(spool.FieldInitialWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldInitialWeight, field.TypeFloat32, value)
 	}
 	if value, ok := su.mutation.AddedInitialWeight(); ok {
-		_spec.AddField(spool.FieldInitialWeight, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldInitialWeight, field.TypeFloat32, value)
 	}
 	if su.mutation.InitialWeightCleared() {
-		_spec.ClearField(spool.FieldInitialWeight, field.TypeFloat64)
+		_spec.ClearField(spool.FieldInitialWeight, field.TypeFloat32)
 	}
 	if value, ok := su.mutation.SpoolWeight(); ok {
-		_spec.SetField(spool.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if value, ok := su.mutation.AddedSpoolWeight(); ok {
-		_spec.AddField(spool.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if su.mutation.SpoolWeightCleared() {
-		_spec.ClearField(spool.FieldSpoolWeight, field.TypeFloat64)
+		_spec.ClearField(spool.FieldSpoolWeight, field.TypeFloat32)
 	}
 	if value, ok := su.mutation.UsedWeight(); ok {
-		_spec.SetField(spool.FieldUsedWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldUsedWeight, field.TypeFloat32, value)
 	}
 	if value, ok := su.mutation.AddedUsedWeight(); ok {
-		_spec.AddField(spool.FieldUsedWeight, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldUsedWeight, field.TypeFloat32, value)
+	}
+	if value, ok := su.mutation.RemainingWeight(); ok {
+		_spec.SetField(spool.FieldRemainingWeight, field.TypeFloat32, value)
+	}
+	if value, ok := su.mutation.AddedRemainingWeight(); ok {
+		_spec.AddField(spool.FieldRemainingWeight, field.TypeFloat32, value)
 	}
 	if value, ok := su.mutation.Location(); ok {
 		_spec.SetField(spool.FieldLocation, field.TypeString, value)
@@ -615,14 +647,14 @@ func (suo *SpoolUpdateOne) ClearLastUsed() *SpoolUpdateOne {
 }
 
 // SetPrice sets the "price" field.
-func (suo *SpoolUpdateOne) SetPrice(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetPrice(f float32) *SpoolUpdateOne {
 	suo.mutation.ResetPrice()
 	suo.mutation.SetPrice(f)
 	return suo
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (suo *SpoolUpdateOne) SetNillablePrice(f *float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetNillablePrice(f *float32) *SpoolUpdateOne {
 	if f != nil {
 		suo.SetPrice(*f)
 	}
@@ -630,7 +662,7 @@ func (suo *SpoolUpdateOne) SetNillablePrice(f *float64) *SpoolUpdateOne {
 }
 
 // AddPrice adds f to the "price" field.
-func (suo *SpoolUpdateOne) AddPrice(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) AddPrice(f float32) *SpoolUpdateOne {
 	suo.mutation.AddPrice(f)
 	return suo
 }
@@ -656,14 +688,14 @@ func (suo *SpoolUpdateOne) SetNillableFilamentID(i *int) *SpoolUpdateOne {
 }
 
 // SetInitialWeight sets the "initial_weight" field.
-func (suo *SpoolUpdateOne) SetInitialWeight(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetInitialWeight(f float32) *SpoolUpdateOne {
 	suo.mutation.ResetInitialWeight()
 	suo.mutation.SetInitialWeight(f)
 	return suo
 }
 
 // SetNillableInitialWeight sets the "initial_weight" field if the given value is not nil.
-func (suo *SpoolUpdateOne) SetNillableInitialWeight(f *float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetNillableInitialWeight(f *float32) *SpoolUpdateOne {
 	if f != nil {
 		suo.SetInitialWeight(*f)
 	}
@@ -671,7 +703,7 @@ func (suo *SpoolUpdateOne) SetNillableInitialWeight(f *float64) *SpoolUpdateOne 
 }
 
 // AddInitialWeight adds f to the "initial_weight" field.
-func (suo *SpoolUpdateOne) AddInitialWeight(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) AddInitialWeight(f float32) *SpoolUpdateOne {
 	suo.mutation.AddInitialWeight(f)
 	return suo
 }
@@ -683,14 +715,14 @@ func (suo *SpoolUpdateOne) ClearInitialWeight() *SpoolUpdateOne {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (suo *SpoolUpdateOne) SetSpoolWeight(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetSpoolWeight(f float32) *SpoolUpdateOne {
 	suo.mutation.ResetSpoolWeight()
 	suo.mutation.SetSpoolWeight(f)
 	return suo
 }
 
 // SetNillableSpoolWeight sets the "spool_weight" field if the given value is not nil.
-func (suo *SpoolUpdateOne) SetNillableSpoolWeight(f *float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetNillableSpoolWeight(f *float32) *SpoolUpdateOne {
 	if f != nil {
 		suo.SetSpoolWeight(*f)
 	}
@@ -698,7 +730,7 @@ func (suo *SpoolUpdateOne) SetNillableSpoolWeight(f *float64) *SpoolUpdateOne {
 }
 
 // AddSpoolWeight adds f to the "spool_weight" field.
-func (suo *SpoolUpdateOne) AddSpoolWeight(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) AddSpoolWeight(f float32) *SpoolUpdateOne {
 	suo.mutation.AddSpoolWeight(f)
 	return suo
 }
@@ -710,14 +742,14 @@ func (suo *SpoolUpdateOne) ClearSpoolWeight() *SpoolUpdateOne {
 }
 
 // SetUsedWeight sets the "used_weight" field.
-func (suo *SpoolUpdateOne) SetUsedWeight(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetUsedWeight(f float32) *SpoolUpdateOne {
 	suo.mutation.ResetUsedWeight()
 	suo.mutation.SetUsedWeight(f)
 	return suo
 }
 
 // SetNillableUsedWeight sets the "used_weight" field if the given value is not nil.
-func (suo *SpoolUpdateOne) SetNillableUsedWeight(f *float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) SetNillableUsedWeight(f *float32) *SpoolUpdateOne {
 	if f != nil {
 		suo.SetUsedWeight(*f)
 	}
@@ -725,8 +757,29 @@ func (suo *SpoolUpdateOne) SetNillableUsedWeight(f *float64) *SpoolUpdateOne {
 }
 
 // AddUsedWeight adds f to the "used_weight" field.
-func (suo *SpoolUpdateOne) AddUsedWeight(f float64) *SpoolUpdateOne {
+func (suo *SpoolUpdateOne) AddUsedWeight(f float32) *SpoolUpdateOne {
 	suo.mutation.AddUsedWeight(f)
+	return suo
+}
+
+// SetRemainingWeight sets the "remaining_weight" field.
+func (suo *SpoolUpdateOne) SetRemainingWeight(f float32) *SpoolUpdateOne {
+	suo.mutation.ResetRemainingWeight()
+	suo.mutation.SetRemainingWeight(f)
+	return suo
+}
+
+// SetNillableRemainingWeight sets the "remaining_weight" field if the given value is not nil.
+func (suo *SpoolUpdateOne) SetNillableRemainingWeight(f *float32) *SpoolUpdateOne {
+	if f != nil {
+		suo.SetRemainingWeight(*f)
+	}
+	return suo
+}
+
+// AddRemainingWeight adds f to the "remaining_weight" field.
+func (suo *SpoolUpdateOne) AddRemainingWeight(f float32) *SpoolUpdateOne {
+	suo.mutation.AddRemainingWeight(f)
 	return suo
 }
 
@@ -904,6 +957,11 @@ func (suo *SpoolUpdateOne) ExecX(ctx context.Context) {
 
 // check runs all checks and user-defined validators on the builder.
 func (suo *SpoolUpdateOne) check() error {
+	if v, ok := suo.mutation.RemainingWeight(); ok {
+		if err := spool.RemainingWeightValidator(v); err != nil {
+			return &ValidationError{Name: "remaining_weight", err: fmt.Errorf(`ent: validator failed for field "Spool.remaining_weight": %w`, err)}
+		}
+	}
 	if v, ok := suo.mutation.Location(); ok {
 		if err := spool.LocationValidator(v); err != nil {
 			return &ValidationError{Name: "location", err: fmt.Errorf(`ent: validator failed for field "Spool.location": %w`, err)}
@@ -970,37 +1028,43 @@ func (suo *SpoolUpdateOne) sqlSave(ctx context.Context) (_node *Spool, err error
 		_spec.ClearField(spool.FieldLastUsed, field.TypeTime)
 	}
 	if value, ok := suo.mutation.Price(); ok {
-		_spec.SetField(spool.FieldPrice, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldPrice, field.TypeFloat32, value)
 	}
 	if value, ok := suo.mutation.AddedPrice(); ok {
-		_spec.AddField(spool.FieldPrice, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldPrice, field.TypeFloat32, value)
 	}
 	if suo.mutation.PriceCleared() {
-		_spec.ClearField(spool.FieldPrice, field.TypeFloat64)
+		_spec.ClearField(spool.FieldPrice, field.TypeFloat32)
 	}
 	if value, ok := suo.mutation.InitialWeight(); ok {
-		_spec.SetField(spool.FieldInitialWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldInitialWeight, field.TypeFloat32, value)
 	}
 	if value, ok := suo.mutation.AddedInitialWeight(); ok {
-		_spec.AddField(spool.FieldInitialWeight, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldInitialWeight, field.TypeFloat32, value)
 	}
 	if suo.mutation.InitialWeightCleared() {
-		_spec.ClearField(spool.FieldInitialWeight, field.TypeFloat64)
+		_spec.ClearField(spool.FieldInitialWeight, field.TypeFloat32)
 	}
 	if value, ok := suo.mutation.SpoolWeight(); ok {
-		_spec.SetField(spool.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if value, ok := suo.mutation.AddedSpoolWeight(); ok {
-		_spec.AddField(spool.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldSpoolWeight, field.TypeFloat32, value)
 	}
 	if suo.mutation.SpoolWeightCleared() {
-		_spec.ClearField(spool.FieldSpoolWeight, field.TypeFloat64)
+		_spec.ClearField(spool.FieldSpoolWeight, field.TypeFloat32)
 	}
 	if value, ok := suo.mutation.UsedWeight(); ok {
-		_spec.SetField(spool.FieldUsedWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldUsedWeight, field.TypeFloat32, value)
 	}
 	if value, ok := suo.mutation.AddedUsedWeight(); ok {
-		_spec.AddField(spool.FieldUsedWeight, field.TypeFloat64, value)
+		_spec.AddField(spool.FieldUsedWeight, field.TypeFloat32, value)
+	}
+	if value, ok := suo.mutation.RemainingWeight(); ok {
+		_spec.SetField(spool.FieldRemainingWeight, field.TypeFloat32, value)
+	}
+	if value, ok := suo.mutation.AddedRemainingWeight(); ok {
+		_spec.AddField(spool.FieldRemainingWeight, field.TypeFloat32, value)
 	}
 	if value, ok := suo.mutation.Location(); ok {
 		_spec.SetField(spool.FieldLocation, field.TypeString, value)

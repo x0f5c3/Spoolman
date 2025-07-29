@@ -5,11 +5,10 @@ package api
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/go-chi/chi/v5"
+	"github.com/kataras/iris/v12"
 	"github.com/oapi-codegen/runtime"
 )
 
@@ -969,1620 +968,1008 @@ func (t *ValidationError_Loc_Item) UnmarshalJSON(b []byte) error {
 type ServerInterface interface {
 	// Find Article Numbers
 	// (GET /article-number)
-	FindArticleNumbersArticleNumberGet(w http.ResponseWriter, r *http.Request)
+	FindArticleNumbersArticleNumberGet(ctx iris.Context)
 	// Backup
 	// (POST /backup)
-	BackupBackupPost(w http.ResponseWriter, r *http.Request)
+	BackupBackupPost(ctx iris.Context)
 	// Export Filaments
 	// (GET /export/filaments)
-	ExportFilamentsExportFilamentsGet(w http.ResponseWriter, r *http.Request, params ExportFilamentsExportFilamentsGetParams)
+	ExportFilamentsExportFilamentsGet(ctx iris.Context, params ExportFilamentsExportFilamentsGetParams)
 	// Export Spools
 	// (GET /export/spools)
-	ExportSpoolsExportSpoolsGet(w http.ResponseWriter, r *http.Request, params ExportSpoolsExportSpoolsGetParams)
+	ExportSpoolsExportSpoolsGet(ctx iris.Context, params ExportSpoolsExportSpoolsGetParams)
 	// Export Vendors
 	// (GET /export/vendors)
-	ExportVendorsExportVendorsGet(w http.ResponseWriter, r *http.Request, params ExportVendorsExportVendorsGetParams)
+	ExportVendorsExportVendorsGet(ctx iris.Context, params ExportVendorsExportVendorsGetParams)
 	// Get All External Filaments
 	// (GET /external/filament)
-	GetAllExternalFilamentsExternalFilamentGet(w http.ResponseWriter, r *http.Request)
+	GetAllExternalFilamentsExternalFilamentGet(ctx iris.Context)
 	// Get All External Materials
 	// (GET /external/material)
-	GetAllExternalMaterialsExternalMaterialGet(w http.ResponseWriter, r *http.Request)
+	GetAllExternalMaterialsExternalMaterialGet(ctx iris.Context)
 	// Get Extra Fields
 	// (GET /field/{entity_type})
-	GetExtraFieldsFieldEntityTypeGet(w http.ResponseWriter, r *http.Request, entityType EntityType)
+	GetExtraFieldsFieldEntityTypeGet(ctx iris.Context, entityType EntityType)
 	// Delete Extra Field
 	// (DELETE /field/{entity_type}/{key})
-	DeleteExtraFieldFieldEntityTypeKeyDelete(w http.ResponseWriter, r *http.Request, entityType EntityType, key string)
+	DeleteExtraFieldFieldEntityTypeKeyDelete(ctx iris.Context, entityType EntityType, key string)
 	// Add Or Update Extra Field
 	// (POST /field/{entity_type}/{key})
-	AddOrUpdateExtraFieldFieldEntityTypeKeyPost(w http.ResponseWriter, r *http.Request, entityType EntityType, key string)
+	AddOrUpdateExtraFieldFieldEntityTypeKeyPost(ctx iris.Context, entityType EntityType, key string)
 	// Find Filaments
 	// (GET /filament)
-	FindFilamentsFilamentGet(w http.ResponseWriter, r *http.Request, params FindFilamentsFilamentGetParams)
+	FindFilamentsFilamentGet(ctx iris.Context, params FindFilamentsFilamentGetParams)
 	// Add Filament
 	// (POST /filament)
-	AddFilamentFilamentPost(w http.ResponseWriter, r *http.Request)
+	AddFilamentFilamentPost(ctx iris.Context)
 	// Delete Filament
 	// (DELETE /filament/{filament_id})
-	DeleteFilamentFilamentFilamentIdDelete(w http.ResponseWriter, r *http.Request, filamentId int)
+	DeleteFilamentFilamentFilamentIdDelete(ctx iris.Context, filamentId int)
 	// Get Filament
 	// (GET /filament/{filament_id})
-	GetFilamentFilamentFilamentIdGet(w http.ResponseWriter, r *http.Request, filamentId int)
+	GetFilamentFilamentFilamentIdGet(ctx iris.Context, filamentId int)
 	// Update Filament
 	// (PATCH /filament/{filament_id})
-	UpdateFilamentFilamentFilamentIdPatch(w http.ResponseWriter, r *http.Request, filamentId int)
+	UpdateFilamentFilamentFilamentIdPatch(ctx iris.Context, filamentId int)
 	// Health
 	// (GET /health)
-	HealthHealthGet(w http.ResponseWriter, r *http.Request)
+	HealthHealthGet(ctx iris.Context)
 	// Info
 	// (GET /info)
-	InfoInfoGet(w http.ResponseWriter, r *http.Request)
+	InfoInfoGet(ctx iris.Context)
 	// Find Locations
 	// (GET /location)
-	FindLocationsLocationGet(w http.ResponseWriter, r *http.Request)
+	FindLocationsLocationGet(ctx iris.Context)
 	// Rename Location
 	// (PATCH /location/{location})
-	RenameLocationLocationLocationPatch(w http.ResponseWriter, r *http.Request, location string)
+	RenameLocationLocationLocationPatch(ctx iris.Context, location string)
 	// Find Lot Numbers
 	// (GET /lot-number)
-	FindLotNumbersLotNumberGet(w http.ResponseWriter, r *http.Request)
+	FindLotNumbersLotNumberGet(ctx iris.Context)
 	// Find Materials
 	// (GET /material)
-	FindMaterialsMaterialGet(w http.ResponseWriter, r *http.Request)
+	FindMaterialsMaterialGet(ctx iris.Context)
 	// Get All Settings
 	// (GET /setting/)
-	GetAllSettingsSettingGet(w http.ResponseWriter, r *http.Request)
+	GetAllSettingsSettingGet(ctx iris.Context)
 	// Get Setting
 	// (GET /setting/{key})
-	GetSettingSettingKeyGet(w http.ResponseWriter, r *http.Request, key string)
+	GetSettingSettingKeyGet(ctx iris.Context, key string)
 	// Set Setting
 	// (POST /setting/{key})
-	SetSettingSettingKeyPost(w http.ResponseWriter, r *http.Request, key string)
+	SetSettingSettingKeyPost(ctx iris.Context, key string)
 	// Find Spool
 	// (GET /spool)
-	FindSpoolSpoolGet(w http.ResponseWriter, r *http.Request, params FindSpoolSpoolGetParams)
+	FindSpoolSpoolGet(ctx iris.Context, params FindSpoolSpoolGetParams)
 	// Add Spool
 	// (POST /spool)
-	AddSpoolSpoolPost(w http.ResponseWriter, r *http.Request)
+	AddSpoolSpoolPost(ctx iris.Context)
 	// Delete Spool
 	// (DELETE /spool/{spool_id})
-	DeleteSpoolSpoolSpoolIdDelete(w http.ResponseWriter, r *http.Request, spoolId int)
+	DeleteSpoolSpoolSpoolIdDelete(ctx iris.Context, spoolId int)
 	// Get Spool
 	// (GET /spool/{spool_id})
-	GetSpoolSpoolSpoolIdGet(w http.ResponseWriter, r *http.Request, spoolId int)
+	GetSpoolSpoolSpoolIdGet(ctx iris.Context, spoolId int)
 	// Update Spool
 	// (PATCH /spool/{spool_id})
-	UpdateSpoolSpoolSpoolIdPatch(w http.ResponseWriter, r *http.Request, spoolId int)
+	UpdateSpoolSpoolSpoolIdPatch(ctx iris.Context, spoolId int)
 	// Use Spool Filament Based On The Current Weight Measurement
 	// (PUT /spool/{spool_id}/measure)
-	UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(w http.ResponseWriter, r *http.Request, spoolId int)
+	UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(ctx iris.Context, spoolId int)
 	// Use Spool Filament
 	// (PUT /spool/{spool_id}/use)
-	UseSpoolFilamentSpoolSpoolIdUsePut(w http.ResponseWriter, r *http.Request, spoolId int)
+	UseSpoolFilamentSpoolSpoolIdUsePut(ctx iris.Context, spoolId int)
 	// Find Vendor
 	// (GET /vendor)
-	FindVendorVendorGet(w http.ResponseWriter, r *http.Request, params FindVendorVendorGetParams)
+	FindVendorVendorGet(ctx iris.Context, params FindVendorVendorGetParams)
 	// Add Vendor
 	// (POST /vendor)
-	AddVendorVendorPost(w http.ResponseWriter, r *http.Request)
+	AddVendorVendorPost(ctx iris.Context)
 	// Delete Vendor
 	// (DELETE /vendor/{vendor_id})
-	DeleteVendorVendorVendorIdDelete(w http.ResponseWriter, r *http.Request, vendorId int)
+	DeleteVendorVendorVendorIdDelete(ctx iris.Context, vendorId int)
 	// Get Vendor
 	// (GET /vendor/{vendor_id})
-	GetVendorVendorVendorIdGet(w http.ResponseWriter, r *http.Request, vendorId int)
+	GetVendorVendorVendorIdGet(ctx iris.Context, vendorId int)
 	// Update Vendor
 	// (PATCH /vendor/{vendor_id})
-	UpdateVendorVendorVendorIdPatch(w http.ResponseWriter, r *http.Request, vendorId int)
+	UpdateVendorVendorVendorIdPatch(ctx iris.Context, vendorId int)
 }
 
-// Unimplemented server implementation that returns http.StatusNotImplemented for each endpoint.
-
-type Unimplemented struct{}
-
-// Find Article Numbers
-// (GET /article-number)
-func (_ Unimplemented) FindArticleNumbersArticleNumberGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Backup
-// (POST /backup)
-func (_ Unimplemented) BackupBackupPost(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Export Filaments
-// (GET /export/filaments)
-func (_ Unimplemented) ExportFilamentsExportFilamentsGet(w http.ResponseWriter, r *http.Request, params ExportFilamentsExportFilamentsGetParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Export Spools
-// (GET /export/spools)
-func (_ Unimplemented) ExportSpoolsExportSpoolsGet(w http.ResponseWriter, r *http.Request, params ExportSpoolsExportSpoolsGetParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Export Vendors
-// (GET /export/vendors)
-func (_ Unimplemented) ExportVendorsExportVendorsGet(w http.ResponseWriter, r *http.Request, params ExportVendorsExportVendorsGetParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get All External Filaments
-// (GET /external/filament)
-func (_ Unimplemented) GetAllExternalFilamentsExternalFilamentGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get All External Materials
-// (GET /external/material)
-func (_ Unimplemented) GetAllExternalMaterialsExternalMaterialGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get Extra Fields
-// (GET /field/{entity_type})
-func (_ Unimplemented) GetExtraFieldsFieldEntityTypeGet(w http.ResponseWriter, r *http.Request, entityType EntityType) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete Extra Field
-// (DELETE /field/{entity_type}/{key})
-func (_ Unimplemented) DeleteExtraFieldFieldEntityTypeKeyDelete(w http.ResponseWriter, r *http.Request, entityType EntityType, key string) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Add Or Update Extra Field
-// (POST /field/{entity_type}/{key})
-func (_ Unimplemented) AddOrUpdateExtraFieldFieldEntityTypeKeyPost(w http.ResponseWriter, r *http.Request, entityType EntityType, key string) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Find Filaments
-// (GET /filament)
-func (_ Unimplemented) FindFilamentsFilamentGet(w http.ResponseWriter, r *http.Request, params FindFilamentsFilamentGetParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Add Filament
-// (POST /filament)
-func (_ Unimplemented) AddFilamentFilamentPost(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete Filament
-// (DELETE /filament/{filament_id})
-func (_ Unimplemented) DeleteFilamentFilamentFilamentIdDelete(w http.ResponseWriter, r *http.Request, filamentId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get Filament
-// (GET /filament/{filament_id})
-func (_ Unimplemented) GetFilamentFilamentFilamentIdGet(w http.ResponseWriter, r *http.Request, filamentId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update Filament
-// (PATCH /filament/{filament_id})
-func (_ Unimplemented) UpdateFilamentFilamentFilamentIdPatch(w http.ResponseWriter, r *http.Request, filamentId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Health
-// (GET /health)
-func (_ Unimplemented) HealthHealthGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Info
-// (GET /info)
-func (_ Unimplemented) InfoInfoGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Find Locations
-// (GET /location)
-func (_ Unimplemented) FindLocationsLocationGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Rename Location
-// (PATCH /location/{location})
-func (_ Unimplemented) RenameLocationLocationLocationPatch(w http.ResponseWriter, r *http.Request, location string) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Find Lot Numbers
-// (GET /lot-number)
-func (_ Unimplemented) FindLotNumbersLotNumberGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Find Materials
-// (GET /material)
-func (_ Unimplemented) FindMaterialsMaterialGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get All Settings
-// (GET /setting/)
-func (_ Unimplemented) GetAllSettingsSettingGet(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get Setting
-// (GET /setting/{key})
-func (_ Unimplemented) GetSettingSettingKeyGet(w http.ResponseWriter, r *http.Request, key string) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Set Setting
-// (POST /setting/{key})
-func (_ Unimplemented) SetSettingSettingKeyPost(w http.ResponseWriter, r *http.Request, key string) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Find Spool
-// (GET /spool)
-func (_ Unimplemented) FindSpoolSpoolGet(w http.ResponseWriter, r *http.Request, params FindSpoolSpoolGetParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Add Spool
-// (POST /spool)
-func (_ Unimplemented) AddSpoolSpoolPost(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete Spool
-// (DELETE /spool/{spool_id})
-func (_ Unimplemented) DeleteSpoolSpoolSpoolIdDelete(w http.ResponseWriter, r *http.Request, spoolId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get Spool
-// (GET /spool/{spool_id})
-func (_ Unimplemented) GetSpoolSpoolSpoolIdGet(w http.ResponseWriter, r *http.Request, spoolId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update Spool
-// (PATCH /spool/{spool_id})
-func (_ Unimplemented) UpdateSpoolSpoolSpoolIdPatch(w http.ResponseWriter, r *http.Request, spoolId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Use Spool Filament Based On The Current Weight Measurement
-// (PUT /spool/{spool_id}/measure)
-func (_ Unimplemented) UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(w http.ResponseWriter, r *http.Request, spoolId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Use Spool Filament
-// (PUT /spool/{spool_id}/use)
-func (_ Unimplemented) UseSpoolFilamentSpoolSpoolIdUsePut(w http.ResponseWriter, r *http.Request, spoolId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Find Vendor
-// (GET /vendor)
-func (_ Unimplemented) FindVendorVendorGet(w http.ResponseWriter, r *http.Request, params FindVendorVendorGetParams) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Add Vendor
-// (POST /vendor)
-func (_ Unimplemented) AddVendorVendorPost(w http.ResponseWriter, r *http.Request) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Delete Vendor
-// (DELETE /vendor/{vendor_id})
-func (_ Unimplemented) DeleteVendorVendorVendorIdDelete(w http.ResponseWriter, r *http.Request, vendorId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Get Vendor
-// (GET /vendor/{vendor_id})
-func (_ Unimplemented) GetVendorVendorVendorIdGet(w http.ResponseWriter, r *http.Request, vendorId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// Update Vendor
-// (PATCH /vendor/{vendor_id})
-func (_ Unimplemented) UpdateVendorVendorVendorIdPatch(w http.ResponseWriter, r *http.Request, vendorId int) {
-	w.WriteHeader(http.StatusNotImplemented)
-}
-
-// ServerInterfaceWrapper converts contexts to parameters.
+// ServerInterfaceWrapper converts echo contexts to parameters.
 type ServerInterfaceWrapper struct {
-	Handler            ServerInterface
-	HandlerMiddlewares []MiddlewareFunc
-	ErrorHandlerFunc   func(w http.ResponseWriter, r *http.Request, err error)
+	Handler ServerInterface
 }
 
-type MiddlewareFunc func(http.Handler) http.Handler
+type MiddlewareFunc iris.Handler
 
-// FindArticleNumbersArticleNumberGet operation middleware
-func (siw *ServerInterfaceWrapper) FindArticleNumbersArticleNumberGet(w http.ResponseWriter, r *http.Request) {
+// FindArticleNumbersArticleNumberGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindArticleNumbersArticleNumberGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindArticleNumbersArticleNumberGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindArticleNumbersArticleNumberGet(ctx)
 }
 
-// BackupBackupPost operation middleware
-func (siw *ServerInterfaceWrapper) BackupBackupPost(w http.ResponseWriter, r *http.Request) {
+// BackupBackupPost converts iris context to params.
+func (w *ServerInterfaceWrapper) BackupBackupPost(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.BackupBackupPost(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.BackupBackupPost(ctx)
 }
 
-// ExportFilamentsExportFilamentsGet operation middleware
-func (siw *ServerInterfaceWrapper) ExportFilamentsExportFilamentsGet(w http.ResponseWriter, r *http.Request) {
+// ExportFilamentsExportFilamentsGet converts iris context to params.
+func (w *ServerInterfaceWrapper) ExportFilamentsExportFilamentsGet(ctx iris.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params ExportFilamentsExportFilamentsGetParams
-
 	// ------------- Required query parameter "fmt" -------------
 
-	if paramValue := r.URL.Query().Get("fmt"); paramValue != "" {
-
-	} else {
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "fmt"})
-		return
-	}
-
-	err = runtime.BindQueryParameter("form", true, true, "fmt", r.URL.Query(), &params.Fmt)
+	err = runtime.BindQueryParameter("form", true, true, "fmt", ctx.Request().URL.Query(), &params.Fmt)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "fmt", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter fmt: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.ExportFilamentsExportFilamentsGet(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.ExportFilamentsExportFilamentsGet(ctx, params)
 }
 
-// ExportSpoolsExportSpoolsGet operation middleware
-func (siw *ServerInterfaceWrapper) ExportSpoolsExportSpoolsGet(w http.ResponseWriter, r *http.Request) {
+// ExportSpoolsExportSpoolsGet converts iris context to params.
+func (w *ServerInterfaceWrapper) ExportSpoolsExportSpoolsGet(ctx iris.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params ExportSpoolsExportSpoolsGetParams
-
 	// ------------- Required query parameter "fmt" -------------
 
-	if paramValue := r.URL.Query().Get("fmt"); paramValue != "" {
-
-	} else {
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "fmt"})
-		return
-	}
-
-	err = runtime.BindQueryParameter("form", true, true, "fmt", r.URL.Query(), &params.Fmt)
+	err = runtime.BindQueryParameter("form", true, true, "fmt", ctx.Request().URL.Query(), &params.Fmt)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "fmt", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter fmt: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.ExportSpoolsExportSpoolsGet(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.ExportSpoolsExportSpoolsGet(ctx, params)
 }
 
-// ExportVendorsExportVendorsGet operation middleware
-func (siw *ServerInterfaceWrapper) ExportVendorsExportVendorsGet(w http.ResponseWriter, r *http.Request) {
+// ExportVendorsExportVendorsGet converts iris context to params.
+func (w *ServerInterfaceWrapper) ExportVendorsExportVendorsGet(ctx iris.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params ExportVendorsExportVendorsGetParams
-
 	// ------------- Required query parameter "fmt" -------------
 
-	if paramValue := r.URL.Query().Get("fmt"); paramValue != "" {
-
-	} else {
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{ParamName: "fmt"})
-		return
-	}
-
-	err = runtime.BindQueryParameter("form", true, true, "fmt", r.URL.Query(), &params.Fmt)
+	err = runtime.BindQueryParameter("form", true, true, "fmt", ctx.Request().URL.Query(), &params.Fmt)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "fmt", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter fmt: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.ExportVendorsExportVendorsGet(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.ExportVendorsExportVendorsGet(ctx, params)
 }
 
-// GetAllExternalFilamentsExternalFilamentGet operation middleware
-func (siw *ServerInterfaceWrapper) GetAllExternalFilamentsExternalFilamentGet(w http.ResponseWriter, r *http.Request) {
+// GetAllExternalFilamentsExternalFilamentGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetAllExternalFilamentsExternalFilamentGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAllExternalFilamentsExternalFilamentGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetAllExternalFilamentsExternalFilamentGet(ctx)
 }
 
-// GetAllExternalMaterialsExternalMaterialGet operation middleware
-func (siw *ServerInterfaceWrapper) GetAllExternalMaterialsExternalMaterialGet(w http.ResponseWriter, r *http.Request) {
+// GetAllExternalMaterialsExternalMaterialGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetAllExternalMaterialsExternalMaterialGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAllExternalMaterialsExternalMaterialGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetAllExternalMaterialsExternalMaterialGet(ctx)
 }
 
-// GetExtraFieldsFieldEntityTypeGet operation middleware
-func (siw *ServerInterfaceWrapper) GetExtraFieldsFieldEntityTypeGet(w http.ResponseWriter, r *http.Request) {
+// GetExtraFieldsFieldEntityTypeGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetExtraFieldsFieldEntityTypeGet(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "entity_type" -------------
 	var entityType EntityType
 
-	err = runtime.BindStyledParameterWithOptions("simple", "entity_type", chi.URLParam(r, "entity_type"), &entityType, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "entity_type", ctx.Params().Get("entity_type"), &entityType, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "entity_type", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter entity_type: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetExtraFieldsFieldEntityTypeGet(w, r, entityType)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetExtraFieldsFieldEntityTypeGet(ctx, entityType)
 }
 
-// DeleteExtraFieldFieldEntityTypeKeyDelete operation middleware
-func (siw *ServerInterfaceWrapper) DeleteExtraFieldFieldEntityTypeKeyDelete(w http.ResponseWriter, r *http.Request) {
+// DeleteExtraFieldFieldEntityTypeKeyDelete converts iris context to params.
+func (w *ServerInterfaceWrapper) DeleteExtraFieldFieldEntityTypeKeyDelete(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "entity_type" -------------
 	var entityType EntityType
 
-	err = runtime.BindStyledParameterWithOptions("simple", "entity_type", chi.URLParam(r, "entity_type"), &entityType, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "entity_type", ctx.Params().Get("entity_type"), &entityType, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "entity_type", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter entity_type: %s", err)
 		return
 	}
 
 	// ------------- Path parameter "key" -------------
 	var key string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "key", chi.URLParam(r, "key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "key", ctx.Params().Get("key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "key", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter key: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteExtraFieldFieldEntityTypeKeyDelete(w, r, entityType, key)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.DeleteExtraFieldFieldEntityTypeKeyDelete(ctx, entityType, key)
 }
 
-// AddOrUpdateExtraFieldFieldEntityTypeKeyPost operation middleware
-func (siw *ServerInterfaceWrapper) AddOrUpdateExtraFieldFieldEntityTypeKeyPost(w http.ResponseWriter, r *http.Request) {
+// AddOrUpdateExtraFieldFieldEntityTypeKeyPost converts iris context to params.
+func (w *ServerInterfaceWrapper) AddOrUpdateExtraFieldFieldEntityTypeKeyPost(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "entity_type" -------------
 	var entityType EntityType
 
-	err = runtime.BindStyledParameterWithOptions("simple", "entity_type", chi.URLParam(r, "entity_type"), &entityType, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "entity_type", ctx.Params().Get("entity_type"), &entityType, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "entity_type", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter entity_type: %s", err)
 		return
 	}
 
 	// ------------- Path parameter "key" -------------
 	var key string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "key", chi.URLParam(r, "key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "key", ctx.Params().Get("key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "key", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter key: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.AddOrUpdateExtraFieldFieldEntityTypeKeyPost(w, r, entityType, key)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.AddOrUpdateExtraFieldFieldEntityTypeKeyPost(ctx, entityType, key)
 }
 
-// FindFilamentsFilamentGet operation middleware
-func (siw *ServerInterfaceWrapper) FindFilamentsFilamentGet(w http.ResponseWriter, r *http.Request) {
+// FindFilamentsFilamentGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindFilamentsFilamentGet(ctx iris.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params FindFilamentsFilamentGetParams
-
 	// ------------- Optional query parameter "vendor_name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "vendor_name", r.URL.Query(), &params.VendorName)
+	err = runtime.BindQueryParameter("form", true, false, "vendor_name", ctx.Request().URL.Query(), &params.VendorName)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "vendor_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "vendor_id", r.URL.Query(), &params.VendorId)
+	err = runtime.BindQueryParameter("form", true, false, "vendor_id", ctx.Request().URL.Query(), &params.VendorId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "vendor_dot_name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "vendor_dot_name", r.URL.Query(), &params.VendorDotName)
+	err = runtime.BindQueryParameter("form", true, false, "vendor_dot_name", ctx.Request().URL.Query(), &params.VendorDotName)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_dot_name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_dot_name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "vendor_dot_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "vendor_dot_id", r.URL.Query(), &params.VendorDotId)
+	err = runtime.BindQueryParameter("form", true, false, "vendor_dot_id", ctx.Request().URL.Query(), &params.VendorDotId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_dot_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_dot_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "name", r.URL.Query(), &params.Name)
+	err = runtime.BindQueryParameter("form", true, false, "name", ctx.Request().URL.Query(), &params.Name)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "material" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "material", r.URL.Query(), &params.Material)
+	err = runtime.BindQueryParameter("form", true, false, "material", ctx.Request().URL.Query(), &params.Material)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "material", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter material: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "article_number" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "article_number", r.URL.Query(), &params.ArticleNumber)
+	err = runtime.BindQueryParameter("form", true, false, "article_number", ctx.Request().URL.Query(), &params.ArticleNumber)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "article_number", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter article_number: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "color_hex" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "color_hex", r.URL.Query(), &params.ColorHex)
+	err = runtime.BindQueryParameter("form", true, false, "color_hex", ctx.Request().URL.Query(), &params.ColorHex)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "color_hex", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter color_hex: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "color_similarity_threshold" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "color_similarity_threshold", r.URL.Query(), &params.ColorSimilarityThreshold)
+	err = runtime.BindQueryParameter("form", true, false, "color_similarity_threshold", ctx.Request().URL.Query(), &params.ColorSimilarityThreshold)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "color_similarity_threshold", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter color_similarity_threshold: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "external_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "external_id", r.URL.Query(), &params.ExternalId)
+	err = runtime.BindQueryParameter("form", true, false, "external_id", ctx.Request().URL.Query(), &params.ExternalId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "external_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter external_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "sort" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "sort", r.URL.Query(), &params.Sort)
+	err = runtime.BindQueryParameter("form", true, false, "sort", ctx.Request().URL.Query(), &params.Sort)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter sort: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "limit" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "limit", r.URL.Query(), &params.Limit)
+	err = runtime.BindQueryParameter("form", true, false, "limit", ctx.Request().URL.Query(), &params.Limit)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter limit: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "offset" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "offset", r.URL.Query(), &params.Offset)
+	err = runtime.BindQueryParameter("form", true, false, "offset", ctx.Request().URL.Query(), &params.Offset)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter offset: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindFilamentsFilamentGet(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindFilamentsFilamentGet(ctx, params)
 }
 
-// AddFilamentFilamentPost operation middleware
-func (siw *ServerInterfaceWrapper) AddFilamentFilamentPost(w http.ResponseWriter, r *http.Request) {
+// AddFilamentFilamentPost converts iris context to params.
+func (w *ServerInterfaceWrapper) AddFilamentFilamentPost(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.AddFilamentFilamentPost(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.AddFilamentFilamentPost(ctx)
 }
 
-// DeleteFilamentFilamentFilamentIdDelete operation middleware
-func (siw *ServerInterfaceWrapper) DeleteFilamentFilamentFilamentIdDelete(w http.ResponseWriter, r *http.Request) {
+// DeleteFilamentFilamentFilamentIdDelete converts iris context to params.
+func (w *ServerInterfaceWrapper) DeleteFilamentFilamentFilamentIdDelete(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "filament_id" -------------
 	var filamentId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "filament_id", chi.URLParam(r, "filament_id"), &filamentId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "filament_id", ctx.Params().Get("filament_id"), &filamentId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteFilamentFilamentFilamentIdDelete(w, r, filamentId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.DeleteFilamentFilamentFilamentIdDelete(ctx, filamentId)
 }
 
-// GetFilamentFilamentFilamentIdGet operation middleware
-func (siw *ServerInterfaceWrapper) GetFilamentFilamentFilamentIdGet(w http.ResponseWriter, r *http.Request) {
+// GetFilamentFilamentFilamentIdGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetFilamentFilamentFilamentIdGet(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "filament_id" -------------
 	var filamentId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "filament_id", chi.URLParam(r, "filament_id"), &filamentId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "filament_id", ctx.Params().Get("filament_id"), &filamentId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetFilamentFilamentFilamentIdGet(w, r, filamentId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetFilamentFilamentFilamentIdGet(ctx, filamentId)
 }
 
-// UpdateFilamentFilamentFilamentIdPatch operation middleware
-func (siw *ServerInterfaceWrapper) UpdateFilamentFilamentFilamentIdPatch(w http.ResponseWriter, r *http.Request) {
+// UpdateFilamentFilamentFilamentIdPatch converts iris context to params.
+func (w *ServerInterfaceWrapper) UpdateFilamentFilamentFilamentIdPatch(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "filament_id" -------------
 	var filamentId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "filament_id", chi.URLParam(r, "filament_id"), &filamentId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "filament_id", ctx.Params().Get("filament_id"), &filamentId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.UpdateFilamentFilamentFilamentIdPatch(w, r, filamentId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.UpdateFilamentFilamentFilamentIdPatch(ctx, filamentId)
 }
 
-// HealthHealthGet operation middleware
-func (siw *ServerInterfaceWrapper) HealthHealthGet(w http.ResponseWriter, r *http.Request) {
+// HealthHealthGet converts iris context to params.
+func (w *ServerInterfaceWrapper) HealthHealthGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.HealthHealthGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.HealthHealthGet(ctx)
 }
 
-// InfoInfoGet operation middleware
-func (siw *ServerInterfaceWrapper) InfoInfoGet(w http.ResponseWriter, r *http.Request) {
+// InfoInfoGet converts iris context to params.
+func (w *ServerInterfaceWrapper) InfoInfoGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.InfoInfoGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.InfoInfoGet(ctx)
 }
 
-// FindLocationsLocationGet operation middleware
-func (siw *ServerInterfaceWrapper) FindLocationsLocationGet(w http.ResponseWriter, r *http.Request) {
+// FindLocationsLocationGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindLocationsLocationGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindLocationsLocationGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindLocationsLocationGet(ctx)
 }
 
-// RenameLocationLocationLocationPatch operation middleware
-func (siw *ServerInterfaceWrapper) RenameLocationLocationLocationPatch(w http.ResponseWriter, r *http.Request) {
+// RenameLocationLocationLocationPatch converts iris context to params.
+func (w *ServerInterfaceWrapper) RenameLocationLocationLocationPatch(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "location" -------------
 	var location string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "location", chi.URLParam(r, "location"), &location, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "location", ctx.Params().Get("location"), &location, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "location", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter location: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.RenameLocationLocationLocationPatch(w, r, location)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.RenameLocationLocationLocationPatch(ctx, location)
 }
 
-// FindLotNumbersLotNumberGet operation middleware
-func (siw *ServerInterfaceWrapper) FindLotNumbersLotNumberGet(w http.ResponseWriter, r *http.Request) {
+// FindLotNumbersLotNumberGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindLotNumbersLotNumberGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindLotNumbersLotNumberGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindLotNumbersLotNumberGet(ctx)
 }
 
-// FindMaterialsMaterialGet operation middleware
-func (siw *ServerInterfaceWrapper) FindMaterialsMaterialGet(w http.ResponseWriter, r *http.Request) {
+// FindMaterialsMaterialGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindMaterialsMaterialGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindMaterialsMaterialGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindMaterialsMaterialGet(ctx)
 }
 
-// GetAllSettingsSettingGet operation middleware
-func (siw *ServerInterfaceWrapper) GetAllSettingsSettingGet(w http.ResponseWriter, r *http.Request) {
+// GetAllSettingsSettingGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetAllSettingsSettingGet(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetAllSettingsSettingGet(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetAllSettingsSettingGet(ctx)
 }
 
-// GetSettingSettingKeyGet operation middleware
-func (siw *ServerInterfaceWrapper) GetSettingSettingKeyGet(w http.ResponseWriter, r *http.Request) {
+// GetSettingSettingKeyGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetSettingSettingKeyGet(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "key" -------------
 	var key string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "key", chi.URLParam(r, "key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "key", ctx.Params().Get("key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "key", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter key: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetSettingSettingKeyGet(w, r, key)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetSettingSettingKeyGet(ctx, key)
 }
 
-// SetSettingSettingKeyPost operation middleware
-func (siw *ServerInterfaceWrapper) SetSettingSettingKeyPost(w http.ResponseWriter, r *http.Request) {
+// SetSettingSettingKeyPost converts iris context to params.
+func (w *ServerInterfaceWrapper) SetSettingSettingKeyPost(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "key" -------------
 	var key string
 
-	err = runtime.BindStyledParameterWithOptions("simple", "key", chi.URLParam(r, "key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "key", ctx.Params().Get("key"), &key, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "key", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter key: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.SetSettingSettingKeyPost(w, r, key)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.SetSettingSettingKeyPost(ctx, key)
 }
 
-// FindSpoolSpoolGet operation middleware
-func (siw *ServerInterfaceWrapper) FindSpoolSpoolGet(w http.ResponseWriter, r *http.Request) {
+// FindSpoolSpoolGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindSpoolSpoolGet(ctx iris.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params FindSpoolSpoolGetParams
-
 	// ------------- Optional query parameter "filament_name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_name", r.URL.Query(), &params.FilamentName)
+	err = runtime.BindQueryParameter("form", true, false, "filament_name", ctx.Request().URL.Query(), &params.FilamentName)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_id", r.URL.Query(), &params.FilamentId)
+	err = runtime.BindQueryParameter("form", true, false, "filament_id", ctx.Request().URL.Query(), &params.FilamentId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_material" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_material", r.URL.Query(), &params.FilamentMaterial)
+	err = runtime.BindQueryParameter("form", true, false, "filament_material", ctx.Request().URL.Query(), &params.FilamentMaterial)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_material", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_material: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "vendor_name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "vendor_name", r.URL.Query(), &params.VendorName)
+	err = runtime.BindQueryParameter("form", true, false, "vendor_name", ctx.Request().URL.Query(), &params.VendorName)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "vendor_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "vendor_id", r.URL.Query(), &params.VendorId)
+	err = runtime.BindQueryParameter("form", true, false, "vendor_id", ctx.Request().URL.Query(), &params.VendorId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_dot_name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_dot_name", r.URL.Query(), &params.FilamentDotName)
+	err = runtime.BindQueryParameter("form", true, false, "filament_dot_name", ctx.Request().URL.Query(), &params.FilamentDotName)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_dot_name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_dot_name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_dot_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_dot_id", r.URL.Query(), &params.FilamentDotId)
+	err = runtime.BindQueryParameter("form", true, false, "filament_dot_id", ctx.Request().URL.Query(), &params.FilamentDotId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_dot_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_dot_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_dot_material" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_dot_material", r.URL.Query(), &params.FilamentDotMaterial)
+	err = runtime.BindQueryParameter("form", true, false, "filament_dot_material", ctx.Request().URL.Query(), &params.FilamentDotMaterial)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_dot_material", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_dot_material: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_dot_vendor_dot_name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_dot_vendor_dot_name", r.URL.Query(), &params.FilamentDotVendorDotName)
+	err = runtime.BindQueryParameter("form", true, false, "filament_dot_vendor_dot_name", ctx.Request().URL.Query(), &params.FilamentDotVendorDotName)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_dot_vendor_dot_name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_dot_vendor_dot_name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "filament_dot_vendor_dot_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "filament_dot_vendor_dot_id", r.URL.Query(), &params.FilamentDotVendorDotId)
+	err = runtime.BindQueryParameter("form", true, false, "filament_dot_vendor_dot_id", ctx.Request().URL.Query(), &params.FilamentDotVendorDotId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "filament_dot_vendor_dot_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter filament_dot_vendor_dot_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "location" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "location", r.URL.Query(), &params.Location)
+	err = runtime.BindQueryParameter("form", true, false, "location", ctx.Request().URL.Query(), &params.Location)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "location", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter location: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "lot_nr" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "lot_nr", r.URL.Query(), &params.LotNr)
+	err = runtime.BindQueryParameter("form", true, false, "lot_nr", ctx.Request().URL.Query(), &params.LotNr)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "lot_nr", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter lot_nr: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "allow_archived" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "allow_archived", r.URL.Query(), &params.AllowArchived)
+	err = runtime.BindQueryParameter("form", true, false, "allow_archived", ctx.Request().URL.Query(), &params.AllowArchived)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "allow_archived", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter allow_archived: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "sort" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "sort", r.URL.Query(), &params.Sort)
+	err = runtime.BindQueryParameter("form", true, false, "sort", ctx.Request().URL.Query(), &params.Sort)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter sort: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "limit" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "limit", r.URL.Query(), &params.Limit)
+	err = runtime.BindQueryParameter("form", true, false, "limit", ctx.Request().URL.Query(), &params.Limit)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter limit: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "offset" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "offset", r.URL.Query(), &params.Offset)
+	err = runtime.BindQueryParameter("form", true, false, "offset", ctx.Request().URL.Query(), &params.Offset)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter offset: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindSpoolSpoolGet(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindSpoolSpoolGet(ctx, params)
 }
 
-// AddSpoolSpoolPost operation middleware
-func (siw *ServerInterfaceWrapper) AddSpoolSpoolPost(w http.ResponseWriter, r *http.Request) {
+// AddSpoolSpoolPost converts iris context to params.
+func (w *ServerInterfaceWrapper) AddSpoolSpoolPost(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.AddSpoolSpoolPost(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.AddSpoolSpoolPost(ctx)
 }
 
-// DeleteSpoolSpoolSpoolIdDelete operation middleware
-func (siw *ServerInterfaceWrapper) DeleteSpoolSpoolSpoolIdDelete(w http.ResponseWriter, r *http.Request) {
+// DeleteSpoolSpoolSpoolIdDelete converts iris context to params.
+func (w *ServerInterfaceWrapper) DeleteSpoolSpoolSpoolIdDelete(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "spool_id" -------------
 	var spoolId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", chi.URLParam(r, "spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", ctx.Params().Get("spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "spool_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter spool_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteSpoolSpoolSpoolIdDelete(w, r, spoolId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.DeleteSpoolSpoolSpoolIdDelete(ctx, spoolId)
 }
 
-// GetSpoolSpoolSpoolIdGet operation middleware
-func (siw *ServerInterfaceWrapper) GetSpoolSpoolSpoolIdGet(w http.ResponseWriter, r *http.Request) {
+// GetSpoolSpoolSpoolIdGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetSpoolSpoolSpoolIdGet(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "spool_id" -------------
 	var spoolId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", chi.URLParam(r, "spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", ctx.Params().Get("spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "spool_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter spool_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetSpoolSpoolSpoolIdGet(w, r, spoolId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetSpoolSpoolSpoolIdGet(ctx, spoolId)
 }
 
-// UpdateSpoolSpoolSpoolIdPatch operation middleware
-func (siw *ServerInterfaceWrapper) UpdateSpoolSpoolSpoolIdPatch(w http.ResponseWriter, r *http.Request) {
+// UpdateSpoolSpoolSpoolIdPatch converts iris context to params.
+func (w *ServerInterfaceWrapper) UpdateSpoolSpoolSpoolIdPatch(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "spool_id" -------------
 	var spoolId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", chi.URLParam(r, "spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", ctx.Params().Get("spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "spool_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter spool_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.UpdateSpoolSpoolSpoolIdPatch(w, r, spoolId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.UpdateSpoolSpoolSpoolIdPatch(ctx, spoolId)
 }
 
-// UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut operation middleware
-func (siw *ServerInterfaceWrapper) UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(w http.ResponseWriter, r *http.Request) {
+// UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut converts iris context to params.
+func (w *ServerInterfaceWrapper) UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "spool_id" -------------
 	var spoolId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", chi.URLParam(r, "spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", ctx.Params().Get("spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "spool_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter spool_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(w, r, spoolId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut(ctx, spoolId)
 }
 
-// UseSpoolFilamentSpoolSpoolIdUsePut operation middleware
-func (siw *ServerInterfaceWrapper) UseSpoolFilamentSpoolSpoolIdUsePut(w http.ResponseWriter, r *http.Request) {
+// UseSpoolFilamentSpoolSpoolIdUsePut converts iris context to params.
+func (w *ServerInterfaceWrapper) UseSpoolFilamentSpoolSpoolIdUsePut(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "spool_id" -------------
 	var spoolId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", chi.URLParam(r, "spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "spool_id", ctx.Params().Get("spool_id"), &spoolId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "spool_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter spool_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.UseSpoolFilamentSpoolSpoolIdUsePut(w, r, spoolId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.UseSpoolFilamentSpoolSpoolIdUsePut(ctx, spoolId)
 }
 
-// FindVendorVendorGet operation middleware
-func (siw *ServerInterfaceWrapper) FindVendorVendorGet(w http.ResponseWriter, r *http.Request) {
+// FindVendorVendorGet converts iris context to params.
+func (w *ServerInterfaceWrapper) FindVendorVendorGet(ctx iris.Context) {
 
 	var err error
 
 	// Parameter object where we will unmarshal all parameters from the context
 	var params FindVendorVendorGetParams
-
 	// ------------- Optional query parameter "name" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "name", r.URL.Query(), &params.Name)
+	err = runtime.BindQueryParameter("form", true, false, "name", ctx.Request().URL.Query(), &params.Name)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "name", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter name: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "external_id" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "external_id", r.URL.Query(), &params.ExternalId)
+	err = runtime.BindQueryParameter("form", true, false, "external_id", ctx.Request().URL.Query(), &params.ExternalId)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "external_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter external_id: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "sort" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "sort", r.URL.Query(), &params.Sort)
+	err = runtime.BindQueryParameter("form", true, false, "sort", ctx.Request().URL.Query(), &params.Sort)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "sort", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter sort: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "limit" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "limit", r.URL.Query(), &params.Limit)
+	err = runtime.BindQueryParameter("form", true, false, "limit", ctx.Request().URL.Query(), &params.Limit)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "limit", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter limit: %s", err)
 		return
 	}
 
 	// ------------- Optional query parameter "offset" -------------
 
-	err = runtime.BindQueryParameter("form", true, false, "offset", r.URL.Query(), &params.Offset)
+	err = runtime.BindQueryParameter("form", true, false, "offset", ctx.Request().URL.Query(), &params.Offset)
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "offset", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter offset: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.FindVendorVendorGet(w, r, params)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.FindVendorVendorGet(ctx, params)
 }
 
-// AddVendorVendorPost operation middleware
-func (siw *ServerInterfaceWrapper) AddVendorVendorPost(w http.ResponseWriter, r *http.Request) {
+// AddVendorVendorPost converts iris context to params.
+func (w *ServerInterfaceWrapper) AddVendorVendorPost(ctx iris.Context) {
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.AddVendorVendorPost(w, r)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.AddVendorVendorPost(ctx)
 }
 
-// DeleteVendorVendorVendorIdDelete operation middleware
-func (siw *ServerInterfaceWrapper) DeleteVendorVendorVendorIdDelete(w http.ResponseWriter, r *http.Request) {
+// DeleteVendorVendorVendorIdDelete converts iris context to params.
+func (w *ServerInterfaceWrapper) DeleteVendorVendorVendorIdDelete(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "vendor_id" -------------
 	var vendorId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "vendor_id", chi.URLParam(r, "vendor_id"), &vendorId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "vendor_id", ctx.Params().Get("vendor_id"), &vendorId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.DeleteVendorVendorVendorIdDelete(w, r, vendorId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.DeleteVendorVendorVendorIdDelete(ctx, vendorId)
 }
 
-// GetVendorVendorVendorIdGet operation middleware
-func (siw *ServerInterfaceWrapper) GetVendorVendorVendorIdGet(w http.ResponseWriter, r *http.Request) {
+// GetVendorVendorVendorIdGet converts iris context to params.
+func (w *ServerInterfaceWrapper) GetVendorVendorVendorIdGet(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "vendor_id" -------------
 	var vendorId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "vendor_id", chi.URLParam(r, "vendor_id"), &vendorId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "vendor_id", ctx.Params().Get("vendor_id"), &vendorId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.GetVendorVendorVendorIdGet(w, r, vendorId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.GetVendorVendorVendorIdGet(ctx, vendorId)
 }
 
-// UpdateVendorVendorVendorIdPatch operation middleware
-func (siw *ServerInterfaceWrapper) UpdateVendorVendorVendorIdPatch(w http.ResponseWriter, r *http.Request) {
+// UpdateVendorVendorVendorIdPatch converts iris context to params.
+func (w *ServerInterfaceWrapper) UpdateVendorVendorVendorIdPatch(ctx iris.Context) {
 
 	var err error
 
 	// ------------- Path parameter "vendor_id" -------------
 	var vendorId int
 
-	err = runtime.BindStyledParameterWithOptions("simple", "vendor_id", chi.URLParam(r, "vendor_id"), &vendorId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
+	err = runtime.BindStyledParameterWithOptions("simple", "vendor_id", ctx.Params().Get("vendor_id"), &vendorId, runtime.BindStyledParameterOptions{ParamLocation: runtime.ParamLocationPath, Explode: false, Required: true})
 	if err != nil {
-		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{ParamName: "vendor_id", Err: err})
+		ctx.StatusCode(http.StatusBadRequest)
+		ctx.Writef("Invalid format for parameter vendor_id: %s", err)
 		return
 	}
 
-	handler := http.Handler(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		siw.Handler.UpdateVendorVendorVendorIdPatch(w, r, vendorId)
-	}))
-
-	for _, middleware := range siw.HandlerMiddlewares {
-		handler = middleware(handler)
-	}
-
-	handler.ServeHTTP(w, r)
+	// Invoke the callback with all the unmarshaled arguments
+	w.Handler.UpdateVendorVendorVendorIdPatch(ctx, vendorId)
 }
 
-type UnescapedCookieParamError struct {
-	ParamName string
-	Err       error
+// IrisServerOption is the option for iris server
+type IrisServerOptions struct {
+	BaseURL     string
+	Middlewares []MiddlewareFunc
 }
 
-func (e *UnescapedCookieParamError) Error() string {
-	return fmt.Sprintf("error unescaping cookie parameter '%s'", e.ParamName)
+// RegisterHandlers creates http.Handler with routing matching OpenAPI spec.
+func RegisterHandlers(router *iris.Application, si ServerInterface) {
+	RegisterHandlersWithOptions(router, si, IrisServerOptions{})
 }
 
-func (e *UnescapedCookieParamError) Unwrap() error {
-	return e.Err
-}
+// RegisterHandlersWithOptions creates http.Handler with additional options
+func RegisterHandlersWithOptions(router *iris.Application, si ServerInterface, options IrisServerOptions) {
 
-type UnmarshalingParamError struct {
-	ParamName string
-	Err       error
-}
-
-func (e *UnmarshalingParamError) Error() string {
-	return fmt.Sprintf("Error unmarshaling parameter %s as JSON: %s", e.ParamName, e.Err.Error())
-}
-
-func (e *UnmarshalingParamError) Unwrap() error {
-	return e.Err
-}
-
-type RequiredParamError struct {
-	ParamName string
-}
-
-func (e *RequiredParamError) Error() string {
-	return fmt.Sprintf("Query argument %s is required, but not found", e.ParamName)
-}
-
-type RequiredHeaderError struct {
-	ParamName string
-	Err       error
-}
-
-func (e *RequiredHeaderError) Error() string {
-	return fmt.Sprintf("Header parameter %s is required, but not found", e.ParamName)
-}
-
-func (e *RequiredHeaderError) Unwrap() error {
-	return e.Err
-}
-
-type InvalidParamFormatError struct {
-	ParamName string
-	Err       error
-}
-
-func (e *InvalidParamFormatError) Error() string {
-	return fmt.Sprintf("Invalid format for parameter %s: %s", e.ParamName, e.Err.Error())
-}
-
-func (e *InvalidParamFormatError) Unwrap() error {
-	return e.Err
-}
-
-type TooManyValuesForParamError struct {
-	ParamName string
-	Count     int
-}
-
-func (e *TooManyValuesForParamError) Error() string {
-	return fmt.Sprintf("Expected one value for %s, got %d", e.ParamName, e.Count)
-}
-
-// Handler creates http.Handler with routing matching OpenAPI spec.
-func Handler(si ServerInterface) http.Handler {
-	return HandlerWithOptions(si, ChiServerOptions{})
-}
-
-type ChiServerOptions struct {
-	BaseURL          string
-	BaseRouter       chi.Router
-	Middlewares      []MiddlewareFunc
-	ErrorHandlerFunc func(w http.ResponseWriter, r *http.Request, err error)
-}
-
-// HandlerFromMux creates http.Handler with routing matching OpenAPI spec based on the provided mux.
-func HandlerFromMux(si ServerInterface, r chi.Router) http.Handler {
-	return HandlerWithOptions(si, ChiServerOptions{
-		BaseRouter: r,
-	})
-}
-
-func HandlerFromMuxWithBaseURL(si ServerInterface, r chi.Router, baseURL string) http.Handler {
-	return HandlerWithOptions(si, ChiServerOptions{
-		BaseURL:    baseURL,
-		BaseRouter: r,
-	})
-}
-
-// HandlerWithOptions creates http.Handler with additional options
-func HandlerWithOptions(si ServerInterface, options ChiServerOptions) http.Handler {
-	r := options.BaseRouter
-
-	if r == nil {
-		r = chi.NewRouter()
-	}
-	if options.ErrorHandlerFunc == nil {
-		options.ErrorHandlerFunc = func(w http.ResponseWriter, r *http.Request, err error) {
-			http.Error(w, err.Error(), http.StatusBadRequest)
-		}
-	}
 	wrapper := ServerInterfaceWrapper{
-		Handler:            si,
-		HandlerMiddlewares: options.Middlewares,
-		ErrorHandlerFunc:   options.ErrorHandlerFunc,
+		Handler: si,
 	}
 
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/article-number", wrapper.FindArticleNumbersArticleNumberGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/backup", wrapper.BackupBackupPost)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/export/filaments", wrapper.ExportFilamentsExportFilamentsGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/export/spools", wrapper.ExportSpoolsExportSpoolsGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/export/vendors", wrapper.ExportVendorsExportVendorsGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/external/filament", wrapper.GetAllExternalFilamentsExternalFilamentGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/external/material", wrapper.GetAllExternalMaterialsExternalMaterialGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/field/{entity_type}", wrapper.GetExtraFieldsFieldEntityTypeGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/field/{entity_type}/{key}", wrapper.DeleteExtraFieldFieldEntityTypeKeyDelete)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/field/{entity_type}/{key}", wrapper.AddOrUpdateExtraFieldFieldEntityTypeKeyPost)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/filament", wrapper.FindFilamentsFilamentGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/filament", wrapper.AddFilamentFilamentPost)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/filament/{filament_id}", wrapper.DeleteFilamentFilamentFilamentIdDelete)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/filament/{filament_id}", wrapper.GetFilamentFilamentFilamentIdGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Patch(options.BaseURL+"/filament/{filament_id}", wrapper.UpdateFilamentFilamentFilamentIdPatch)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/health", wrapper.HealthHealthGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/info", wrapper.InfoInfoGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/location", wrapper.FindLocationsLocationGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Patch(options.BaseURL+"/location/{location}", wrapper.RenameLocationLocationLocationPatch)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/lot-number", wrapper.FindLotNumbersLotNumberGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/material", wrapper.FindMaterialsMaterialGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/setting/", wrapper.GetAllSettingsSettingGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/setting/{key}", wrapper.GetSettingSettingKeyGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/setting/{key}", wrapper.SetSettingSettingKeyPost)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/spool", wrapper.FindSpoolSpoolGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/spool", wrapper.AddSpoolSpoolPost)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/spool/{spool_id}", wrapper.DeleteSpoolSpoolSpoolIdDelete)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/spool/{spool_id}", wrapper.GetSpoolSpoolSpoolIdGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Patch(options.BaseURL+"/spool/{spool_id}", wrapper.UpdateSpoolSpoolSpoolIdPatch)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/spool/{spool_id}/measure", wrapper.UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut)
-	})
-	r.Group(func(r chi.Router) {
-		r.Put(options.BaseURL+"/spool/{spool_id}/use", wrapper.UseSpoolFilamentSpoolSpoolIdUsePut)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/vendor", wrapper.FindVendorVendorGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Post(options.BaseURL+"/vendor", wrapper.AddVendorVendorPost)
-	})
-	r.Group(func(r chi.Router) {
-		r.Delete(options.BaseURL+"/vendor/{vendor_id}", wrapper.DeleteVendorVendorVendorIdDelete)
-	})
-	r.Group(func(r chi.Router) {
-		r.Get(options.BaseURL+"/vendor/{vendor_id}", wrapper.GetVendorVendorVendorIdGet)
-	})
-	r.Group(func(r chi.Router) {
-		r.Patch(options.BaseURL+"/vendor/{vendor_id}", wrapper.UpdateVendorVendorVendorIdPatch)
-	})
+	router.Get(options.BaseURL+"/article-number", wrapper.FindArticleNumbersArticleNumberGet)
+	router.Post(options.BaseURL+"/backup", wrapper.BackupBackupPost)
+	router.Get(options.BaseURL+"/export/filaments", wrapper.ExportFilamentsExportFilamentsGet)
+	router.Get(options.BaseURL+"/export/spools", wrapper.ExportSpoolsExportSpoolsGet)
+	router.Get(options.BaseURL+"/export/vendors", wrapper.ExportVendorsExportVendorsGet)
+	router.Get(options.BaseURL+"/external/filament", wrapper.GetAllExternalFilamentsExternalFilamentGet)
+	router.Get(options.BaseURL+"/external/material", wrapper.GetAllExternalMaterialsExternalMaterialGet)
+	router.Get(options.BaseURL+"/field/:entity_type", wrapper.GetExtraFieldsFieldEntityTypeGet)
+	router.Delete(options.BaseURL+"/field/:entity_type/:key", wrapper.DeleteExtraFieldFieldEntityTypeKeyDelete)
+	router.Post(options.BaseURL+"/field/:entity_type/:key", wrapper.AddOrUpdateExtraFieldFieldEntityTypeKeyPost)
+	router.Get(options.BaseURL+"/filament", wrapper.FindFilamentsFilamentGet)
+	router.Post(options.BaseURL+"/filament", wrapper.AddFilamentFilamentPost)
+	router.Delete(options.BaseURL+"/filament/:filament_id", wrapper.DeleteFilamentFilamentFilamentIdDelete)
+	router.Get(options.BaseURL+"/filament/:filament_id", wrapper.GetFilamentFilamentFilamentIdGet)
+	router.Patch(options.BaseURL+"/filament/:filament_id", wrapper.UpdateFilamentFilamentFilamentIdPatch)
+	router.Get(options.BaseURL+"/health", wrapper.HealthHealthGet)
+	router.Get(options.BaseURL+"/info", wrapper.InfoInfoGet)
+	router.Get(options.BaseURL+"/location", wrapper.FindLocationsLocationGet)
+	router.Patch(options.BaseURL+"/location/:location", wrapper.RenameLocationLocationLocationPatch)
+	router.Get(options.BaseURL+"/lot-number", wrapper.FindLotNumbersLotNumberGet)
+	router.Get(options.BaseURL+"/material", wrapper.FindMaterialsMaterialGet)
+	router.Get(options.BaseURL+"/setting/", wrapper.GetAllSettingsSettingGet)
+	router.Get(options.BaseURL+"/setting/:key", wrapper.GetSettingSettingKeyGet)
+	router.Post(options.BaseURL+"/setting/:key", wrapper.SetSettingSettingKeyPost)
+	router.Get(options.BaseURL+"/spool", wrapper.FindSpoolSpoolGet)
+	router.Post(options.BaseURL+"/spool", wrapper.AddSpoolSpoolPost)
+	router.Delete(options.BaseURL+"/spool/:spool_id", wrapper.DeleteSpoolSpoolSpoolIdDelete)
+	router.Get(options.BaseURL+"/spool/:spool_id", wrapper.GetSpoolSpoolSpoolIdGet)
+	router.Patch(options.BaseURL+"/spool/:spool_id", wrapper.UpdateSpoolSpoolSpoolIdPatch)
+	router.Put(options.BaseURL+"/spool/:spool_id/measure", wrapper.UseSpoolFilamentBasedOnTheCurrentWeightMeasurementSpoolSpoolIdMeasurePut)
+	router.Put(options.BaseURL+"/spool/:spool_id/use", wrapper.UseSpoolFilamentSpoolSpoolIdUsePut)
+	router.Get(options.BaseURL+"/vendor", wrapper.FindVendorVendorGet)
+	router.Post(options.BaseURL+"/vendor", wrapper.AddVendorVendorPost)
+	router.Delete(options.BaseURL+"/vendor/:vendor_id", wrapper.DeleteVendorVendorVendorIdDelete)
+	router.Get(options.BaseURL+"/vendor/:vendor_id", wrapper.GetVendorVendorVendorIdGet)
+	router.Patch(options.BaseURL+"/vendor/:vendor_id", wrapper.UpdateVendorVendorVendorIdPatch)
 
-	return r
+	router.Build()
 }

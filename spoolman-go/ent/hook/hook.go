@@ -68,16 +68,16 @@ func (f SpoolFieldFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, 
 	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpoolFieldMutation", m)
 }
 
-// The VendorFunc type is an adapter to allow the use of ordinary
-// function as Vendor mutator.
-type VendorFunc func(context.Context, *ent.VendorMutation) (ent.Value, error)
+// The SpoolVendorFunc type is an adapter to allow the use of ordinary
+// function as SpoolVendor mutator.
+type SpoolVendorFunc func(context.Context, *ent.SpoolVendorMutation) (ent.Value, error)
 
 // Mutate calls f(ctx, m).
-func (f VendorFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
-	if mv, ok := m.(*ent.VendorMutation); ok {
+func (f SpoolVendorFunc) Mutate(ctx context.Context, m ent.Mutation) (ent.Value, error) {
+	if mv, ok := m.(*ent.SpoolVendorMutation); ok {
 		return f(ctx, mv)
 	}
-	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.VendorMutation", m)
+	return nil, fmt.Errorf("unexpected mutation type %T. expect *ent.SpoolVendorMutation", m)
 }
 
 // The VendorFieldFunc type is an adapter to allow the use of ordinary

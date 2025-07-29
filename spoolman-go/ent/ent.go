@@ -12,7 +12,7 @@ import (
 	"spoolman-go/ent/setting"
 	"spoolman-go/ent/spool"
 	"spoolman-go/ent/spoolfield"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 	"sync"
 
@@ -84,7 +84,7 @@ func checkColumn(table, column string) error {
 			setting.Table:       setting.ValidColumn,
 			spool.Table:         spool.ValidColumn,
 			spoolfield.Table:    spoolfield.ValidColumn,
-			vendor.Table:        vendor.ValidColumn,
+			spoolvendor.Table:   spoolvendor.ValidColumn,
 			vendorfield.Table:   vendorfield.ValidColumn,
 		})
 	})

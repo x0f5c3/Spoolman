@@ -9,7 +9,7 @@ import (
 	"spoolman-go/ent/filament"
 	"spoolman-go/ent/filamentfield"
 	"spoolman-go/ent/spool"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"time"
 
 	"entgo.io/ent/dialect/sql/sqlgraph"
@@ -72,13 +72,13 @@ func (fc *FilamentCreate) SetNillableMaterial(s *string) *FilamentCreate {
 }
 
 // SetPrice sets the "price" field.
-func (fc *FilamentCreate) SetPrice(f float64) *FilamentCreate {
+func (fc *FilamentCreate) SetPrice(f float32) *FilamentCreate {
 	fc.mutation.SetPrice(f)
 	return fc
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (fc *FilamentCreate) SetNillablePrice(f *float64) *FilamentCreate {
+func (fc *FilamentCreate) SetNillablePrice(f *float32) *FilamentCreate {
 	if f != nil {
 		fc.SetPrice(*f)
 	}
@@ -86,25 +86,25 @@ func (fc *FilamentCreate) SetNillablePrice(f *float64) *FilamentCreate {
 }
 
 // SetDensity sets the "density" field.
-func (fc *FilamentCreate) SetDensity(f float64) *FilamentCreate {
+func (fc *FilamentCreate) SetDensity(f float32) *FilamentCreate {
 	fc.mutation.SetDensity(f)
 	return fc
 }
 
 // SetDiameter sets the "diameter" field.
-func (fc *FilamentCreate) SetDiameter(f float64) *FilamentCreate {
+func (fc *FilamentCreate) SetDiameter(f float32) *FilamentCreate {
 	fc.mutation.SetDiameter(f)
 	return fc
 }
 
 // SetWeight sets the "weight" field.
-func (fc *FilamentCreate) SetWeight(f float64) *FilamentCreate {
+func (fc *FilamentCreate) SetWeight(f float32) *FilamentCreate {
 	fc.mutation.SetWeight(f)
 	return fc
 }
 
 // SetNillableWeight sets the "weight" field if the given value is not nil.
-func (fc *FilamentCreate) SetNillableWeight(f *float64) *FilamentCreate {
+func (fc *FilamentCreate) SetNillableWeight(f *float32) *FilamentCreate {
 	if f != nil {
 		fc.SetWeight(*f)
 	}
@@ -112,13 +112,13 @@ func (fc *FilamentCreate) SetNillableWeight(f *float64) *FilamentCreate {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (fc *FilamentCreate) SetSpoolWeight(f float64) *FilamentCreate {
+func (fc *FilamentCreate) SetSpoolWeight(f float32) *FilamentCreate {
 	fc.mutation.SetSpoolWeight(f)
 	return fc
 }
 
 // SetNillableSpoolWeight sets the "spool_weight" field if the given value is not nil.
-func (fc *FilamentCreate) SetNillableSpoolWeight(f *float64) *FilamentCreate {
+func (fc *FilamentCreate) SetNillableSpoolWeight(f *float32) *FilamentCreate {
 	if f != nil {
 		fc.SetSpoolWeight(*f)
 	}
@@ -243,9 +243,9 @@ func (fc *FilamentCreate) SetID(i int) *FilamentCreate {
 	return fc
 }
 
-// SetVendor sets the "vendor" edge to the Vendor entity.
-func (fc *FilamentCreate) SetVendor(v *Vendor) *FilamentCreate {
-	return fc.SetVendorID(v.ID)
+// SetVendor sets the "vendor" edge to the SpoolVendor entity.
+func (fc *FilamentCreate) SetVendor(s *SpoolVendor) *FilamentCreate {
+	return fc.SetVendorID(s.ID)
 }
 
 // AddSpoolIDs adds the "spools" edge to the Spool entity by IDs.
@@ -411,23 +411,23 @@ func (fc *FilamentCreate) createSpec() (*Filament, *sqlgraph.CreateSpec) {
 		_node.Material = value
 	}
 	if value, ok := fc.mutation.Price(); ok {
-		_spec.SetField(filament.FieldPrice, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldPrice, field.TypeFloat32, value)
 		_node.Price = value
 	}
 	if value, ok := fc.mutation.Density(); ok {
-		_spec.SetField(filament.FieldDensity, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldDensity, field.TypeFloat32, value)
 		_node.Density = value
 	}
 	if value, ok := fc.mutation.Diameter(); ok {
-		_spec.SetField(filament.FieldDiameter, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldDiameter, field.TypeFloat32, value)
 		_node.Diameter = value
 	}
 	if value, ok := fc.mutation.Weight(); ok {
-		_spec.SetField(filament.FieldWeight, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldWeight, field.TypeFloat32, value)
 		_node.Weight = value
 	}
 	if value, ok := fc.mutation.SpoolWeight(); ok {
-		_spec.SetField(filament.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.SetField(filament.FieldSpoolWeight, field.TypeFloat32, value)
 		_node.SpoolWeight = value
 	}
 	if value, ok := fc.mutation.ArticleNumber(); ok {
@@ -470,7 +470,7 @@ func (fc *FilamentCreate) createSpec() (*Filament, *sqlgraph.CreateSpec) {
 			Columns: []string{filament.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

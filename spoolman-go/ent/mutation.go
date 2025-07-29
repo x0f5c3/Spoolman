@@ -12,7 +12,7 @@ import (
 	"spoolman-go/ent/setting"
 	"spoolman-go/ent/spool"
 	"spoolman-go/ent/spoolfield"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 	"sync"
 	"time"
@@ -35,7 +35,7 @@ const (
 	TypeSetting       = "Setting"
 	TypeSpool         = "Spool"
 	TypeSpoolField    = "SpoolField"
-	TypeVendor        = "Vendor"
+	TypeSpoolVendor   = "SpoolVendor"
 	TypeVendorField   = "VendorField"
 )
 
@@ -48,16 +48,16 @@ type FilamentMutation struct {
 	registered                *time.Time
 	name                      *string
 	material                  *string
-	price                     *float64
-	addprice                  *float64
-	density                   *float64
-	adddensity                *float64
-	diameter                  *float64
-	adddiameter               *float64
-	weight                    *float64
-	addweight                 *float64
-	spool_weight              *float64
-	addspool_weight           *float64
+	price                     *float32
+	addprice                  *float32
+	density                   *float32
+	adddensity                *float32
+	diameter                  *float32
+	adddiameter               *float32
+	weight                    *float32
+	addweight                 *float32
+	spool_weight              *float32
+	addspool_weight           *float32
 	article_number            *string
 	comment                   *string
 	settings_extruder_temp    *int
@@ -370,13 +370,13 @@ func (m *FilamentMutation) ResetMaterial() {
 }
 
 // SetPrice sets the "price" field.
-func (m *FilamentMutation) SetPrice(f float64) {
+func (m *FilamentMutation) SetPrice(f float32) {
 	m.price = &f
 	m.addprice = nil
 }
 
 // Price returns the value of the "price" field in the mutation.
-func (m *FilamentMutation) Price() (r float64, exists bool) {
+func (m *FilamentMutation) Price() (r float32, exists bool) {
 	v := m.price
 	if v == nil {
 		return
@@ -387,7 +387,7 @@ func (m *FilamentMutation) Price() (r float64, exists bool) {
 // OldPrice returns the old "price" field's value of the Filament entity.
 // If the Filament object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FilamentMutation) OldPrice(ctx context.Context) (v float64, err error) {
+func (m *FilamentMutation) OldPrice(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
 	}
@@ -402,7 +402,7 @@ func (m *FilamentMutation) OldPrice(ctx context.Context) (v float64, err error) 
 }
 
 // AddPrice adds f to the "price" field.
-func (m *FilamentMutation) AddPrice(f float64) {
+func (m *FilamentMutation) AddPrice(f float32) {
 	if m.addprice != nil {
 		*m.addprice += f
 	} else {
@@ -411,7 +411,7 @@ func (m *FilamentMutation) AddPrice(f float64) {
 }
 
 // AddedPrice returns the value that was added to the "price" field in this mutation.
-func (m *FilamentMutation) AddedPrice() (r float64, exists bool) {
+func (m *FilamentMutation) AddedPrice() (r float32, exists bool) {
 	v := m.addprice
 	if v == nil {
 		return
@@ -440,13 +440,13 @@ func (m *FilamentMutation) ResetPrice() {
 }
 
 // SetDensity sets the "density" field.
-func (m *FilamentMutation) SetDensity(f float64) {
+func (m *FilamentMutation) SetDensity(f float32) {
 	m.density = &f
 	m.adddensity = nil
 }
 
 // Density returns the value of the "density" field in the mutation.
-func (m *FilamentMutation) Density() (r float64, exists bool) {
+func (m *FilamentMutation) Density() (r float32, exists bool) {
 	v := m.density
 	if v == nil {
 		return
@@ -457,7 +457,7 @@ func (m *FilamentMutation) Density() (r float64, exists bool) {
 // OldDensity returns the old "density" field's value of the Filament entity.
 // If the Filament object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FilamentMutation) OldDensity(ctx context.Context) (v float64, err error) {
+func (m *FilamentMutation) OldDensity(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDensity is only allowed on UpdateOne operations")
 	}
@@ -472,7 +472,7 @@ func (m *FilamentMutation) OldDensity(ctx context.Context) (v float64, err error
 }
 
 // AddDensity adds f to the "density" field.
-func (m *FilamentMutation) AddDensity(f float64) {
+func (m *FilamentMutation) AddDensity(f float32) {
 	if m.adddensity != nil {
 		*m.adddensity += f
 	} else {
@@ -481,7 +481,7 @@ func (m *FilamentMutation) AddDensity(f float64) {
 }
 
 // AddedDensity returns the value that was added to the "density" field in this mutation.
-func (m *FilamentMutation) AddedDensity() (r float64, exists bool) {
+func (m *FilamentMutation) AddedDensity() (r float32, exists bool) {
 	v := m.adddensity
 	if v == nil {
 		return
@@ -496,13 +496,13 @@ func (m *FilamentMutation) ResetDensity() {
 }
 
 // SetDiameter sets the "diameter" field.
-func (m *FilamentMutation) SetDiameter(f float64) {
+func (m *FilamentMutation) SetDiameter(f float32) {
 	m.diameter = &f
 	m.adddiameter = nil
 }
 
 // Diameter returns the value of the "diameter" field in the mutation.
-func (m *FilamentMutation) Diameter() (r float64, exists bool) {
+func (m *FilamentMutation) Diameter() (r float32, exists bool) {
 	v := m.diameter
 	if v == nil {
 		return
@@ -513,7 +513,7 @@ func (m *FilamentMutation) Diameter() (r float64, exists bool) {
 // OldDiameter returns the old "diameter" field's value of the Filament entity.
 // If the Filament object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FilamentMutation) OldDiameter(ctx context.Context) (v float64, err error) {
+func (m *FilamentMutation) OldDiameter(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldDiameter is only allowed on UpdateOne operations")
 	}
@@ -528,7 +528,7 @@ func (m *FilamentMutation) OldDiameter(ctx context.Context) (v float64, err erro
 }
 
 // AddDiameter adds f to the "diameter" field.
-func (m *FilamentMutation) AddDiameter(f float64) {
+func (m *FilamentMutation) AddDiameter(f float32) {
 	if m.adddiameter != nil {
 		*m.adddiameter += f
 	} else {
@@ -537,7 +537,7 @@ func (m *FilamentMutation) AddDiameter(f float64) {
 }
 
 // AddedDiameter returns the value that was added to the "diameter" field in this mutation.
-func (m *FilamentMutation) AddedDiameter() (r float64, exists bool) {
+func (m *FilamentMutation) AddedDiameter() (r float32, exists bool) {
 	v := m.adddiameter
 	if v == nil {
 		return
@@ -552,13 +552,13 @@ func (m *FilamentMutation) ResetDiameter() {
 }
 
 // SetWeight sets the "weight" field.
-func (m *FilamentMutation) SetWeight(f float64) {
+func (m *FilamentMutation) SetWeight(f float32) {
 	m.weight = &f
 	m.addweight = nil
 }
 
 // Weight returns the value of the "weight" field in the mutation.
-func (m *FilamentMutation) Weight() (r float64, exists bool) {
+func (m *FilamentMutation) Weight() (r float32, exists bool) {
 	v := m.weight
 	if v == nil {
 		return
@@ -569,7 +569,7 @@ func (m *FilamentMutation) Weight() (r float64, exists bool) {
 // OldWeight returns the old "weight" field's value of the Filament entity.
 // If the Filament object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FilamentMutation) OldWeight(ctx context.Context) (v float64, err error) {
+func (m *FilamentMutation) OldWeight(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldWeight is only allowed on UpdateOne operations")
 	}
@@ -584,7 +584,7 @@ func (m *FilamentMutation) OldWeight(ctx context.Context) (v float64, err error)
 }
 
 // AddWeight adds f to the "weight" field.
-func (m *FilamentMutation) AddWeight(f float64) {
+func (m *FilamentMutation) AddWeight(f float32) {
 	if m.addweight != nil {
 		*m.addweight += f
 	} else {
@@ -593,7 +593,7 @@ func (m *FilamentMutation) AddWeight(f float64) {
 }
 
 // AddedWeight returns the value that was added to the "weight" field in this mutation.
-func (m *FilamentMutation) AddedWeight() (r float64, exists bool) {
+func (m *FilamentMutation) AddedWeight() (r float32, exists bool) {
 	v := m.addweight
 	if v == nil {
 		return
@@ -622,13 +622,13 @@ func (m *FilamentMutation) ResetWeight() {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (m *FilamentMutation) SetSpoolWeight(f float64) {
+func (m *FilamentMutation) SetSpoolWeight(f float32) {
 	m.spool_weight = &f
 	m.addspool_weight = nil
 }
 
 // SpoolWeight returns the value of the "spool_weight" field in the mutation.
-func (m *FilamentMutation) SpoolWeight() (r float64, exists bool) {
+func (m *FilamentMutation) SpoolWeight() (r float32, exists bool) {
 	v := m.spool_weight
 	if v == nil {
 		return
@@ -639,7 +639,7 @@ func (m *FilamentMutation) SpoolWeight() (r float64, exists bool) {
 // OldSpoolWeight returns the old "spool_weight" field's value of the Filament entity.
 // If the Filament object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *FilamentMutation) OldSpoolWeight(ctx context.Context) (v float64, err error) {
+func (m *FilamentMutation) OldSpoolWeight(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSpoolWeight is only allowed on UpdateOne operations")
 	}
@@ -654,7 +654,7 @@ func (m *FilamentMutation) OldSpoolWeight(ctx context.Context) (v float64, err e
 }
 
 // AddSpoolWeight adds f to the "spool_weight" field.
-func (m *FilamentMutation) AddSpoolWeight(f float64) {
+func (m *FilamentMutation) AddSpoolWeight(f float32) {
 	if m.addspool_weight != nil {
 		*m.addspool_weight += f
 	} else {
@@ -663,7 +663,7 @@ func (m *FilamentMutation) AddSpoolWeight(f float64) {
 }
 
 // AddedSpoolWeight returns the value that was added to the "spool_weight" field in this mutation.
-func (m *FilamentMutation) AddedSpoolWeight() (r float64, exists bool) {
+func (m *FilamentMutation) AddedSpoolWeight() (r float32, exists bool) {
 	v := m.addspool_weight
 	if v == nil {
 		return
@@ -1125,13 +1125,13 @@ func (m *FilamentMutation) ResetExternalID() {
 	delete(m.clearedFields, filament.FieldExternalID)
 }
 
-// ClearVendor clears the "vendor" edge to the Vendor entity.
+// ClearVendor clears the "vendor" edge to the SpoolVendor entity.
 func (m *FilamentMutation) ClearVendor() {
 	m.clearedvendor = true
 	m.clearedFields[filament.FieldVendorID] = struct{}{}
 }
 
-// VendorCleared reports if the "vendor" edge to the Vendor entity was cleared.
+// VendorCleared reports if the "vendor" edge to the SpoolVendor entity was cleared.
 func (m *FilamentMutation) VendorCleared() bool {
 	return m.VendorIDCleared() || m.clearedvendor
 }
@@ -1469,35 +1469,35 @@ func (m *FilamentMutation) SetField(name string, value ent.Value) error {
 		m.SetMaterial(v)
 		return nil
 	case filament.FieldPrice:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetPrice(v)
 		return nil
 	case filament.FieldDensity:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDensity(v)
 		return nil
 	case filament.FieldDiameter:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetDiameter(v)
 		return nil
 	case filament.FieldWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetWeight(v)
 		return nil
 	case filament.FieldSpoolWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -1620,35 +1620,35 @@ func (m *FilamentMutation) AddedField(name string) (ent.Value, bool) {
 func (m *FilamentMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case filament.FieldPrice:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPrice(v)
 		return nil
 	case filament.FieldDensity:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddDensity(v)
 		return nil
 	case filament.FieldDiameter:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddDiameter(v)
 		return nil
 	case filament.FieldWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddWeight(v)
 		return nil
 	case filament.FieldSpoolWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -2893,33 +2893,35 @@ func (m *SettingMutation) ResetEdge(name string) error {
 // SpoolMutation represents an operation that mutates the Spool nodes in the graph.
 type SpoolMutation struct {
 	config
-	op                Op
-	typ               string
-	id                *int
-	registered        *time.Time
-	first_used        *time.Time
-	last_used         *time.Time
-	price             *float64
-	addprice          *float64
-	initial_weight    *float64
-	addinitial_weight *float64
-	spool_weight      *float64
-	addspool_weight   *float64
-	used_weight       *float64
-	addused_weight    *float64
-	location          *string
-	lot_nr            *string
-	comment           *string
-	archived          *bool
-	clearedFields     map[string]struct{}
-	filament          *int
-	clearedfilament   bool
-	extra             map[int]struct{}
-	removedextra      map[int]struct{}
-	clearedextra      bool
-	done              bool
-	oldValue          func(context.Context) (*Spool, error)
-	predicates        []predicate.Spool
+	op                  Op
+	typ                 string
+	id                  *int
+	registered          *time.Time
+	first_used          *time.Time
+	last_used           *time.Time
+	price               *float32
+	addprice            *float32
+	initial_weight      *float32
+	addinitial_weight   *float32
+	spool_weight        *float32
+	addspool_weight     *float32
+	used_weight         *float32
+	addused_weight      *float32
+	remaining_weight    *float32
+	addremaining_weight *float32
+	location            *string
+	lot_nr              *string
+	comment             *string
+	archived            *bool
+	clearedFields       map[string]struct{}
+	filament            *int
+	clearedfilament     bool
+	extra               map[int]struct{}
+	removedextra        map[int]struct{}
+	clearedextra        bool
+	done                bool
+	oldValue            func(context.Context) (*Spool, error)
+	predicates          []predicate.Spool
 }
 
 var _ ent.Mutation = (*SpoolMutation)(nil)
@@ -3161,13 +3163,13 @@ func (m *SpoolMutation) ResetLastUsed() {
 }
 
 // SetPrice sets the "price" field.
-func (m *SpoolMutation) SetPrice(f float64) {
+func (m *SpoolMutation) SetPrice(f float32) {
 	m.price = &f
 	m.addprice = nil
 }
 
 // Price returns the value of the "price" field in the mutation.
-func (m *SpoolMutation) Price() (r float64, exists bool) {
+func (m *SpoolMutation) Price() (r float32, exists bool) {
 	v := m.price
 	if v == nil {
 		return
@@ -3178,7 +3180,7 @@ func (m *SpoolMutation) Price() (r float64, exists bool) {
 // OldPrice returns the old "price" field's value of the Spool entity.
 // If the Spool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SpoolMutation) OldPrice(ctx context.Context) (v float64, err error) {
+func (m *SpoolMutation) OldPrice(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldPrice is only allowed on UpdateOne operations")
 	}
@@ -3193,7 +3195,7 @@ func (m *SpoolMutation) OldPrice(ctx context.Context) (v float64, err error) {
 }
 
 // AddPrice adds f to the "price" field.
-func (m *SpoolMutation) AddPrice(f float64) {
+func (m *SpoolMutation) AddPrice(f float32) {
 	if m.addprice != nil {
 		*m.addprice += f
 	} else {
@@ -3202,7 +3204,7 @@ func (m *SpoolMutation) AddPrice(f float64) {
 }
 
 // AddedPrice returns the value that was added to the "price" field in this mutation.
-func (m *SpoolMutation) AddedPrice() (r float64, exists bool) {
+func (m *SpoolMutation) AddedPrice() (r float32, exists bool) {
 	v := m.addprice
 	if v == nil {
 		return
@@ -3267,13 +3269,13 @@ func (m *SpoolMutation) ResetFilamentID() {
 }
 
 // SetInitialWeight sets the "initial_weight" field.
-func (m *SpoolMutation) SetInitialWeight(f float64) {
+func (m *SpoolMutation) SetInitialWeight(f float32) {
 	m.initial_weight = &f
 	m.addinitial_weight = nil
 }
 
 // InitialWeight returns the value of the "initial_weight" field in the mutation.
-func (m *SpoolMutation) InitialWeight() (r float64, exists bool) {
+func (m *SpoolMutation) InitialWeight() (r float32, exists bool) {
 	v := m.initial_weight
 	if v == nil {
 		return
@@ -3284,7 +3286,7 @@ func (m *SpoolMutation) InitialWeight() (r float64, exists bool) {
 // OldInitialWeight returns the old "initial_weight" field's value of the Spool entity.
 // If the Spool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SpoolMutation) OldInitialWeight(ctx context.Context) (v float64, err error) {
+func (m *SpoolMutation) OldInitialWeight(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldInitialWeight is only allowed on UpdateOne operations")
 	}
@@ -3299,7 +3301,7 @@ func (m *SpoolMutation) OldInitialWeight(ctx context.Context) (v float64, err er
 }
 
 // AddInitialWeight adds f to the "initial_weight" field.
-func (m *SpoolMutation) AddInitialWeight(f float64) {
+func (m *SpoolMutation) AddInitialWeight(f float32) {
 	if m.addinitial_weight != nil {
 		*m.addinitial_weight += f
 	} else {
@@ -3308,7 +3310,7 @@ func (m *SpoolMutation) AddInitialWeight(f float64) {
 }
 
 // AddedInitialWeight returns the value that was added to the "initial_weight" field in this mutation.
-func (m *SpoolMutation) AddedInitialWeight() (r float64, exists bool) {
+func (m *SpoolMutation) AddedInitialWeight() (r float32, exists bool) {
 	v := m.addinitial_weight
 	if v == nil {
 		return
@@ -3337,13 +3339,13 @@ func (m *SpoolMutation) ResetInitialWeight() {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (m *SpoolMutation) SetSpoolWeight(f float64) {
+func (m *SpoolMutation) SetSpoolWeight(f float32) {
 	m.spool_weight = &f
 	m.addspool_weight = nil
 }
 
 // SpoolWeight returns the value of the "spool_weight" field in the mutation.
-func (m *SpoolMutation) SpoolWeight() (r float64, exists bool) {
+func (m *SpoolMutation) SpoolWeight() (r float32, exists bool) {
 	v := m.spool_weight
 	if v == nil {
 		return
@@ -3354,7 +3356,7 @@ func (m *SpoolMutation) SpoolWeight() (r float64, exists bool) {
 // OldSpoolWeight returns the old "spool_weight" field's value of the Spool entity.
 // If the Spool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SpoolMutation) OldSpoolWeight(ctx context.Context) (v float64, err error) {
+func (m *SpoolMutation) OldSpoolWeight(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldSpoolWeight is only allowed on UpdateOne operations")
 	}
@@ -3369,7 +3371,7 @@ func (m *SpoolMutation) OldSpoolWeight(ctx context.Context) (v float64, err erro
 }
 
 // AddSpoolWeight adds f to the "spool_weight" field.
-func (m *SpoolMutation) AddSpoolWeight(f float64) {
+func (m *SpoolMutation) AddSpoolWeight(f float32) {
 	if m.addspool_weight != nil {
 		*m.addspool_weight += f
 	} else {
@@ -3378,7 +3380,7 @@ func (m *SpoolMutation) AddSpoolWeight(f float64) {
 }
 
 // AddedSpoolWeight returns the value that was added to the "spool_weight" field in this mutation.
-func (m *SpoolMutation) AddedSpoolWeight() (r float64, exists bool) {
+func (m *SpoolMutation) AddedSpoolWeight() (r float32, exists bool) {
 	v := m.addspool_weight
 	if v == nil {
 		return
@@ -3407,13 +3409,13 @@ func (m *SpoolMutation) ResetSpoolWeight() {
 }
 
 // SetUsedWeight sets the "used_weight" field.
-func (m *SpoolMutation) SetUsedWeight(f float64) {
+func (m *SpoolMutation) SetUsedWeight(f float32) {
 	m.used_weight = &f
 	m.addused_weight = nil
 }
 
 // UsedWeight returns the value of the "used_weight" field in the mutation.
-func (m *SpoolMutation) UsedWeight() (r float64, exists bool) {
+func (m *SpoolMutation) UsedWeight() (r float32, exists bool) {
 	v := m.used_weight
 	if v == nil {
 		return
@@ -3424,7 +3426,7 @@ func (m *SpoolMutation) UsedWeight() (r float64, exists bool) {
 // OldUsedWeight returns the old "used_weight" field's value of the Spool entity.
 // If the Spool object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *SpoolMutation) OldUsedWeight(ctx context.Context) (v float64, err error) {
+func (m *SpoolMutation) OldUsedWeight(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldUsedWeight is only allowed on UpdateOne operations")
 	}
@@ -3439,7 +3441,7 @@ func (m *SpoolMutation) OldUsedWeight(ctx context.Context) (v float64, err error
 }
 
 // AddUsedWeight adds f to the "used_weight" field.
-func (m *SpoolMutation) AddUsedWeight(f float64) {
+func (m *SpoolMutation) AddUsedWeight(f float32) {
 	if m.addused_weight != nil {
 		*m.addused_weight += f
 	} else {
@@ -3448,7 +3450,7 @@ func (m *SpoolMutation) AddUsedWeight(f float64) {
 }
 
 // AddedUsedWeight returns the value that was added to the "used_weight" field in this mutation.
-func (m *SpoolMutation) AddedUsedWeight() (r float64, exists bool) {
+func (m *SpoolMutation) AddedUsedWeight() (r float32, exists bool) {
 	v := m.addused_weight
 	if v == nil {
 		return
@@ -3460,6 +3462,62 @@ func (m *SpoolMutation) AddedUsedWeight() (r float64, exists bool) {
 func (m *SpoolMutation) ResetUsedWeight() {
 	m.used_weight = nil
 	m.addused_weight = nil
+}
+
+// SetRemainingWeight sets the "remaining_weight" field.
+func (m *SpoolMutation) SetRemainingWeight(f float32) {
+	m.remaining_weight = &f
+	m.addremaining_weight = nil
+}
+
+// RemainingWeight returns the value of the "remaining_weight" field in the mutation.
+func (m *SpoolMutation) RemainingWeight() (r float32, exists bool) {
+	v := m.remaining_weight
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// OldRemainingWeight returns the old "remaining_weight" field's value of the Spool entity.
+// If the Spool object wasn't provided to the builder, the object is fetched from the database.
+// An error is returned if the mutation operation is not UpdateOne, or the database query fails.
+func (m *SpoolMutation) OldRemainingWeight(ctx context.Context) (v float32, err error) {
+	if !m.op.Is(OpUpdateOne) {
+		return v, errors.New("OldRemainingWeight is only allowed on UpdateOne operations")
+	}
+	if m.id == nil || m.oldValue == nil {
+		return v, errors.New("OldRemainingWeight requires an ID field in the mutation")
+	}
+	oldValue, err := m.oldValue(ctx)
+	if err != nil {
+		return v, fmt.Errorf("querying old value for OldRemainingWeight: %w", err)
+	}
+	return oldValue.RemainingWeight, nil
+}
+
+// AddRemainingWeight adds f to the "remaining_weight" field.
+func (m *SpoolMutation) AddRemainingWeight(f float32) {
+	if m.addremaining_weight != nil {
+		*m.addremaining_weight += f
+	} else {
+		m.addremaining_weight = &f
+	}
+}
+
+// AddedRemainingWeight returns the value that was added to the "remaining_weight" field in this mutation.
+func (m *SpoolMutation) AddedRemainingWeight() (r float32, exists bool) {
+	v := m.addremaining_weight
+	if v == nil {
+		return
+	}
+	return *v, true
+}
+
+// ResetRemainingWeight resets all changes to the "remaining_weight" field.
+func (m *SpoolMutation) ResetRemainingWeight() {
+	m.remaining_weight = nil
+	m.addremaining_weight = nil
 }
 
 // SetLocation sets the "location" field.
@@ -3773,7 +3831,7 @@ func (m *SpoolMutation) Type() string {
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
 func (m *SpoolMutation) Fields() []string {
-	fields := make([]string, 0, 12)
+	fields := make([]string, 0, 13)
 	if m.registered != nil {
 		fields = append(fields, spool.FieldRegistered)
 	}
@@ -3797,6 +3855,9 @@ func (m *SpoolMutation) Fields() []string {
 	}
 	if m.used_weight != nil {
 		fields = append(fields, spool.FieldUsedWeight)
+	}
+	if m.remaining_weight != nil {
+		fields = append(fields, spool.FieldRemainingWeight)
 	}
 	if m.location != nil {
 		fields = append(fields, spool.FieldLocation)
@@ -3834,6 +3895,8 @@ func (m *SpoolMutation) Field(name string) (ent.Value, bool) {
 		return m.SpoolWeight()
 	case spool.FieldUsedWeight:
 		return m.UsedWeight()
+	case spool.FieldRemainingWeight:
+		return m.RemainingWeight()
 	case spool.FieldLocation:
 		return m.Location()
 	case spool.FieldLotNr:
@@ -3867,6 +3930,8 @@ func (m *SpoolMutation) OldField(ctx context.Context, name string) (ent.Value, e
 		return m.OldSpoolWeight(ctx)
 	case spool.FieldUsedWeight:
 		return m.OldUsedWeight(ctx)
+	case spool.FieldRemainingWeight:
+		return m.OldRemainingWeight(ctx)
 	case spool.FieldLocation:
 		return m.OldLocation(ctx)
 	case spool.FieldLotNr:
@@ -3906,7 +3971,7 @@ func (m *SpoolMutation) SetField(name string, value ent.Value) error {
 		m.SetLastUsed(v)
 		return nil
 	case spool.FieldPrice:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
@@ -3920,25 +3985,32 @@ func (m *SpoolMutation) SetField(name string, value ent.Value) error {
 		m.SetFilamentID(v)
 		return nil
 	case spool.FieldInitialWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetInitialWeight(v)
 		return nil
 	case spool.FieldSpoolWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetSpoolWeight(v)
 		return nil
 	case spool.FieldUsedWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetUsedWeight(v)
+		return nil
+	case spool.FieldRemainingWeight:
+		v, ok := value.(float32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.SetRemainingWeight(v)
 		return nil
 	case spool.FieldLocation:
 		v, ok := value.(string)
@@ -3988,6 +4060,9 @@ func (m *SpoolMutation) AddedFields() []string {
 	if m.addused_weight != nil {
 		fields = append(fields, spool.FieldUsedWeight)
 	}
+	if m.addremaining_weight != nil {
+		fields = append(fields, spool.FieldRemainingWeight)
+	}
 	return fields
 }
 
@@ -4004,6 +4079,8 @@ func (m *SpoolMutation) AddedField(name string) (ent.Value, bool) {
 		return m.AddedSpoolWeight()
 	case spool.FieldUsedWeight:
 		return m.AddedUsedWeight()
+	case spool.FieldRemainingWeight:
+		return m.AddedRemainingWeight()
 	}
 	return nil, false
 }
@@ -4014,32 +4091,39 @@ func (m *SpoolMutation) AddedField(name string) (ent.Value, bool) {
 func (m *SpoolMutation) AddField(name string, value ent.Value) error {
 	switch name {
 	case spool.FieldPrice:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddPrice(v)
 		return nil
 	case spool.FieldInitialWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddInitialWeight(v)
 		return nil
 	case spool.FieldSpoolWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddSpoolWeight(v)
 		return nil
 	case spool.FieldUsedWeight:
-		v, ok := value.(float64)
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddUsedWeight(v)
+		return nil
+	case spool.FieldRemainingWeight:
+		v, ok := value.(float32)
+		if !ok {
+			return fmt.Errorf("unexpected type %T for field %s", value, name)
+		}
+		m.AddRemainingWeight(v)
 		return nil
 	}
 	return fmt.Errorf("unknown Spool numeric field %s", name)
@@ -4148,6 +4232,9 @@ func (m *SpoolMutation) ResetField(name string) error {
 		return nil
 	case spool.FieldUsedWeight:
 		m.ResetUsedWeight()
+		return nil
+	case spool.FieldRemainingWeight:
+		m.ResetRemainingWeight()
 		return nil
 	case spool.FieldLocation:
 		m.ResetLocation()
@@ -4758,16 +4845,16 @@ func (m *SpoolFieldMutation) ResetEdge(name string) error {
 	return fmt.Errorf("unknown SpoolField edge %s", name)
 }
 
-// VendorMutation represents an operation that mutates the Vendor nodes in the graph.
-type VendorMutation struct {
+// SpoolVendorMutation represents an operation that mutates the SpoolVendor nodes in the graph.
+type SpoolVendorMutation struct {
 	config
 	op                    Op
 	typ                   string
 	id                    *int
 	registered            *time.Time
 	name                  *string
-	empty_spool_weight    *float64
-	addempty_spool_weight *float64
+	empty_spool_weight    *float32
+	addempty_spool_weight *float32
 	comment               *string
 	external_id           *string
 	clearedFields         map[string]struct{}
@@ -4778,21 +4865,21 @@ type VendorMutation struct {
 	removedextra          map[int]struct{}
 	clearedextra          bool
 	done                  bool
-	oldValue              func(context.Context) (*Vendor, error)
-	predicates            []predicate.Vendor
+	oldValue              func(context.Context) (*SpoolVendor, error)
+	predicates            []predicate.SpoolVendor
 }
 
-var _ ent.Mutation = (*VendorMutation)(nil)
+var _ ent.Mutation = (*SpoolVendorMutation)(nil)
 
-// vendorOption allows management of the mutation configuration using functional options.
-type vendorOption func(*VendorMutation)
+// spoolvendorOption allows management of the mutation configuration using functional options.
+type spoolvendorOption func(*SpoolVendorMutation)
 
-// newVendorMutation creates new mutation for the Vendor entity.
-func newVendorMutation(c config, op Op, opts ...vendorOption) *VendorMutation {
-	m := &VendorMutation{
+// newSpoolVendorMutation creates new mutation for the SpoolVendor entity.
+func newSpoolVendorMutation(c config, op Op, opts ...spoolvendorOption) *SpoolVendorMutation {
+	m := &SpoolVendorMutation{
 		config:        c,
 		op:            op,
-		typ:           TypeVendor,
+		typ:           TypeSpoolVendor,
 		clearedFields: make(map[string]struct{}),
 	}
 	for _, opt := range opts {
@@ -4801,20 +4888,20 @@ func newVendorMutation(c config, op Op, opts ...vendorOption) *VendorMutation {
 	return m
 }
 
-// withVendorID sets the ID field of the mutation.
-func withVendorID(id int) vendorOption {
-	return func(m *VendorMutation) {
+// withSpoolVendorID sets the ID field of the mutation.
+func withSpoolVendorID(id int) spoolvendorOption {
+	return func(m *SpoolVendorMutation) {
 		var (
 			err   error
 			once  sync.Once
-			value *Vendor
+			value *SpoolVendor
 		)
-		m.oldValue = func(ctx context.Context) (*Vendor, error) {
+		m.oldValue = func(ctx context.Context) (*SpoolVendor, error) {
 			once.Do(func() {
 				if m.done {
 					err = errors.New("querying old values post mutation is not allowed")
 				} else {
-					value, err = m.Client().Vendor.Get(ctx, id)
+					value, err = m.Client().SpoolVendor.Get(ctx, id)
 				}
 			})
 			return value, err
@@ -4823,10 +4910,10 @@ func withVendorID(id int) vendorOption {
 	}
 }
 
-// withVendor sets the old Vendor of the mutation.
-func withVendor(node *Vendor) vendorOption {
-	return func(m *VendorMutation) {
-		m.oldValue = func(context.Context) (*Vendor, error) {
+// withSpoolVendor sets the old SpoolVendor of the mutation.
+func withSpoolVendor(node *SpoolVendor) spoolvendorOption {
+	return func(m *SpoolVendorMutation) {
+		m.oldValue = func(context.Context) (*SpoolVendor, error) {
 			return node, nil
 		}
 		m.id = &node.ID
@@ -4835,7 +4922,7 @@ func withVendor(node *Vendor) vendorOption {
 
 // Client returns a new `ent.Client` from the mutation. If the mutation was
 // executed in a transaction (ent.Tx), a transactional client is returned.
-func (m VendorMutation) Client() *Client {
+func (m SpoolVendorMutation) Client() *Client {
 	client := &Client{config: m.config}
 	client.init()
 	return client
@@ -4843,7 +4930,7 @@ func (m VendorMutation) Client() *Client {
 
 // Tx returns an `ent.Tx` for mutations that were executed in transactions;
 // it returns an error otherwise.
-func (m VendorMutation) Tx() (*Tx, error) {
+func (m SpoolVendorMutation) Tx() (*Tx, error) {
 	if _, ok := m.driver.(*txDriver); !ok {
 		return nil, errors.New("ent: mutation is not running in a transaction")
 	}
@@ -4853,14 +4940,14 @@ func (m VendorMutation) Tx() (*Tx, error) {
 }
 
 // SetID sets the value of the id field. Note that this
-// operation is only accepted on creation of Vendor entities.
-func (m *VendorMutation) SetID(id int) {
+// operation is only accepted on creation of SpoolVendor entities.
+func (m *SpoolVendorMutation) SetID(id int) {
 	m.id = &id
 }
 
 // ID returns the ID value in the mutation. Note that the ID is only available
 // if it was provided to the builder or after it was returned from the database.
-func (m *VendorMutation) ID() (id int, exists bool) {
+func (m *SpoolVendorMutation) ID() (id int, exists bool) {
 	if m.id == nil {
 		return
 	}
@@ -4871,7 +4958,7 @@ func (m *VendorMutation) ID() (id int, exists bool) {
 // That means, if the mutation is applied within a transaction with an isolation level such
 // as sql.LevelSerializable, the returned ids match the ids of the rows that will be updated
 // or updated by the mutation.
-func (m *VendorMutation) IDs(ctx context.Context) ([]int, error) {
+func (m *SpoolVendorMutation) IDs(ctx context.Context) ([]int, error) {
 	switch {
 	case m.op.Is(OpUpdateOne | OpDeleteOne):
 		id, exists := m.ID()
@@ -4880,19 +4967,19 @@ func (m *VendorMutation) IDs(ctx context.Context) ([]int, error) {
 		}
 		fallthrough
 	case m.op.Is(OpUpdate | OpDelete):
-		return m.Client().Vendor.Query().Where(m.predicates...).IDs(ctx)
+		return m.Client().SpoolVendor.Query().Where(m.predicates...).IDs(ctx)
 	default:
 		return nil, fmt.Errorf("IDs is not allowed on %s operations", m.op)
 	}
 }
 
 // SetRegistered sets the "registered" field.
-func (m *VendorMutation) SetRegistered(t time.Time) {
+func (m *SpoolVendorMutation) SetRegistered(t time.Time) {
 	m.registered = &t
 }
 
 // Registered returns the value of the "registered" field in the mutation.
-func (m *VendorMutation) Registered() (r time.Time, exists bool) {
+func (m *SpoolVendorMutation) Registered() (r time.Time, exists bool) {
 	v := m.registered
 	if v == nil {
 		return
@@ -4900,10 +4987,10 @@ func (m *VendorMutation) Registered() (r time.Time, exists bool) {
 	return *v, true
 }
 
-// OldRegistered returns the old "registered" field's value of the Vendor entity.
-// If the Vendor object wasn't provided to the builder, the object is fetched from the database.
+// OldRegistered returns the old "registered" field's value of the SpoolVendor entity.
+// If the SpoolVendor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *VendorMutation) OldRegistered(ctx context.Context) (v time.Time, err error) {
+func (m *SpoolVendorMutation) OldRegistered(ctx context.Context) (v time.Time, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldRegistered is only allowed on UpdateOne operations")
 	}
@@ -4918,17 +5005,17 @@ func (m *VendorMutation) OldRegistered(ctx context.Context) (v time.Time, err er
 }
 
 // ResetRegistered resets all changes to the "registered" field.
-func (m *VendorMutation) ResetRegistered() {
+func (m *SpoolVendorMutation) ResetRegistered() {
 	m.registered = nil
 }
 
 // SetName sets the "name" field.
-func (m *VendorMutation) SetName(s string) {
+func (m *SpoolVendorMutation) SetName(s string) {
 	m.name = &s
 }
 
 // Name returns the value of the "name" field in the mutation.
-func (m *VendorMutation) Name() (r string, exists bool) {
+func (m *SpoolVendorMutation) Name() (r string, exists bool) {
 	v := m.name
 	if v == nil {
 		return
@@ -4936,10 +5023,10 @@ func (m *VendorMutation) Name() (r string, exists bool) {
 	return *v, true
 }
 
-// OldName returns the old "name" field's value of the Vendor entity.
-// If the Vendor object wasn't provided to the builder, the object is fetched from the database.
+// OldName returns the old "name" field's value of the SpoolVendor entity.
+// If the SpoolVendor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *VendorMutation) OldName(ctx context.Context) (v string, err error) {
+func (m *SpoolVendorMutation) OldName(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldName is only allowed on UpdateOne operations")
 	}
@@ -4954,18 +5041,18 @@ func (m *VendorMutation) OldName(ctx context.Context) (v string, err error) {
 }
 
 // ResetName resets all changes to the "name" field.
-func (m *VendorMutation) ResetName() {
+func (m *SpoolVendorMutation) ResetName() {
 	m.name = nil
 }
 
 // SetEmptySpoolWeight sets the "empty_spool_weight" field.
-func (m *VendorMutation) SetEmptySpoolWeight(f float64) {
+func (m *SpoolVendorMutation) SetEmptySpoolWeight(f float32) {
 	m.empty_spool_weight = &f
 	m.addempty_spool_weight = nil
 }
 
 // EmptySpoolWeight returns the value of the "empty_spool_weight" field in the mutation.
-func (m *VendorMutation) EmptySpoolWeight() (r float64, exists bool) {
+func (m *SpoolVendorMutation) EmptySpoolWeight() (r float32, exists bool) {
 	v := m.empty_spool_weight
 	if v == nil {
 		return
@@ -4973,10 +5060,10 @@ func (m *VendorMutation) EmptySpoolWeight() (r float64, exists bool) {
 	return *v, true
 }
 
-// OldEmptySpoolWeight returns the old "empty_spool_weight" field's value of the Vendor entity.
-// If the Vendor object wasn't provided to the builder, the object is fetched from the database.
+// OldEmptySpoolWeight returns the old "empty_spool_weight" field's value of the SpoolVendor entity.
+// If the SpoolVendor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *VendorMutation) OldEmptySpoolWeight(ctx context.Context) (v float64, err error) {
+func (m *SpoolVendorMutation) OldEmptySpoolWeight(ctx context.Context) (v float32, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldEmptySpoolWeight is only allowed on UpdateOne operations")
 	}
@@ -4991,7 +5078,7 @@ func (m *VendorMutation) OldEmptySpoolWeight(ctx context.Context) (v float64, er
 }
 
 // AddEmptySpoolWeight adds f to the "empty_spool_weight" field.
-func (m *VendorMutation) AddEmptySpoolWeight(f float64) {
+func (m *SpoolVendorMutation) AddEmptySpoolWeight(f float32) {
 	if m.addempty_spool_weight != nil {
 		*m.addempty_spool_weight += f
 	} else {
@@ -5000,7 +5087,7 @@ func (m *VendorMutation) AddEmptySpoolWeight(f float64) {
 }
 
 // AddedEmptySpoolWeight returns the value that was added to the "empty_spool_weight" field in this mutation.
-func (m *VendorMutation) AddedEmptySpoolWeight() (r float64, exists bool) {
+func (m *SpoolVendorMutation) AddedEmptySpoolWeight() (r float32, exists bool) {
 	v := m.addempty_spool_weight
 	if v == nil {
 		return
@@ -5009,32 +5096,32 @@ func (m *VendorMutation) AddedEmptySpoolWeight() (r float64, exists bool) {
 }
 
 // ClearEmptySpoolWeight clears the value of the "empty_spool_weight" field.
-func (m *VendorMutation) ClearEmptySpoolWeight() {
+func (m *SpoolVendorMutation) ClearEmptySpoolWeight() {
 	m.empty_spool_weight = nil
 	m.addempty_spool_weight = nil
-	m.clearedFields[vendor.FieldEmptySpoolWeight] = struct{}{}
+	m.clearedFields[spoolvendor.FieldEmptySpoolWeight] = struct{}{}
 }
 
 // EmptySpoolWeightCleared returns if the "empty_spool_weight" field was cleared in this mutation.
-func (m *VendorMutation) EmptySpoolWeightCleared() bool {
-	_, ok := m.clearedFields[vendor.FieldEmptySpoolWeight]
+func (m *SpoolVendorMutation) EmptySpoolWeightCleared() bool {
+	_, ok := m.clearedFields[spoolvendor.FieldEmptySpoolWeight]
 	return ok
 }
 
 // ResetEmptySpoolWeight resets all changes to the "empty_spool_weight" field.
-func (m *VendorMutation) ResetEmptySpoolWeight() {
+func (m *SpoolVendorMutation) ResetEmptySpoolWeight() {
 	m.empty_spool_weight = nil
 	m.addempty_spool_weight = nil
-	delete(m.clearedFields, vendor.FieldEmptySpoolWeight)
+	delete(m.clearedFields, spoolvendor.FieldEmptySpoolWeight)
 }
 
 // SetComment sets the "comment" field.
-func (m *VendorMutation) SetComment(s string) {
+func (m *SpoolVendorMutation) SetComment(s string) {
 	m.comment = &s
 }
 
 // Comment returns the value of the "comment" field in the mutation.
-func (m *VendorMutation) Comment() (r string, exists bool) {
+func (m *SpoolVendorMutation) Comment() (r string, exists bool) {
 	v := m.comment
 	if v == nil {
 		return
@@ -5042,10 +5129,10 @@ func (m *VendorMutation) Comment() (r string, exists bool) {
 	return *v, true
 }
 
-// OldComment returns the old "comment" field's value of the Vendor entity.
-// If the Vendor object wasn't provided to the builder, the object is fetched from the database.
+// OldComment returns the old "comment" field's value of the SpoolVendor entity.
+// If the SpoolVendor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *VendorMutation) OldComment(ctx context.Context) (v string, err error) {
+func (m *SpoolVendorMutation) OldComment(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldComment is only allowed on UpdateOne operations")
 	}
@@ -5060,30 +5147,30 @@ func (m *VendorMutation) OldComment(ctx context.Context) (v string, err error) {
 }
 
 // ClearComment clears the value of the "comment" field.
-func (m *VendorMutation) ClearComment() {
+func (m *SpoolVendorMutation) ClearComment() {
 	m.comment = nil
-	m.clearedFields[vendor.FieldComment] = struct{}{}
+	m.clearedFields[spoolvendor.FieldComment] = struct{}{}
 }
 
 // CommentCleared returns if the "comment" field was cleared in this mutation.
-func (m *VendorMutation) CommentCleared() bool {
-	_, ok := m.clearedFields[vendor.FieldComment]
+func (m *SpoolVendorMutation) CommentCleared() bool {
+	_, ok := m.clearedFields[spoolvendor.FieldComment]
 	return ok
 }
 
 // ResetComment resets all changes to the "comment" field.
-func (m *VendorMutation) ResetComment() {
+func (m *SpoolVendorMutation) ResetComment() {
 	m.comment = nil
-	delete(m.clearedFields, vendor.FieldComment)
+	delete(m.clearedFields, spoolvendor.FieldComment)
 }
 
 // SetExternalID sets the "external_id" field.
-func (m *VendorMutation) SetExternalID(s string) {
+func (m *SpoolVendorMutation) SetExternalID(s string) {
 	m.external_id = &s
 }
 
 // ExternalID returns the value of the "external_id" field in the mutation.
-func (m *VendorMutation) ExternalID() (r string, exists bool) {
+func (m *SpoolVendorMutation) ExternalID() (r string, exists bool) {
 	v := m.external_id
 	if v == nil {
 		return
@@ -5091,10 +5178,10 @@ func (m *VendorMutation) ExternalID() (r string, exists bool) {
 	return *v, true
 }
 
-// OldExternalID returns the old "external_id" field's value of the Vendor entity.
-// If the Vendor object wasn't provided to the builder, the object is fetched from the database.
+// OldExternalID returns the old "external_id" field's value of the SpoolVendor entity.
+// If the SpoolVendor object wasn't provided to the builder, the object is fetched from the database.
 // An error is returned if the mutation operation is not UpdateOne, or the database query fails.
-func (m *VendorMutation) OldExternalID(ctx context.Context) (v string, err error) {
+func (m *SpoolVendorMutation) OldExternalID(ctx context.Context) (v string, err error) {
 	if !m.op.Is(OpUpdateOne) {
 		return v, errors.New("OldExternalID is only allowed on UpdateOne operations")
 	}
@@ -5109,25 +5196,25 @@ func (m *VendorMutation) OldExternalID(ctx context.Context) (v string, err error
 }
 
 // ClearExternalID clears the value of the "external_id" field.
-func (m *VendorMutation) ClearExternalID() {
+func (m *SpoolVendorMutation) ClearExternalID() {
 	m.external_id = nil
-	m.clearedFields[vendor.FieldExternalID] = struct{}{}
+	m.clearedFields[spoolvendor.FieldExternalID] = struct{}{}
 }
 
 // ExternalIDCleared returns if the "external_id" field was cleared in this mutation.
-func (m *VendorMutation) ExternalIDCleared() bool {
-	_, ok := m.clearedFields[vendor.FieldExternalID]
+func (m *SpoolVendorMutation) ExternalIDCleared() bool {
+	_, ok := m.clearedFields[spoolvendor.FieldExternalID]
 	return ok
 }
 
 // ResetExternalID resets all changes to the "external_id" field.
-func (m *VendorMutation) ResetExternalID() {
+func (m *SpoolVendorMutation) ResetExternalID() {
 	m.external_id = nil
-	delete(m.clearedFields, vendor.FieldExternalID)
+	delete(m.clearedFields, spoolvendor.FieldExternalID)
 }
 
 // AddFilamentIDs adds the "filaments" edge to the Filament entity by ids.
-func (m *VendorMutation) AddFilamentIDs(ids ...int) {
+func (m *SpoolVendorMutation) AddFilamentIDs(ids ...int) {
 	if m.filaments == nil {
 		m.filaments = make(map[int]struct{})
 	}
@@ -5137,17 +5224,17 @@ func (m *VendorMutation) AddFilamentIDs(ids ...int) {
 }
 
 // ClearFilaments clears the "filaments" edge to the Filament entity.
-func (m *VendorMutation) ClearFilaments() {
+func (m *SpoolVendorMutation) ClearFilaments() {
 	m.clearedfilaments = true
 }
 
 // FilamentsCleared reports if the "filaments" edge to the Filament entity was cleared.
-func (m *VendorMutation) FilamentsCleared() bool {
+func (m *SpoolVendorMutation) FilamentsCleared() bool {
 	return m.clearedfilaments
 }
 
 // RemoveFilamentIDs removes the "filaments" edge to the Filament entity by IDs.
-func (m *VendorMutation) RemoveFilamentIDs(ids ...int) {
+func (m *SpoolVendorMutation) RemoveFilamentIDs(ids ...int) {
 	if m.removedfilaments == nil {
 		m.removedfilaments = make(map[int]struct{})
 	}
@@ -5158,7 +5245,7 @@ func (m *VendorMutation) RemoveFilamentIDs(ids ...int) {
 }
 
 // RemovedFilaments returns the removed IDs of the "filaments" edge to the Filament entity.
-func (m *VendorMutation) RemovedFilamentsIDs() (ids []int) {
+func (m *SpoolVendorMutation) RemovedFilamentsIDs() (ids []int) {
 	for id := range m.removedfilaments {
 		ids = append(ids, id)
 	}
@@ -5166,7 +5253,7 @@ func (m *VendorMutation) RemovedFilamentsIDs() (ids []int) {
 }
 
 // FilamentsIDs returns the "filaments" edge IDs in the mutation.
-func (m *VendorMutation) FilamentsIDs() (ids []int) {
+func (m *SpoolVendorMutation) FilamentsIDs() (ids []int) {
 	for id := range m.filaments {
 		ids = append(ids, id)
 	}
@@ -5174,14 +5261,14 @@ func (m *VendorMutation) FilamentsIDs() (ids []int) {
 }
 
 // ResetFilaments resets all changes to the "filaments" edge.
-func (m *VendorMutation) ResetFilaments() {
+func (m *SpoolVendorMutation) ResetFilaments() {
 	m.filaments = nil
 	m.clearedfilaments = false
 	m.removedfilaments = nil
 }
 
 // AddExtraIDs adds the "extra" edge to the VendorField entity by ids.
-func (m *VendorMutation) AddExtraIDs(ids ...int) {
+func (m *SpoolVendorMutation) AddExtraIDs(ids ...int) {
 	if m.extra == nil {
 		m.extra = make(map[int]struct{})
 	}
@@ -5191,17 +5278,17 @@ func (m *VendorMutation) AddExtraIDs(ids ...int) {
 }
 
 // ClearExtra clears the "extra" edge to the VendorField entity.
-func (m *VendorMutation) ClearExtra() {
+func (m *SpoolVendorMutation) ClearExtra() {
 	m.clearedextra = true
 }
 
 // ExtraCleared reports if the "extra" edge to the VendorField entity was cleared.
-func (m *VendorMutation) ExtraCleared() bool {
+func (m *SpoolVendorMutation) ExtraCleared() bool {
 	return m.clearedextra
 }
 
 // RemoveExtraIDs removes the "extra" edge to the VendorField entity by IDs.
-func (m *VendorMutation) RemoveExtraIDs(ids ...int) {
+func (m *SpoolVendorMutation) RemoveExtraIDs(ids ...int) {
 	if m.removedextra == nil {
 		m.removedextra = make(map[int]struct{})
 	}
@@ -5212,7 +5299,7 @@ func (m *VendorMutation) RemoveExtraIDs(ids ...int) {
 }
 
 // RemovedExtra returns the removed IDs of the "extra" edge to the VendorField entity.
-func (m *VendorMutation) RemovedExtraIDs() (ids []int) {
+func (m *SpoolVendorMutation) RemovedExtraIDs() (ids []int) {
 	for id := range m.removedextra {
 		ids = append(ids, id)
 	}
@@ -5220,7 +5307,7 @@ func (m *VendorMutation) RemovedExtraIDs() (ids []int) {
 }
 
 // ExtraIDs returns the "extra" edge IDs in the mutation.
-func (m *VendorMutation) ExtraIDs() (ids []int) {
+func (m *SpoolVendorMutation) ExtraIDs() (ids []int) {
 	for id := range m.extra {
 		ids = append(ids, id)
 	}
@@ -5228,21 +5315,21 @@ func (m *VendorMutation) ExtraIDs() (ids []int) {
 }
 
 // ResetExtra resets all changes to the "extra" edge.
-func (m *VendorMutation) ResetExtra() {
+func (m *SpoolVendorMutation) ResetExtra() {
 	m.extra = nil
 	m.clearedextra = false
 	m.removedextra = nil
 }
 
-// Where appends a list predicates to the VendorMutation builder.
-func (m *VendorMutation) Where(ps ...predicate.Vendor) {
+// Where appends a list predicates to the SpoolVendorMutation builder.
+func (m *SpoolVendorMutation) Where(ps ...predicate.SpoolVendor) {
 	m.predicates = append(m.predicates, ps...)
 }
 
-// WhereP appends storage-level predicates to the VendorMutation builder. Using this method,
+// WhereP appends storage-level predicates to the SpoolVendorMutation builder. Using this method,
 // users can use type-assertion to append predicates that do not depend on any generated package.
-func (m *VendorMutation) WhereP(ps ...func(*sql.Selector)) {
-	p := make([]predicate.Vendor, len(ps))
+func (m *SpoolVendorMutation) WhereP(ps ...func(*sql.Selector)) {
+	p := make([]predicate.SpoolVendor, len(ps))
 	for i := range ps {
 		p[i] = ps[i]
 	}
@@ -5250,39 +5337,39 @@ func (m *VendorMutation) WhereP(ps ...func(*sql.Selector)) {
 }
 
 // Op returns the operation name.
-func (m *VendorMutation) Op() Op {
+func (m *SpoolVendorMutation) Op() Op {
 	return m.op
 }
 
 // SetOp allows setting the mutation operation.
-func (m *VendorMutation) SetOp(op Op) {
+func (m *SpoolVendorMutation) SetOp(op Op) {
 	m.op = op
 }
 
-// Type returns the node type of this mutation (Vendor).
-func (m *VendorMutation) Type() string {
+// Type returns the node type of this mutation (SpoolVendor).
+func (m *SpoolVendorMutation) Type() string {
 	return m.typ
 }
 
 // Fields returns all fields that were changed during this mutation. Note that in
 // order to get all numeric fields that were incremented/decremented, call
 // AddedFields().
-func (m *VendorMutation) Fields() []string {
+func (m *SpoolVendorMutation) Fields() []string {
 	fields := make([]string, 0, 5)
 	if m.registered != nil {
-		fields = append(fields, vendor.FieldRegistered)
+		fields = append(fields, spoolvendor.FieldRegistered)
 	}
 	if m.name != nil {
-		fields = append(fields, vendor.FieldName)
+		fields = append(fields, spoolvendor.FieldName)
 	}
 	if m.empty_spool_weight != nil {
-		fields = append(fields, vendor.FieldEmptySpoolWeight)
+		fields = append(fields, spoolvendor.FieldEmptySpoolWeight)
 	}
 	if m.comment != nil {
-		fields = append(fields, vendor.FieldComment)
+		fields = append(fields, spoolvendor.FieldComment)
 	}
 	if m.external_id != nil {
-		fields = append(fields, vendor.FieldExternalID)
+		fields = append(fields, spoolvendor.FieldExternalID)
 	}
 	return fields
 }
@@ -5290,17 +5377,17 @@ func (m *VendorMutation) Fields() []string {
 // Field returns the value of a field with the given name. The second boolean
 // return value indicates that this field was not set, or was not defined in the
 // schema.
-func (m *VendorMutation) Field(name string) (ent.Value, bool) {
+func (m *SpoolVendorMutation) Field(name string) (ent.Value, bool) {
 	switch name {
-	case vendor.FieldRegistered:
+	case spoolvendor.FieldRegistered:
 		return m.Registered()
-	case vendor.FieldName:
+	case spoolvendor.FieldName:
 		return m.Name()
-	case vendor.FieldEmptySpoolWeight:
+	case spoolvendor.FieldEmptySpoolWeight:
 		return m.EmptySpoolWeight()
-	case vendor.FieldComment:
+	case spoolvendor.FieldComment:
 		return m.Comment()
-	case vendor.FieldExternalID:
+	case spoolvendor.FieldExternalID:
 		return m.ExternalID()
 	}
 	return nil, false
@@ -5309,56 +5396,56 @@ func (m *VendorMutation) Field(name string) (ent.Value, bool) {
 // OldField returns the old value of the field from the database. An error is
 // returned if the mutation operation is not UpdateOne, or the query to the
 // database failed.
-func (m *VendorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
+func (m *SpoolVendorMutation) OldField(ctx context.Context, name string) (ent.Value, error) {
 	switch name {
-	case vendor.FieldRegistered:
+	case spoolvendor.FieldRegistered:
 		return m.OldRegistered(ctx)
-	case vendor.FieldName:
+	case spoolvendor.FieldName:
 		return m.OldName(ctx)
-	case vendor.FieldEmptySpoolWeight:
+	case spoolvendor.FieldEmptySpoolWeight:
 		return m.OldEmptySpoolWeight(ctx)
-	case vendor.FieldComment:
+	case spoolvendor.FieldComment:
 		return m.OldComment(ctx)
-	case vendor.FieldExternalID:
+	case spoolvendor.FieldExternalID:
 		return m.OldExternalID(ctx)
 	}
-	return nil, fmt.Errorf("unknown Vendor field %s", name)
+	return nil, fmt.Errorf("unknown SpoolVendor field %s", name)
 }
 
 // SetField sets the value of a field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *VendorMutation) SetField(name string, value ent.Value) error {
+func (m *SpoolVendorMutation) SetField(name string, value ent.Value) error {
 	switch name {
-	case vendor.FieldRegistered:
+	case spoolvendor.FieldRegistered:
 		v, ok := value.(time.Time)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetRegistered(v)
 		return nil
-	case vendor.FieldName:
+	case spoolvendor.FieldName:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetName(v)
 		return nil
-	case vendor.FieldEmptySpoolWeight:
-		v, ok := value.(float64)
+	case spoolvendor.FieldEmptySpoolWeight:
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetEmptySpoolWeight(v)
 		return nil
-	case vendor.FieldComment:
+	case spoolvendor.FieldComment:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.SetComment(v)
 		return nil
-	case vendor.FieldExternalID:
+	case spoolvendor.FieldExternalID:
 		v, ok := value.(string)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
@@ -5366,15 +5453,15 @@ func (m *VendorMutation) SetField(name string, value ent.Value) error {
 		m.SetExternalID(v)
 		return nil
 	}
-	return fmt.Errorf("unknown Vendor field %s", name)
+	return fmt.Errorf("unknown SpoolVendor field %s", name)
 }
 
 // AddedFields returns all numeric fields that were incremented/decremented during
 // this mutation.
-func (m *VendorMutation) AddedFields() []string {
+func (m *SpoolVendorMutation) AddedFields() []string {
 	var fields []string
 	if m.addempty_spool_weight != nil {
-		fields = append(fields, vendor.FieldEmptySpoolWeight)
+		fields = append(fields, spoolvendor.FieldEmptySpoolWeight)
 	}
 	return fields
 }
@@ -5382,9 +5469,9 @@ func (m *VendorMutation) AddedFields() []string {
 // AddedField returns the numeric value that was incremented/decremented on a field
 // with the given name. The second boolean return value indicates that this field
 // was not set, or was not defined in the schema.
-func (m *VendorMutation) AddedField(name string) (ent.Value, bool) {
+func (m *SpoolVendorMutation) AddedField(name string) (ent.Value, bool) {
 	switch name {
-	case vendor.FieldEmptySpoolWeight:
+	case spoolvendor.FieldEmptySpoolWeight:
 		return m.AddedEmptySpoolWeight()
 	}
 	return nil, false
@@ -5393,105 +5480,105 @@ func (m *VendorMutation) AddedField(name string) (ent.Value, bool) {
 // AddField adds the value to the field with the given name. It returns an error if
 // the field is not defined in the schema, or if the type mismatched the field
 // type.
-func (m *VendorMutation) AddField(name string, value ent.Value) error {
+func (m *SpoolVendorMutation) AddField(name string, value ent.Value) error {
 	switch name {
-	case vendor.FieldEmptySpoolWeight:
-		v, ok := value.(float64)
+	case spoolvendor.FieldEmptySpoolWeight:
+		v, ok := value.(float32)
 		if !ok {
 			return fmt.Errorf("unexpected type %T for field %s", value, name)
 		}
 		m.AddEmptySpoolWeight(v)
 		return nil
 	}
-	return fmt.Errorf("unknown Vendor numeric field %s", name)
+	return fmt.Errorf("unknown SpoolVendor numeric field %s", name)
 }
 
 // ClearedFields returns all nullable fields that were cleared during this
 // mutation.
-func (m *VendorMutation) ClearedFields() []string {
+func (m *SpoolVendorMutation) ClearedFields() []string {
 	var fields []string
-	if m.FieldCleared(vendor.FieldEmptySpoolWeight) {
-		fields = append(fields, vendor.FieldEmptySpoolWeight)
+	if m.FieldCleared(spoolvendor.FieldEmptySpoolWeight) {
+		fields = append(fields, spoolvendor.FieldEmptySpoolWeight)
 	}
-	if m.FieldCleared(vendor.FieldComment) {
-		fields = append(fields, vendor.FieldComment)
+	if m.FieldCleared(spoolvendor.FieldComment) {
+		fields = append(fields, spoolvendor.FieldComment)
 	}
-	if m.FieldCleared(vendor.FieldExternalID) {
-		fields = append(fields, vendor.FieldExternalID)
+	if m.FieldCleared(spoolvendor.FieldExternalID) {
+		fields = append(fields, spoolvendor.FieldExternalID)
 	}
 	return fields
 }
 
 // FieldCleared returns a boolean indicating if a field with the given name was
 // cleared in this mutation.
-func (m *VendorMutation) FieldCleared(name string) bool {
+func (m *SpoolVendorMutation) FieldCleared(name string) bool {
 	_, ok := m.clearedFields[name]
 	return ok
 }
 
 // ClearField clears the value of the field with the given name. It returns an
 // error if the field is not defined in the schema.
-func (m *VendorMutation) ClearField(name string) error {
+func (m *SpoolVendorMutation) ClearField(name string) error {
 	switch name {
-	case vendor.FieldEmptySpoolWeight:
+	case spoolvendor.FieldEmptySpoolWeight:
 		m.ClearEmptySpoolWeight()
 		return nil
-	case vendor.FieldComment:
+	case spoolvendor.FieldComment:
 		m.ClearComment()
 		return nil
-	case vendor.FieldExternalID:
+	case spoolvendor.FieldExternalID:
 		m.ClearExternalID()
 		return nil
 	}
-	return fmt.Errorf("unknown Vendor nullable field %s", name)
+	return fmt.Errorf("unknown SpoolVendor nullable field %s", name)
 }
 
 // ResetField resets all changes in the mutation for the field with the given name.
 // It returns an error if the field is not defined in the schema.
-func (m *VendorMutation) ResetField(name string) error {
+func (m *SpoolVendorMutation) ResetField(name string) error {
 	switch name {
-	case vendor.FieldRegistered:
+	case spoolvendor.FieldRegistered:
 		m.ResetRegistered()
 		return nil
-	case vendor.FieldName:
+	case spoolvendor.FieldName:
 		m.ResetName()
 		return nil
-	case vendor.FieldEmptySpoolWeight:
+	case spoolvendor.FieldEmptySpoolWeight:
 		m.ResetEmptySpoolWeight()
 		return nil
-	case vendor.FieldComment:
+	case spoolvendor.FieldComment:
 		m.ResetComment()
 		return nil
-	case vendor.FieldExternalID:
+	case spoolvendor.FieldExternalID:
 		m.ResetExternalID()
 		return nil
 	}
-	return fmt.Errorf("unknown Vendor field %s", name)
+	return fmt.Errorf("unknown SpoolVendor field %s", name)
 }
 
 // AddedEdges returns all edge names that were set/added in this mutation.
-func (m *VendorMutation) AddedEdges() []string {
+func (m *SpoolVendorMutation) AddedEdges() []string {
 	edges := make([]string, 0, 2)
 	if m.filaments != nil {
-		edges = append(edges, vendor.EdgeFilaments)
+		edges = append(edges, spoolvendor.EdgeFilaments)
 	}
 	if m.extra != nil {
-		edges = append(edges, vendor.EdgeExtra)
+		edges = append(edges, spoolvendor.EdgeExtra)
 	}
 	return edges
 }
 
 // AddedIDs returns all IDs (to other nodes) that were added for the given edge
 // name in this mutation.
-func (m *VendorMutation) AddedIDs(name string) []ent.Value {
+func (m *SpoolVendorMutation) AddedIDs(name string) []ent.Value {
 	switch name {
-	case vendor.EdgeFilaments:
+	case spoolvendor.EdgeFilaments:
 		ids := make([]ent.Value, 0, len(m.filaments))
 		for id := range m.filaments {
 			ids = append(ids, id)
 		}
 		return ids
-	case vendor.EdgeExtra:
+	case spoolvendor.EdgeExtra:
 		ids := make([]ent.Value, 0, len(m.extra))
 		for id := range m.extra {
 			ids = append(ids, id)
@@ -5502,28 +5589,28 @@ func (m *VendorMutation) AddedIDs(name string) []ent.Value {
 }
 
 // RemovedEdges returns all edge names that were removed in this mutation.
-func (m *VendorMutation) RemovedEdges() []string {
+func (m *SpoolVendorMutation) RemovedEdges() []string {
 	edges := make([]string, 0, 2)
 	if m.removedfilaments != nil {
-		edges = append(edges, vendor.EdgeFilaments)
+		edges = append(edges, spoolvendor.EdgeFilaments)
 	}
 	if m.removedextra != nil {
-		edges = append(edges, vendor.EdgeExtra)
+		edges = append(edges, spoolvendor.EdgeExtra)
 	}
 	return edges
 }
 
 // RemovedIDs returns all IDs (to other nodes) that were removed for the edge with
 // the given name in this mutation.
-func (m *VendorMutation) RemovedIDs(name string) []ent.Value {
+func (m *SpoolVendorMutation) RemovedIDs(name string) []ent.Value {
 	switch name {
-	case vendor.EdgeFilaments:
+	case spoolvendor.EdgeFilaments:
 		ids := make([]ent.Value, 0, len(m.removedfilaments))
 		for id := range m.removedfilaments {
 			ids = append(ids, id)
 		}
 		return ids
-	case vendor.EdgeExtra:
+	case spoolvendor.EdgeExtra:
 		ids := make([]ent.Value, 0, len(m.removedextra))
 		for id := range m.removedextra {
 			ids = append(ids, id)
@@ -5534,24 +5621,24 @@ func (m *VendorMutation) RemovedIDs(name string) []ent.Value {
 }
 
 // ClearedEdges returns all edge names that were cleared in this mutation.
-func (m *VendorMutation) ClearedEdges() []string {
+func (m *SpoolVendorMutation) ClearedEdges() []string {
 	edges := make([]string, 0, 2)
 	if m.clearedfilaments {
-		edges = append(edges, vendor.EdgeFilaments)
+		edges = append(edges, spoolvendor.EdgeFilaments)
 	}
 	if m.clearedextra {
-		edges = append(edges, vendor.EdgeExtra)
+		edges = append(edges, spoolvendor.EdgeExtra)
 	}
 	return edges
 }
 
 // EdgeCleared returns a boolean which indicates if the edge with the given name
 // was cleared in this mutation.
-func (m *VendorMutation) EdgeCleared(name string) bool {
+func (m *SpoolVendorMutation) EdgeCleared(name string) bool {
 	switch name {
-	case vendor.EdgeFilaments:
+	case spoolvendor.EdgeFilaments:
 		return m.clearedfilaments
-	case vendor.EdgeExtra:
+	case spoolvendor.EdgeExtra:
 		return m.clearedextra
 	}
 	return false
@@ -5559,24 +5646,24 @@ func (m *VendorMutation) EdgeCleared(name string) bool {
 
 // ClearEdge clears the value of the edge with the given name. It returns an error
 // if that edge is not defined in the schema.
-func (m *VendorMutation) ClearEdge(name string) error {
+func (m *SpoolVendorMutation) ClearEdge(name string) error {
 	switch name {
 	}
-	return fmt.Errorf("unknown Vendor unique edge %s", name)
+	return fmt.Errorf("unknown SpoolVendor unique edge %s", name)
 }
 
 // ResetEdge resets all changes to the edge with the given name in this mutation.
 // It returns an error if the edge is not defined in the schema.
-func (m *VendorMutation) ResetEdge(name string) error {
+func (m *SpoolVendorMutation) ResetEdge(name string) error {
 	switch name {
-	case vendor.EdgeFilaments:
+	case spoolvendor.EdgeFilaments:
 		m.ResetFilaments()
 		return nil
-	case vendor.EdgeExtra:
+	case spoolvendor.EdgeExtra:
 		m.ResetExtra()
 		return nil
 	}
-	return fmt.Errorf("unknown Vendor edge %s", name)
+	return fmt.Errorf("unknown SpoolVendor edge %s", name)
 }
 
 // VendorFieldMutation represents an operation that mutates the VendorField nodes in the graph.
@@ -5801,13 +5888,13 @@ func (m *VendorFieldMutation) ResetValue() {
 	m.value = nil
 }
 
-// ClearVendor clears the "vendor" edge to the Vendor entity.
+// ClearVendor clears the "vendor" edge to the SpoolVendor entity.
 func (m *VendorFieldMutation) ClearVendor() {
 	m.clearedvendor = true
 	m.clearedFields[vendorfield.FieldVendorID] = struct{}{}
 }
 
-// VendorCleared reports if the "vendor" edge to the Vendor entity was cleared.
+// VendorCleared reports if the "vendor" edge to the SpoolVendor entity was cleared.
 func (m *VendorFieldMutation) VendorCleared() bool {
 	return m.clearedvendor
 }

@@ -9,7 +9,7 @@ import (
 	"spoolman-go/ent/setting"
 	"spoolman-go/ent/spool"
 	"spoolman-go/ent/spoolfield"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 )
 
@@ -83,16 +83,20 @@ func init() {
 	}()
 	spoolFields := schema.Spool{}.Fields()
 	_ = spoolFields
+	// spoolDescRemainingWeight is the schema descriptor for remaining_weight field.
+	spoolDescRemainingWeight := spoolFields[9].Descriptor()
+	// spool.RemainingWeightValidator is a validator for the "remaining_weight" field. It is called by the builders before save.
+	spool.RemainingWeightValidator = spoolDescRemainingWeight.Validators[0].(func(float32) error)
 	// spoolDescLocation is the schema descriptor for location field.
-	spoolDescLocation := spoolFields[9].Descriptor()
+	spoolDescLocation := spoolFields[10].Descriptor()
 	// spool.LocationValidator is a validator for the "location" field. It is called by the builders before save.
 	spool.LocationValidator = spoolDescLocation.Validators[0].(func(string) error)
 	// spoolDescLotNr is the schema descriptor for lot_nr field.
-	spoolDescLotNr := spoolFields[10].Descriptor()
+	spoolDescLotNr := spoolFields[11].Descriptor()
 	// spool.LotNrValidator is a validator for the "lot_nr" field. It is called by the builders before save.
 	spool.LotNrValidator = spoolDescLotNr.Validators[0].(func(string) error)
 	// spoolDescComment is the schema descriptor for comment field.
-	spoolDescComment := spoolFields[11].Descriptor()
+	spoolDescComment := spoolFields[12].Descriptor()
 	// spool.CommentValidator is a validator for the "comment" field. It is called by the builders before save.
 	spool.CommentValidator = spoolDescComment.Validators[0].(func(string) error)
 	// spoolDescID is the schema descriptor for id field.
@@ -105,24 +109,24 @@ func init() {
 	spoolfieldDescKey := spoolfieldFields[1].Descriptor()
 	// spoolfield.KeyValidator is a validator for the "key" field. It is called by the builders before save.
 	spoolfield.KeyValidator = spoolfieldDescKey.Validators[0].(func(string) error)
-	vendorFields := schema.Vendor{}.Fields()
-	_ = vendorFields
-	// vendorDescName is the schema descriptor for name field.
-	vendorDescName := vendorFields[2].Descriptor()
-	// vendor.NameValidator is a validator for the "name" field. It is called by the builders before save.
-	vendor.NameValidator = vendorDescName.Validators[0].(func(string) error)
-	// vendorDescComment is the schema descriptor for comment field.
-	vendorDescComment := vendorFields[4].Descriptor()
-	// vendor.CommentValidator is a validator for the "comment" field. It is called by the builders before save.
-	vendor.CommentValidator = vendorDescComment.Validators[0].(func(string) error)
-	// vendorDescExternalID is the schema descriptor for external_id field.
-	vendorDescExternalID := vendorFields[5].Descriptor()
-	// vendor.ExternalIDValidator is a validator for the "external_id" field. It is called by the builders before save.
-	vendor.ExternalIDValidator = vendorDescExternalID.Validators[0].(func(string) error)
-	// vendorDescID is the schema descriptor for id field.
-	vendorDescID := vendorFields[0].Descriptor()
-	// vendor.IDValidator is a validator for the "id" field. It is called by the builders before save.
-	vendor.IDValidator = vendorDescID.Validators[0].(func(int) error)
+	spoolvendorFields := schema.SpoolVendor{}.Fields()
+	_ = spoolvendorFields
+	// spoolvendorDescName is the schema descriptor for name field.
+	spoolvendorDescName := spoolvendorFields[2].Descriptor()
+	// spoolvendor.NameValidator is a validator for the "name" field. It is called by the builders before save.
+	spoolvendor.NameValidator = spoolvendorDescName.Validators[0].(func(string) error)
+	// spoolvendorDescComment is the schema descriptor for comment field.
+	spoolvendorDescComment := spoolvendorFields[4].Descriptor()
+	// spoolvendor.CommentValidator is a validator for the "comment" field. It is called by the builders before save.
+	spoolvendor.CommentValidator = spoolvendorDescComment.Validators[0].(func(string) error)
+	// spoolvendorDescExternalID is the schema descriptor for external_id field.
+	spoolvendorDescExternalID := spoolvendorFields[5].Descriptor()
+	// spoolvendor.ExternalIDValidator is a validator for the "external_id" field. It is called by the builders before save.
+	spoolvendor.ExternalIDValidator = spoolvendorDescExternalID.Validators[0].(func(string) error)
+	// spoolvendorDescID is the schema descriptor for id field.
+	spoolvendorDescID := spoolvendorFields[0].Descriptor()
+	// spoolvendor.IDValidator is a validator for the "id" field. It is called by the builders before save.
+	spoolvendor.IDValidator = spoolvendorDescID.Validators[0].(func(int) error)
 	vendorfieldFields := schema.VendorField{}.Fields()
 	_ = vendorfieldFields
 	// vendorfieldDescKey is the schema descriptor for key field.

@@ -28,6 +28,8 @@ const (
 	FieldSpoolWeight = "spool_weight"
 	// FieldUsedWeight holds the string denoting the used_weight field in the database.
 	FieldUsedWeight = "used_weight"
+	// FieldRemainingWeight holds the string denoting the remaining_weight field in the database.
+	FieldRemainingWeight = "remaining_weight"
 	// FieldLocation holds the string denoting the location field in the database.
 	FieldLocation = "location"
 	// FieldLotNr holds the string denoting the lot_nr field in the database.
@@ -69,6 +71,7 @@ var Columns = []string{
 	FieldInitialWeight,
 	FieldSpoolWeight,
 	FieldUsedWeight,
+	FieldRemainingWeight,
 	FieldLocation,
 	FieldLotNr,
 	FieldComment,
@@ -86,6 +89,8 @@ func ValidColumn(column string) bool {
 }
 
 var (
+	// RemainingWeightValidator is a validator for the "remaining_weight" field. It is called by the builders before save.
+	RemainingWeightValidator func(float32) error
 	// LocationValidator is a validator for the "location" field. It is called by the builders before save.
 	LocationValidator func(string) error
 	// LotNrValidator is a validator for the "lot_nr" field. It is called by the builders before save.
@@ -142,6 +147,11 @@ func BySpoolWeight(opts ...sql.OrderTermOption) OrderOption {
 // ByUsedWeight orders the results by the used_weight field.
 func ByUsedWeight(opts ...sql.OrderTermOption) OrderOption {
 	return sql.OrderByField(FieldUsedWeight, opts...).ToFunc()
+}
+
+// ByRemainingWeight orders the results by the remaining_weight field.
+func ByRemainingWeight(opts ...sql.OrderTermOption) OrderOption {
+	return sql.OrderByField(FieldRemainingWeight, opts...).ToFunc()
 }
 
 // ByLocation orders the results by the location field.

@@ -7,7 +7,7 @@ import (
 	"errors"
 	"fmt"
 	"spoolman-go/ent/predicate"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 
 	"entgo.io/ent/dialect/sql"
@@ -70,9 +70,9 @@ func (vfu *VendorFieldUpdate) SetNillableValue(s *string) *VendorFieldUpdate {
 	return vfu
 }
 
-// SetVendor sets the "vendor" edge to the Vendor entity.
-func (vfu *VendorFieldUpdate) SetVendor(v *Vendor) *VendorFieldUpdate {
-	return vfu.SetVendorID(v.ID)
+// SetVendor sets the "vendor" edge to the SpoolVendor entity.
+func (vfu *VendorFieldUpdate) SetVendor(s *SpoolVendor) *VendorFieldUpdate {
+	return vfu.SetVendorID(s.ID)
 }
 
 // Mutation returns the VendorFieldMutation object of the builder.
@@ -80,7 +80,7 @@ func (vfu *VendorFieldUpdate) Mutation() *VendorFieldMutation {
 	return vfu.mutation
 }
 
-// ClearVendor clears the "vendor" edge to the Vendor entity.
+// ClearVendor clears the "vendor" edge to the SpoolVendor entity.
 func (vfu *VendorFieldUpdate) ClearVendor() *VendorFieldUpdate {
 	vfu.mutation.ClearVendor()
 	return vfu
@@ -152,7 +152,7 @@ func (vfu *VendorFieldUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{vendorfield.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -165,7 +165,7 @@ func (vfu *VendorFieldUpdate) sqlSave(ctx context.Context) (n int, err error) {
 			Columns: []string{vendorfield.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {
@@ -235,9 +235,9 @@ func (vfuo *VendorFieldUpdateOne) SetNillableValue(s *string) *VendorFieldUpdate
 	return vfuo
 }
 
-// SetVendor sets the "vendor" edge to the Vendor entity.
-func (vfuo *VendorFieldUpdateOne) SetVendor(v *Vendor) *VendorFieldUpdateOne {
-	return vfuo.SetVendorID(v.ID)
+// SetVendor sets the "vendor" edge to the SpoolVendor entity.
+func (vfuo *VendorFieldUpdateOne) SetVendor(s *SpoolVendor) *VendorFieldUpdateOne {
+	return vfuo.SetVendorID(s.ID)
 }
 
 // Mutation returns the VendorFieldMutation object of the builder.
@@ -245,7 +245,7 @@ func (vfuo *VendorFieldUpdateOne) Mutation() *VendorFieldMutation {
 	return vfuo.mutation
 }
 
-// ClearVendor clears the "vendor" edge to the Vendor entity.
+// ClearVendor clears the "vendor" edge to the SpoolVendor entity.
 func (vfuo *VendorFieldUpdateOne) ClearVendor() *VendorFieldUpdateOne {
 	vfuo.mutation.ClearVendor()
 	return vfuo
@@ -347,7 +347,7 @@ func (vfuo *VendorFieldUpdateOne) sqlSave(ctx context.Context) (_node *VendorFie
 			Columns: []string{vendorfield.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		_spec.Edges.Clear = append(_spec.Edges.Clear, edge)
@@ -360,7 +360,7 @@ func (vfuo *VendorFieldUpdateOne) sqlSave(ctx context.Context) (_node *VendorFie
 			Columns: []string{vendorfield.VendorColumn},
 			Bidi:    false,
 			Target: &sqlgraph.EdgeTarget{
-				IDSpec: sqlgraph.NewFieldSpec(vendor.FieldID, field.TypeInt),
+				IDSpec: sqlgraph.NewFieldSpec(spoolvendor.FieldID, field.TypeInt),
 			},
 		}
 		for _, k := range nodes {

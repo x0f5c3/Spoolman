@@ -57,13 +57,13 @@ func (sc *SpoolCreate) SetNillableLastUsed(t *time.Time) *SpoolCreate {
 }
 
 // SetPrice sets the "price" field.
-func (sc *SpoolCreate) SetPrice(f float64) *SpoolCreate {
+func (sc *SpoolCreate) SetPrice(f float32) *SpoolCreate {
 	sc.mutation.SetPrice(f)
 	return sc
 }
 
 // SetNillablePrice sets the "price" field if the given value is not nil.
-func (sc *SpoolCreate) SetNillablePrice(f *float64) *SpoolCreate {
+func (sc *SpoolCreate) SetNillablePrice(f *float32) *SpoolCreate {
 	if f != nil {
 		sc.SetPrice(*f)
 	}
@@ -77,13 +77,13 @@ func (sc *SpoolCreate) SetFilamentID(i int) *SpoolCreate {
 }
 
 // SetInitialWeight sets the "initial_weight" field.
-func (sc *SpoolCreate) SetInitialWeight(f float64) *SpoolCreate {
+func (sc *SpoolCreate) SetInitialWeight(f float32) *SpoolCreate {
 	sc.mutation.SetInitialWeight(f)
 	return sc
 }
 
 // SetNillableInitialWeight sets the "initial_weight" field if the given value is not nil.
-func (sc *SpoolCreate) SetNillableInitialWeight(f *float64) *SpoolCreate {
+func (sc *SpoolCreate) SetNillableInitialWeight(f *float32) *SpoolCreate {
 	if f != nil {
 		sc.SetInitialWeight(*f)
 	}
@@ -91,13 +91,13 @@ func (sc *SpoolCreate) SetNillableInitialWeight(f *float64) *SpoolCreate {
 }
 
 // SetSpoolWeight sets the "spool_weight" field.
-func (sc *SpoolCreate) SetSpoolWeight(f float64) *SpoolCreate {
+func (sc *SpoolCreate) SetSpoolWeight(f float32) *SpoolCreate {
 	sc.mutation.SetSpoolWeight(f)
 	return sc
 }
 
 // SetNillableSpoolWeight sets the "spool_weight" field if the given value is not nil.
-func (sc *SpoolCreate) SetNillableSpoolWeight(f *float64) *SpoolCreate {
+func (sc *SpoolCreate) SetNillableSpoolWeight(f *float32) *SpoolCreate {
 	if f != nil {
 		sc.SetSpoolWeight(*f)
 	}
@@ -105,8 +105,14 @@ func (sc *SpoolCreate) SetNillableSpoolWeight(f *float64) *SpoolCreate {
 }
 
 // SetUsedWeight sets the "used_weight" field.
-func (sc *SpoolCreate) SetUsedWeight(f float64) *SpoolCreate {
+func (sc *SpoolCreate) SetUsedWeight(f float32) *SpoolCreate {
 	sc.mutation.SetUsedWeight(f)
+	return sc
+}
+
+// SetRemainingWeight sets the "remaining_weight" field.
+func (sc *SpoolCreate) SetRemainingWeight(f float32) *SpoolCreate {
+	sc.mutation.SetRemainingWeight(f)
 	return sc
 }
 
@@ -235,6 +241,14 @@ func (sc *SpoolCreate) check() error {
 	if _, ok := sc.mutation.UsedWeight(); !ok {
 		return &ValidationError{Name: "used_weight", err: errors.New(`ent: missing required field "Spool.used_weight"`)}
 	}
+	if _, ok := sc.mutation.RemainingWeight(); !ok {
+		return &ValidationError{Name: "remaining_weight", err: errors.New(`ent: missing required field "Spool.remaining_weight"`)}
+	}
+	if v, ok := sc.mutation.RemainingWeight(); ok {
+		if err := spool.RemainingWeightValidator(v); err != nil {
+			return &ValidationError{Name: "remaining_weight", err: fmt.Errorf(`ent: validator failed for field "Spool.remaining_weight": %w`, err)}
+		}
+	}
 	if v, ok := sc.mutation.Location(); ok {
 		if err := spool.LocationValidator(v); err != nil {
 			return &ValidationError{Name: "location", err: fmt.Errorf(`ent: validator failed for field "Spool.location": %w`, err)}
@@ -303,20 +317,24 @@ func (sc *SpoolCreate) createSpec() (*Spool, *sqlgraph.CreateSpec) {
 		_node.LastUsed = value
 	}
 	if value, ok := sc.mutation.Price(); ok {
-		_spec.SetField(spool.FieldPrice, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldPrice, field.TypeFloat32, value)
 		_node.Price = value
 	}
 	if value, ok := sc.mutation.InitialWeight(); ok {
-		_spec.SetField(spool.FieldInitialWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldInitialWeight, field.TypeFloat32, value)
 		_node.InitialWeight = value
 	}
 	if value, ok := sc.mutation.SpoolWeight(); ok {
-		_spec.SetField(spool.FieldSpoolWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldSpoolWeight, field.TypeFloat32, value)
 		_node.SpoolWeight = value
 	}
 	if value, ok := sc.mutation.UsedWeight(); ok {
-		_spec.SetField(spool.FieldUsedWeight, field.TypeFloat64, value)
+		_spec.SetField(spool.FieldUsedWeight, field.TypeFloat32, value)
 		_node.UsedWeight = value
+	}
+	if value, ok := sc.mutation.RemainingWeight(); ok {
+		_spec.SetField(spool.FieldRemainingWeight, field.TypeFloat32, value)
+		_node.RemainingWeight = value
 	}
 	if value, ok := sc.mutation.Location(); ok {
 		_spec.SetField(spool.FieldLocation, field.TypeString, value)

@@ -1,0 +1,26 @@
+# https://taskfile.dev
+
+version: 3
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  generate:db:
+    desc: "Regenerate database schema using ent"
+    dir:
+      "./spoolman-go/"
+    cmds:
+      - go run cmd/entgen/main.go -v -s ./ent/schema
+  generate:api:
+    desc: "Generate API code from OpenAPI"
+    dir:
+      "./spoolman-go/api"
+    cmds:
+      - go tool oapi-codegen -config ../gen.cfg.yaml ../../docs/openapi_sanitized.json
+

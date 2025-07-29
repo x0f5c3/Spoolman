@@ -71,7 +71,7 @@ func LastUsed(v time.Time) predicate.Spool {
 }
 
 // Price applies equality check predicate on the "price" field. It's identical to PriceEQ.
-func Price(v float64) predicate.Spool {
+func Price(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldPrice, v))
 }
 
@@ -81,18 +81,23 @@ func FilamentID(v int) predicate.Spool {
 }
 
 // InitialWeight applies equality check predicate on the "initial_weight" field. It's identical to InitialWeightEQ.
-func InitialWeight(v float64) predicate.Spool {
+func InitialWeight(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldInitialWeight, v))
 }
 
 // SpoolWeight applies equality check predicate on the "spool_weight" field. It's identical to SpoolWeightEQ.
-func SpoolWeight(v float64) predicate.Spool {
+func SpoolWeight(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldSpoolWeight, v))
 }
 
 // UsedWeight applies equality check predicate on the "used_weight" field. It's identical to UsedWeightEQ.
-func UsedWeight(v float64) predicate.Spool {
+func UsedWeight(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldUsedWeight, v))
+}
+
+// RemainingWeight applies equality check predicate on the "remaining_weight" field. It's identical to RemainingWeightEQ.
+func RemainingWeight(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldEQ(FieldRemainingWeight, v))
 }
 
 // Location applies equality check predicate on the "location" field. It's identical to LocationEQ.
@@ -256,42 +261,42 @@ func LastUsedNotNil() predicate.Spool {
 }
 
 // PriceEQ applies the EQ predicate on the "price" field.
-func PriceEQ(v float64) predicate.Spool {
+func PriceEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldPrice, v))
 }
 
 // PriceNEQ applies the NEQ predicate on the "price" field.
-func PriceNEQ(v float64) predicate.Spool {
+func PriceNEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNEQ(FieldPrice, v))
 }
 
 // PriceIn applies the In predicate on the "price" field.
-func PriceIn(vs ...float64) predicate.Spool {
+func PriceIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldIn(FieldPrice, vs...))
 }
 
 // PriceNotIn applies the NotIn predicate on the "price" field.
-func PriceNotIn(vs ...float64) predicate.Spool {
+func PriceNotIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNotIn(FieldPrice, vs...))
 }
 
 // PriceGT applies the GT predicate on the "price" field.
-func PriceGT(v float64) predicate.Spool {
+func PriceGT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGT(FieldPrice, v))
 }
 
 // PriceGTE applies the GTE predicate on the "price" field.
-func PriceGTE(v float64) predicate.Spool {
+func PriceGTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGTE(FieldPrice, v))
 }
 
 // PriceLT applies the LT predicate on the "price" field.
-func PriceLT(v float64) predicate.Spool {
+func PriceLT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLT(FieldPrice, v))
 }
 
 // PriceLTE applies the LTE predicate on the "price" field.
-func PriceLTE(v float64) predicate.Spool {
+func PriceLTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLTE(FieldPrice, v))
 }
 
@@ -326,42 +331,42 @@ func FilamentIDNotIn(vs ...int) predicate.Spool {
 }
 
 // InitialWeightEQ applies the EQ predicate on the "initial_weight" field.
-func InitialWeightEQ(v float64) predicate.Spool {
+func InitialWeightEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldInitialWeight, v))
 }
 
 // InitialWeightNEQ applies the NEQ predicate on the "initial_weight" field.
-func InitialWeightNEQ(v float64) predicate.Spool {
+func InitialWeightNEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNEQ(FieldInitialWeight, v))
 }
 
 // InitialWeightIn applies the In predicate on the "initial_weight" field.
-func InitialWeightIn(vs ...float64) predicate.Spool {
+func InitialWeightIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldIn(FieldInitialWeight, vs...))
 }
 
 // InitialWeightNotIn applies the NotIn predicate on the "initial_weight" field.
-func InitialWeightNotIn(vs ...float64) predicate.Spool {
+func InitialWeightNotIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNotIn(FieldInitialWeight, vs...))
 }
 
 // InitialWeightGT applies the GT predicate on the "initial_weight" field.
-func InitialWeightGT(v float64) predicate.Spool {
+func InitialWeightGT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGT(FieldInitialWeight, v))
 }
 
 // InitialWeightGTE applies the GTE predicate on the "initial_weight" field.
-func InitialWeightGTE(v float64) predicate.Spool {
+func InitialWeightGTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGTE(FieldInitialWeight, v))
 }
 
 // InitialWeightLT applies the LT predicate on the "initial_weight" field.
-func InitialWeightLT(v float64) predicate.Spool {
+func InitialWeightLT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLT(FieldInitialWeight, v))
 }
 
 // InitialWeightLTE applies the LTE predicate on the "initial_weight" field.
-func InitialWeightLTE(v float64) predicate.Spool {
+func InitialWeightLTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLTE(FieldInitialWeight, v))
 }
 
@@ -376,42 +381,42 @@ func InitialWeightNotNil() predicate.Spool {
 }
 
 // SpoolWeightEQ applies the EQ predicate on the "spool_weight" field.
-func SpoolWeightEQ(v float64) predicate.Spool {
+func SpoolWeightEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldSpoolWeight, v))
 }
 
 // SpoolWeightNEQ applies the NEQ predicate on the "spool_weight" field.
-func SpoolWeightNEQ(v float64) predicate.Spool {
+func SpoolWeightNEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNEQ(FieldSpoolWeight, v))
 }
 
 // SpoolWeightIn applies the In predicate on the "spool_weight" field.
-func SpoolWeightIn(vs ...float64) predicate.Spool {
+func SpoolWeightIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldIn(FieldSpoolWeight, vs...))
 }
 
 // SpoolWeightNotIn applies the NotIn predicate on the "spool_weight" field.
-func SpoolWeightNotIn(vs ...float64) predicate.Spool {
+func SpoolWeightNotIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNotIn(FieldSpoolWeight, vs...))
 }
 
 // SpoolWeightGT applies the GT predicate on the "spool_weight" field.
-func SpoolWeightGT(v float64) predicate.Spool {
+func SpoolWeightGT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGT(FieldSpoolWeight, v))
 }
 
 // SpoolWeightGTE applies the GTE predicate on the "spool_weight" field.
-func SpoolWeightGTE(v float64) predicate.Spool {
+func SpoolWeightGTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGTE(FieldSpoolWeight, v))
 }
 
 // SpoolWeightLT applies the LT predicate on the "spool_weight" field.
-func SpoolWeightLT(v float64) predicate.Spool {
+func SpoolWeightLT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLT(FieldSpoolWeight, v))
 }
 
 // SpoolWeightLTE applies the LTE predicate on the "spool_weight" field.
-func SpoolWeightLTE(v float64) predicate.Spool {
+func SpoolWeightLTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLTE(FieldSpoolWeight, v))
 }
 
@@ -426,43 +431,83 @@ func SpoolWeightNotNil() predicate.Spool {
 }
 
 // UsedWeightEQ applies the EQ predicate on the "used_weight" field.
-func UsedWeightEQ(v float64) predicate.Spool {
+func UsedWeightEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldEQ(FieldUsedWeight, v))
 }
 
 // UsedWeightNEQ applies the NEQ predicate on the "used_weight" field.
-func UsedWeightNEQ(v float64) predicate.Spool {
+func UsedWeightNEQ(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNEQ(FieldUsedWeight, v))
 }
 
 // UsedWeightIn applies the In predicate on the "used_weight" field.
-func UsedWeightIn(vs ...float64) predicate.Spool {
+func UsedWeightIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldIn(FieldUsedWeight, vs...))
 }
 
 // UsedWeightNotIn applies the NotIn predicate on the "used_weight" field.
-func UsedWeightNotIn(vs ...float64) predicate.Spool {
+func UsedWeightNotIn(vs ...float32) predicate.Spool {
 	return predicate.Spool(sql.FieldNotIn(FieldUsedWeight, vs...))
 }
 
 // UsedWeightGT applies the GT predicate on the "used_weight" field.
-func UsedWeightGT(v float64) predicate.Spool {
+func UsedWeightGT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGT(FieldUsedWeight, v))
 }
 
 // UsedWeightGTE applies the GTE predicate on the "used_weight" field.
-func UsedWeightGTE(v float64) predicate.Spool {
+func UsedWeightGTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldGTE(FieldUsedWeight, v))
 }
 
 // UsedWeightLT applies the LT predicate on the "used_weight" field.
-func UsedWeightLT(v float64) predicate.Spool {
+func UsedWeightLT(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLT(FieldUsedWeight, v))
 }
 
 // UsedWeightLTE applies the LTE predicate on the "used_weight" field.
-func UsedWeightLTE(v float64) predicate.Spool {
+func UsedWeightLTE(v float32) predicate.Spool {
 	return predicate.Spool(sql.FieldLTE(FieldUsedWeight, v))
+}
+
+// RemainingWeightEQ applies the EQ predicate on the "remaining_weight" field.
+func RemainingWeightEQ(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldEQ(FieldRemainingWeight, v))
+}
+
+// RemainingWeightNEQ applies the NEQ predicate on the "remaining_weight" field.
+func RemainingWeightNEQ(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldNEQ(FieldRemainingWeight, v))
+}
+
+// RemainingWeightIn applies the In predicate on the "remaining_weight" field.
+func RemainingWeightIn(vs ...float32) predicate.Spool {
+	return predicate.Spool(sql.FieldIn(FieldRemainingWeight, vs...))
+}
+
+// RemainingWeightNotIn applies the NotIn predicate on the "remaining_weight" field.
+func RemainingWeightNotIn(vs ...float32) predicate.Spool {
+	return predicate.Spool(sql.FieldNotIn(FieldRemainingWeight, vs...))
+}
+
+// RemainingWeightGT applies the GT predicate on the "remaining_weight" field.
+func RemainingWeightGT(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldGT(FieldRemainingWeight, v))
+}
+
+// RemainingWeightGTE applies the GTE predicate on the "remaining_weight" field.
+func RemainingWeightGTE(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldGTE(FieldRemainingWeight, v))
+}
+
+// RemainingWeightLT applies the LT predicate on the "remaining_weight" field.
+func RemainingWeightLT(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldLT(FieldRemainingWeight, v))
+}
+
+// RemainingWeightLTE applies the LTE predicate on the "remaining_weight" field.
+func RemainingWeightLTE(v float32) predicate.Spool {
+	return predicate.Spool(sql.FieldLTE(FieldRemainingWeight, v))
 }
 
 // LocationEQ applies the EQ predicate on the "location" field.

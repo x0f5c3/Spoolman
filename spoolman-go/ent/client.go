@@ -16,7 +16,7 @@ import (
 	"spoolman-go/ent/setting"
 	"spoolman-go/ent/spool"
 	"spoolman-go/ent/spoolfield"
-	"spoolman-go/ent/vendor"
+	"spoolman-go/ent/spoolvendor"
 	"spoolman-go/ent/vendorfield"
 
 	"entgo.io/ent"
@@ -40,8 +40,8 @@ type Client struct {
 	Spool *SpoolClient
 	// SpoolField is the client for interacting with the SpoolField builders.
 	SpoolField *SpoolFieldClient
-	// Vendor is the client for interacting with the Vendor builders.
-	Vendor *VendorClient
+	// SpoolVendor is the client for interacting with the SpoolVendor builders.
+	SpoolVendor *SpoolVendorClient
 	// VendorField is the client for interacting with the VendorField builders.
 	VendorField *VendorFieldClient
 }
@@ -60,7 +60,7 @@ func (c *Client) init() {
 	c.Setting = NewSettingClient(c.config)
 	c.Spool = NewSpoolClient(c.config)
 	c.SpoolField = NewSpoolFieldClient(c.config)
-	c.Vendor = NewVendorClient(c.config)
+	c.SpoolVendor = NewSpoolVendorClient(c.config)
 	c.VendorField = NewVendorFieldClient(c.config)
 }
 
@@ -159,7 +159,7 @@ func (c *Client) Tx(ctx context.Context) (*Tx, error) {
 		Setting:       NewSettingClient(cfg),
 		Spool:         NewSpoolClient(cfg),
 		SpoolField:    NewSpoolFieldClient(cfg),
-		Vendor:        NewVendorClient(cfg),
+		SpoolVendor:   NewSpoolVendorClient(cfg),
 		VendorField:   NewVendorFieldClient(cfg),
 	}, nil
 }
@@ -185,7 +185,7 @@ func (c *Client) BeginTx(ctx context.Context, opts *sql.TxOptions) (*Tx, error) 
 		Setting:       NewSettingClient(cfg),
 		Spool:         NewSpoolClient(cfg),
 		SpoolField:    NewSpoolFieldClient(cfg),
-		Vendor:        NewVendorClient(cfg),
+		SpoolVendor:   NewSpoolVendorClient(cfg),
 		VendorField:   NewVendorFieldClient(cfg),
 	}, nil
 }
@@ -216,7 +216,7 @@ func (c *Client) Close() error {
 // In order to add hooks to a specific client, call: `client.Node.Use(...)`.
 func (c *Client) Use(hooks ...Hook) {
 	for _, n := range []interface{ Use(...Hook) }{
-		c.Filament, c.FilamentField, c.Setting, c.Spool, c.SpoolField, c.Vendor,
+		c.Filament, c.FilamentField, c.Setting, c.Spool, c.SpoolField, c.SpoolVendor,
 		c.VendorField,
 	} {
 		n.Use(hooks...)
@@ -227,7 +227,7 @@ func (c *Client) Use(hooks ...Hook) {
 // In order to add interceptors to a specific client, call: `client.Node.Intercept(...)`.
 func (c *Client) Intercept(interceptors ...Interceptor) {
 	for _, n := range []interface{ Intercept(...Interceptor) }{
-		c.Filament, c.FilamentField, c.Setting, c.Spool, c.SpoolField, c.Vendor,
+		c.Filament, c.FilamentField, c.Setting, c.Spool, c.SpoolField, c.SpoolVendor,
 		c.VendorField,
 	} {
 		n.Intercept(interceptors...)
@@ -247,8 +247,8 @@ func (c *Client) Mutate(ctx context.Context, m Mutation) (Value, error) {
 		return c.Spool.mutate(ctx, m)
 	case *SpoolFieldMutation:
 		return c.SpoolField.mutate(ctx, m)
-	case *VendorMutation:
-		return c.Vendor.mutate(ctx, m)
+	case *SpoolVendorMutation:
+		return c.SpoolVendor.mutate(ctx, m)
 	case *VendorFieldMutation:
 		return c.VendorField.mutate(ctx, m)
 	default:
@@ -365,13 +365,13 @@ func (c *FilamentClient) GetX(ctx context.Context, id int) *Filament {
 }
 
 // QueryVendor queries the vendor edge of a Filament.
-func (c *FilamentClient) QueryVendor(f *Filament) *VendorQuery {
-	query := (&VendorClient{config: c.config}).Query()
+func (c *FilamentClient) QueryVendor(f *Filament) *SpoolVendorQuery {
+	query := (&SpoolVendorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := f.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(filament.Table, filament.FieldID, id),
-			sqlgraph.To(vendor.Table, vendor.FieldID),
+			sqlgraph.To(spoolvendor.Table, spoolvendor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, filament.VendorTable, filament.VendorColumn),
 		)
 		fromV = sqlgraph.Neighbors(f.driver.Dialect(), step)
@@ -1033,107 +1033,107 @@ func (c *SpoolFieldClient) mutate(ctx context.Context, m *SpoolFieldMutation) (V
 	}
 }
 
-// VendorClient is a client for the Vendor schema.
-type VendorClient struct {
+// SpoolVendorClient is a client for the SpoolVendor schema.
+type SpoolVendorClient struct {
 	config
 }
 
-// NewVendorClient returns a client for the Vendor from the given config.
-func NewVendorClient(c config) *VendorClient {
-	return &VendorClient{config: c}
+// NewSpoolVendorClient returns a client for the SpoolVendor from the given config.
+func NewSpoolVendorClient(c config) *SpoolVendorClient {
+	return &SpoolVendorClient{config: c}
 }
 
 // Use adds a list of mutation hooks to the hooks stack.
-// A call to `Use(f, g, h)` equals to `vendor.Hooks(f(g(h())))`.
-func (c *VendorClient) Use(hooks ...Hook) {
-	c.hooks.Vendor = append(c.hooks.Vendor, hooks...)
+// A call to `Use(f, g, h)` equals to `spoolvendor.Hooks(f(g(h())))`.
+func (c *SpoolVendorClient) Use(hooks ...Hook) {
+	c.hooks.SpoolVendor = append(c.hooks.SpoolVendor, hooks...)
 }
 
 // Intercept adds a list of query interceptors to the interceptors stack.
-// A call to `Intercept(f, g, h)` equals to `vendor.Intercept(f(g(h())))`.
-func (c *VendorClient) Intercept(interceptors ...Interceptor) {
-	c.inters.Vendor = append(c.inters.Vendor, interceptors...)
+// A call to `Intercept(f, g, h)` equals to `spoolvendor.Intercept(f(g(h())))`.
+func (c *SpoolVendorClient) Intercept(interceptors ...Interceptor) {
+	c.inters.SpoolVendor = append(c.inters.SpoolVendor, interceptors...)
 }
 
-// Create returns a builder for creating a Vendor entity.
-func (c *VendorClient) Create() *VendorCreate {
-	mutation := newVendorMutation(c.config, OpCreate)
-	return &VendorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Create returns a builder for creating a SpoolVendor entity.
+func (c *SpoolVendorClient) Create() *SpoolVendorCreate {
+	mutation := newSpoolVendorMutation(c.config, OpCreate)
+	return &SpoolVendorCreate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// CreateBulk returns a builder for creating a bulk of Vendor entities.
-func (c *VendorClient) CreateBulk(builders ...*VendorCreate) *VendorCreateBulk {
-	return &VendorCreateBulk{config: c.config, builders: builders}
+// CreateBulk returns a builder for creating a bulk of SpoolVendor entities.
+func (c *SpoolVendorClient) CreateBulk(builders ...*SpoolVendorCreate) *SpoolVendorCreateBulk {
+	return &SpoolVendorCreateBulk{config: c.config, builders: builders}
 }
 
 // MapCreateBulk creates a bulk creation builder from the given slice. For each item in the slice, the function creates
 // a builder and applies setFunc on it.
-func (c *VendorClient) MapCreateBulk(slice any, setFunc func(*VendorCreate, int)) *VendorCreateBulk {
+func (c *SpoolVendorClient) MapCreateBulk(slice any, setFunc func(*SpoolVendorCreate, int)) *SpoolVendorCreateBulk {
 	rv := reflect.ValueOf(slice)
 	if rv.Kind() != reflect.Slice {
-		return &VendorCreateBulk{err: fmt.Errorf("calling to VendorClient.MapCreateBulk with wrong type %T, need slice", slice)}
+		return &SpoolVendorCreateBulk{err: fmt.Errorf("calling to SpoolVendorClient.MapCreateBulk with wrong type %T, need slice", slice)}
 	}
-	builders := make([]*VendorCreate, rv.Len())
+	builders := make([]*SpoolVendorCreate, rv.Len())
 	for i := 0; i < rv.Len(); i++ {
 		builders[i] = c.Create()
 		setFunc(builders[i], i)
 	}
-	return &VendorCreateBulk{config: c.config, builders: builders}
+	return &SpoolVendorCreateBulk{config: c.config, builders: builders}
 }
 
-// Update returns an update builder for Vendor.
-func (c *VendorClient) Update() *VendorUpdate {
-	mutation := newVendorMutation(c.config, OpUpdate)
-	return &VendorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Update returns an update builder for SpoolVendor.
+func (c *SpoolVendorClient) Update() *SpoolVendorUpdate {
+	mutation := newSpoolVendorMutation(c.config, OpUpdate)
+	return &SpoolVendorUpdate{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOne returns an update builder for the given entity.
-func (c *VendorClient) UpdateOne(v *Vendor) *VendorUpdateOne {
-	mutation := newVendorMutation(c.config, OpUpdateOne, withVendor(v))
-	return &VendorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpoolVendorClient) UpdateOne(sv *SpoolVendor) *SpoolVendorUpdateOne {
+	mutation := newSpoolVendorMutation(c.config, OpUpdateOne, withSpoolVendor(sv))
+	return &SpoolVendorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // UpdateOneID returns an update builder for the given id.
-func (c *VendorClient) UpdateOneID(id int) *VendorUpdateOne {
-	mutation := newVendorMutation(c.config, OpUpdateOne, withVendorID(id))
-	return &VendorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
+func (c *SpoolVendorClient) UpdateOneID(id int) *SpoolVendorUpdateOne {
+	mutation := newSpoolVendorMutation(c.config, OpUpdateOne, withSpoolVendorID(id))
+	return &SpoolVendorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
-// Delete returns a delete builder for Vendor.
-func (c *VendorClient) Delete() *VendorDelete {
-	mutation := newVendorMutation(c.config, OpDelete)
-	return &VendorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
+// Delete returns a delete builder for SpoolVendor.
+func (c *SpoolVendorClient) Delete() *SpoolVendorDelete {
+	mutation := newSpoolVendorMutation(c.config, OpDelete)
+	return &SpoolVendorDelete{config: c.config, hooks: c.Hooks(), mutation: mutation}
 }
 
 // DeleteOne returns a builder for deleting the given entity.
-func (c *VendorClient) DeleteOne(v *Vendor) *VendorDeleteOne {
-	return c.DeleteOneID(v.ID)
+func (c *SpoolVendorClient) DeleteOne(sv *SpoolVendor) *SpoolVendorDeleteOne {
+	return c.DeleteOneID(sv.ID)
 }
 
 // DeleteOneID returns a builder for deleting the given entity by its id.
-func (c *VendorClient) DeleteOneID(id int) *VendorDeleteOne {
-	builder := c.Delete().Where(vendor.ID(id))
+func (c *SpoolVendorClient) DeleteOneID(id int) *SpoolVendorDeleteOne {
+	builder := c.Delete().Where(spoolvendor.ID(id))
 	builder.mutation.id = &id
 	builder.mutation.op = OpDeleteOne
-	return &VendorDeleteOne{builder}
+	return &SpoolVendorDeleteOne{builder}
 }
 
-// Query returns a query builder for Vendor.
-func (c *VendorClient) Query() *VendorQuery {
-	return &VendorQuery{
+// Query returns a query builder for SpoolVendor.
+func (c *SpoolVendorClient) Query() *SpoolVendorQuery {
+	return &SpoolVendorQuery{
 		config: c.config,
-		ctx:    &QueryContext{Type: TypeVendor},
+		ctx:    &QueryContext{Type: TypeSpoolVendor},
 		inters: c.Interceptors(),
 	}
 }
 
-// Get returns a Vendor entity by its id.
-func (c *VendorClient) Get(ctx context.Context, id int) (*Vendor, error) {
-	return c.Query().Where(vendor.ID(id)).Only(ctx)
+// Get returns a SpoolVendor entity by its id.
+func (c *SpoolVendorClient) Get(ctx context.Context, id int) (*SpoolVendor, error) {
+	return c.Query().Where(spoolvendor.ID(id)).Only(ctx)
 }
 
 // GetX is like Get, but panics if an error occurs.
-func (c *VendorClient) GetX(ctx context.Context, id int) *Vendor {
+func (c *SpoolVendorClient) GetX(ctx context.Context, id int) *SpoolVendor {
 	obj, err := c.Get(ctx, id)
 	if err != nil {
 		panic(err)
@@ -1141,60 +1141,60 @@ func (c *VendorClient) GetX(ctx context.Context, id int) *Vendor {
 	return obj
 }
 
-// QueryFilaments queries the filaments edge of a Vendor.
-func (c *VendorClient) QueryFilaments(v *Vendor) *FilamentQuery {
+// QueryFilaments queries the filaments edge of a SpoolVendor.
+func (c *SpoolVendorClient) QueryFilaments(sv *SpoolVendor) *FilamentQuery {
 	query := (&FilamentClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := v.ID
+		id := sv.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(vendor.Table, vendor.FieldID, id),
+			sqlgraph.From(spoolvendor.Table, spoolvendor.FieldID, id),
 			sqlgraph.To(filament.Table, filament.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, vendor.FilamentsTable, vendor.FilamentsColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, spoolvendor.FilamentsTable, spoolvendor.FilamentsColumn),
 		)
-		fromV = sqlgraph.Neighbors(v.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(sv.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
-// QueryExtra queries the extra edge of a Vendor.
-func (c *VendorClient) QueryExtra(v *Vendor) *VendorFieldQuery {
+// QueryExtra queries the extra edge of a SpoolVendor.
+func (c *SpoolVendorClient) QueryExtra(sv *SpoolVendor) *VendorFieldQuery {
 	query := (&VendorFieldClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
-		id := v.ID
+		id := sv.ID
 		step := sqlgraph.NewStep(
-			sqlgraph.From(vendor.Table, vendor.FieldID, id),
+			sqlgraph.From(spoolvendor.Table, spoolvendor.FieldID, id),
 			sqlgraph.To(vendorfield.Table, vendorfield.FieldID),
-			sqlgraph.Edge(sqlgraph.O2M, false, vendor.ExtraTable, vendor.ExtraColumn),
+			sqlgraph.Edge(sqlgraph.O2M, false, spoolvendor.ExtraTable, spoolvendor.ExtraColumn),
 		)
-		fromV = sqlgraph.Neighbors(v.driver.Dialect(), step)
+		fromV = sqlgraph.Neighbors(sv.driver.Dialect(), step)
 		return fromV, nil
 	}
 	return query
 }
 
 // Hooks returns the client hooks.
-func (c *VendorClient) Hooks() []Hook {
-	return c.hooks.Vendor
+func (c *SpoolVendorClient) Hooks() []Hook {
+	return c.hooks.SpoolVendor
 }
 
 // Interceptors returns the client interceptors.
-func (c *VendorClient) Interceptors() []Interceptor {
-	return c.inters.Vendor
+func (c *SpoolVendorClient) Interceptors() []Interceptor {
+	return c.inters.SpoolVendor
 }
 
-func (c *VendorClient) mutate(ctx context.Context, m *VendorMutation) (Value, error) {
+func (c *SpoolVendorClient) mutate(ctx context.Context, m *SpoolVendorMutation) (Value, error) {
 	switch m.Op() {
 	case OpCreate:
-		return (&VendorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpoolVendorCreate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdate:
-		return (&VendorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpoolVendorUpdate{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpUpdateOne:
-		return (&VendorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
+		return (&SpoolVendorUpdateOne{config: c.config, hooks: c.Hooks(), mutation: m}).Save(ctx)
 	case OpDelete, OpDeleteOne:
-		return (&VendorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
+		return (&SpoolVendorDelete{config: c.config, hooks: c.Hooks(), mutation: m}).Exec(ctx)
 	default:
-		return nil, fmt.Errorf("ent: unknown Vendor mutation op: %q", m.Op())
+		return nil, fmt.Errorf("ent: unknown SpoolVendor mutation op: %q", m.Op())
 	}
 }
 
@@ -1307,13 +1307,13 @@ func (c *VendorFieldClient) GetX(ctx context.Context, id int) *VendorField {
 }
 
 // QueryVendor queries the vendor edge of a VendorField.
-func (c *VendorFieldClient) QueryVendor(vf *VendorField) *VendorQuery {
-	query := (&VendorClient{config: c.config}).Query()
+func (c *VendorFieldClient) QueryVendor(vf *VendorField) *SpoolVendorQuery {
+	query := (&SpoolVendorClient{config: c.config}).Query()
 	query.path = func(context.Context) (fromV *sql.Selector, _ error) {
 		id := vf.ID
 		step := sqlgraph.NewStep(
 			sqlgraph.From(vendorfield.Table, vendorfield.FieldID, id),
-			sqlgraph.To(vendor.Table, vendor.FieldID),
+			sqlgraph.To(spoolvendor.Table, spoolvendor.FieldID),
 			sqlgraph.Edge(sqlgraph.M2O, true, vendorfield.VendorTable, vendorfield.VendorColumn),
 		)
 		fromV = sqlgraph.Neighbors(vf.driver.Dialect(), step)
@@ -1350,11 +1350,11 @@ func (c *VendorFieldClient) mutate(ctx context.Context, m *VendorFieldMutation) 
 // hooks and interceptors per client, for fast access.
 type (
 	hooks struct {
-		Filament, FilamentField, Setting, Spool, SpoolField, Vendor,
+		Filament, FilamentField, Setting, Spool, SpoolField, SpoolVendor,
 		VendorField []ent.Hook
 	}
 	inters struct {
-		Filament, FilamentField, Setting, Spool, SpoolField, Vendor,
+		Filament, FilamentField, Setting, Spool, SpoolField, SpoolVendor,
 		VendorField []ent.Interceptor
 	}
 )
